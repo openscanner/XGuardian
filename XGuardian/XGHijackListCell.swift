@@ -10,10 +10,20 @@ import Cocoa
 
 class XGHijackListCell: NSTableCellView {
 
+    @IBOutlet var classLable: NSTextField?
+    @IBOutlet var accountLable: NSTextField?
+    @IBOutlet var positionLable: NSTextField?
+    @IBOutlet var modifyLable: NSTextField?
+    
+    @IBOutlet var application: NSTextField?
+    @IBOutlet var appFullPath: NSTextField?
+    @IBOutlet var appImage: NSImageView?
+  //  @IBOutlet var accountLable: NSTextField!
+    
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
 
         // Drawing code here.
     }
-    
+
 }

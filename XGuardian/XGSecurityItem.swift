@@ -59,11 +59,11 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         
         internal var description: String { get {
             switch self {
-            case InternetPassword:          return "Internet password"
-            case GenericPassword:           return "generic password"
-            case Certificate:               return "certificate"
-            case Key:                       return "key"
-            case Identity:                  return "identity"
+            case InternetPassword:          return "InternetPassword"
+            case GenericPassword:           return "GenericPassword"
+            case Certificate:               return "Certificate"
+            case Key:                       return "Key"
+            case Identity:                  return "Identity"
             }
             }}
         
@@ -73,6 +73,7 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
     
     var name: String?
     var classType: ClassType?
+    var position: String?
     var account: String?
     var desc: String?
     var createTime: NSDate?
@@ -95,6 +96,30 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         // class - 分类 
         if let kclass  = attrDict[kSecClass as NSString] as? NSString  {
             self.classType = ClassType.fromRaw(kclass as CFStringRef)
+            
+            //position
+            if self.classType == ClassType.GenericPassword {
+                if let svce = attrDict[kSecAttrService as NSString] as? NSString {
+                    self.position = svce as String
+                }
+            } else if self.classType == ClassType.InternetPassword {
+                let srvr = attrDict[kSecAttrServer as NSString] as? String
+                let ptcl = attrDict[kSecAttrProtocol as NSString] as? String
+                let path = attrDict[kSecAttrPath as NSString] as? String
+                
+                if ((srvr != nil)  && (ptcl != nil ))
+                {
+                    //TODO: Protocol String should chang it!
+                    var position: String = ptcl! + "://" + srvr!
+                    if (path != nil) { position += path! }
+                    self.position = position
+                }
+            }
+            
+            // no support types under at now
+            //case ClassType.kSecClassCertificate
+            //case ClassType.Key
+            //case ClassTypeIdentity
         }
         
         // account
@@ -121,6 +146,8 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         if let creator = attrDict[kSecAttrCreator as NSString] as? NSNumber {
             self.creator = creator
         }
+        
+
         
         // itemRef
         let item = attrDict["v_Ref"] as! SecKeychainItemRef
@@ -187,6 +214,7 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         var descStr = "Name: \(self.name!)\n";
         if(self.account != nil)  { descStr += "Account: \(self.account!) \n" }
         if(self.classType != nil) { descStr += "Class: \(self.classType!) \n" }
+        if(self.position != nil) {descStr += "Position: \(self.position!) \n"}
         if(self.desc != nil) { descStr += "Description: \(self.desc!) \n" }
         if(self.createTime != nil) { descStr += "Creation Time: \(self.createTime!) \n" }
         if(self.modifyTime != nil) { descStr += "Modified Time: \(self.createTime!) \n" }

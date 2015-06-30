@@ -7,10 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		194D0E041B41855200A62650 /* XGHijackListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194D0E031B41855200A62650 /* XGHijackListView.swift */; };
 		198EE6901B40F728001A7BF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE68F1B40F728001A7BF2 /* AppDelegate.swift */; };
 		198EE6921B40F728001A7BF2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 198EE6911B40F728001A7BF2 /* Images.xcassets */; };
 		198EE6951B40F728001A7BF2 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 198EE6931B40F728001A7BF2 /* MainMenu.xib */; };
 		198EE6A11B40F728001A7BF2 /* XGuardianTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE6A01B40F728001A7BF2 /* XGuardianTests.swift */; };
+		198EE6C01B40F9D3001A7BF2 /* CXKeychainHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 198EE6BF1B40F9D3001A7BF2 /* CXKeychainHelper.m */; };
+		198EE6C41B40F9E4001A7BF2 /* KeychainSwiftAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE6C11B40F9E4001A7BF2 /* KeychainSwiftAPI.swift */; };
+		198EE6C51B40F9E4001A7BF2 /* XGKeychainObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 198EE6C31B40F9E4001A7BF2 /* XGKeychainObserver.m */; };
+		198EE6F51B40FADA001A7BF2 /* XGSecurityItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE6F41B40FADA001A7BF2 /* XGSecurityItem.swift */; };
+		198EE6F71B40FB01001A7BF2 /* XGKeyChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE6F61B40FB01001A7BF2 /* XGKeyChain.swift */; };
+		198EE6F91B40FB09001A7BF2 /* XGSecurityItemSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE6F81B40FB09001A7BF2 /* XGSecurityItemSet.swift */; };
+		198EE6FB1B410E48001A7BF2 /* HijackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 198EE6FA1B410E48001A7BF2 /* HijackView.xib */; };
+		198EE6FD1B410EAD001A7BF2 /* XGHijackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE6FC1B410EAD001A7BF2 /* XGHijackView.swift */; };
+		198EE6FF1B412D63001A7BF2 /* KeychainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 198EE6FE1B412D63001A7BF2 /* KeychainView.xib */; };
+		198EE7021B413059001A7BF2 /* XGKeychainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE7011B413059001A7BF2 /* XGKeychainView.swift */; };
+		198EE7041B424EBC001A7BF2 /* XGHijackListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE7031B424EBC001A7BF2 /* XGHijackListCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		194D0E031B41855200A62650 /* XGHijackListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGHijackListView.swift; sourceTree = "<group>"; };
 		198EE68A1B40F728001A7BF2 /* XGuardian.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XGuardian.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		198EE68E1B40F728001A7BF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		198EE68F1B40F728001A7BF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -32,6 +45,20 @@
 		198EE69A1B40F728001A7BF2 /* XGuardianTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XGuardianTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		198EE69F1B40F728001A7BF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		198EE6A01B40F728001A7BF2 /* XGuardianTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGuardianTests.swift; sourceTree = "<group>"; };
+		198EE6AA1B40F778001A7BF2 /* XGuardian-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XGuardian-Bridging-Header.h"; sourceTree = "<group>"; };
+		198EE6BE1B40F9D3001A7BF2 /* CXKeychainHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CXKeychainHelper.h; path = XGuardian/CXKeychainHelper.h; sourceTree = "<group>"; };
+		198EE6BF1B40F9D3001A7BF2 /* CXKeychainHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CXKeychainHelper.m; path = XGuardian/CXKeychainHelper.m; sourceTree = "<group>"; };
+		198EE6C11B40F9E4001A7BF2 /* KeychainSwiftAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeychainSwiftAPI.swift; path = XGuardian/KeychainSwiftAPI.swift; sourceTree = "<group>"; };
+		198EE6C21B40F9E4001A7BF2 /* XGKeychainObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XGKeychainObserver.h; path = XGuardian/XGKeychainObserver.h; sourceTree = "<group>"; };
+		198EE6C31B40F9E4001A7BF2 /* XGKeychainObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XGKeychainObserver.m; path = XGuardian/XGKeychainObserver.m; sourceTree = "<group>"; };
+		198EE6F41B40FADA001A7BF2 /* XGSecurityItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XGSecurityItem.swift; path = XGuardian.xcodeproj/../XGuardian/XGSecurityItem.swift; sourceTree = "<group>"; };
+		198EE6F61B40FB01001A7BF2 /* XGKeyChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XGKeyChain.swift; path = XGuardian/XGKeyChain.swift; sourceTree = "<group>"; };
+		198EE6F81B40FB09001A7BF2 /* XGSecurityItemSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XGSecurityItemSet.swift; path = XGuardian/XGSecurityItemSet.swift; sourceTree = "<group>"; };
+		198EE6FA1B410E48001A7BF2 /* HijackView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HijackView.xib; sourceTree = "<group>"; };
+		198EE6FC1B410EAD001A7BF2 /* XGHijackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGHijackView.swift; sourceTree = "<group>"; };
+		198EE6FE1B412D63001A7BF2 /* KeychainView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KeychainView.xib; sourceTree = "<group>"; };
+		198EE7011B413059001A7BF2 /* XGKeychainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGKeychainView.swift; sourceTree = "<group>"; };
+		198EE7031B424EBC001A7BF2 /* XGHijackListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGHijackListCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +82,9 @@
 		198EE6811B40F728001A7BF2 = {
 			isa = PBXGroup;
 			children = (
+				198EE6AE1B40F7AE001A7BF2 /* KeychainAPI */,
 				198EE68C1B40F728001A7BF2 /* XGuardian */,
+				198EE7001B412D6E001A7BF2 /* Resource */,
 				198EE69D1B40F728001A7BF2 /* XGuardianTests */,
 				198EE68B1B40F728001A7BF2 /* Products */,
 			);
@@ -74,9 +103,13 @@
 			isa = PBXGroup;
 			children = (
 				198EE68F1B40F728001A7BF2 /* AppDelegate.swift */,
+				198EE6FC1B410EAD001A7BF2 /* XGHijackView.swift */,
+				194D0E031B41855200A62650 /* XGHijackListView.swift */,
+				198EE7031B424EBC001A7BF2 /* XGHijackListCell.swift */,
+				198EE7011B413059001A7BF2 /* XGKeychainView.swift */,
 				198EE6911B40F728001A7BF2 /* Images.xcassets */,
-				198EE6931B40F728001A7BF2 /* MainMenu.xib */,
 				198EE68D1B40F728001A7BF2 /* Supporting Files */,
+				198EE6AA1B40F778001A7BF2 /* XGuardian-Bridging-Header.h */,
 			);
 			path = XGuardian;
 			sourceTree = "<group>";
@@ -104,6 +137,32 @@
 				198EE69F1B40F728001A7BF2 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		198EE6AE1B40F7AE001A7BF2 /* KeychainAPI */ = {
+			isa = PBXGroup;
+			children = (
+				198EE6BE1B40F9D3001A7BF2 /* CXKeychainHelper.h */,
+				198EE6BF1B40F9D3001A7BF2 /* CXKeychainHelper.m */,
+				198EE6C11B40F9E4001A7BF2 /* KeychainSwiftAPI.swift */,
+				198EE6F41B40FADA001A7BF2 /* XGSecurityItem.swift */,
+				198EE6F81B40FB09001A7BF2 /* XGSecurityItemSet.swift */,
+				198EE6F61B40FB01001A7BF2 /* XGKeyChain.swift */,
+				198EE6C21B40F9E4001A7BF2 /* XGKeychainObserver.h */,
+				198EE6C31B40F9E4001A7BF2 /* XGKeychainObserver.m */,
+			);
+			name = KeychainAPI;
+			sourceTree = "<group>";
+		};
+		198EE7001B412D6E001A7BF2 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				198EE6931B40F728001A7BF2 /* MainMenu.xib */,
+				198EE6FA1B410E48001A7BF2 /* HijackView.xib */,
+				198EE6FE1B412D63001A7BF2 /* KeychainView.xib */,
+			);
+			name = Resource;
+			path = XGuardian;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -186,6 +245,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				198EE6FF1B412D63001A7BF2 /* KeychainView.xib in Resources */,
+				198EE6FB1B410E48001A7BF2 /* HijackView.xib in Resources */,
 				198EE6921B40F728001A7BF2 /* Images.xcassets in Resources */,
 				198EE6951B40F728001A7BF2 /* MainMenu.xib in Resources */,
 			);
@@ -205,6 +266,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				198EE6F91B40FB09001A7BF2 /* XGSecurityItemSet.swift in Sources */,
+				198EE6FD1B410EAD001A7BF2 /* XGHijackView.swift in Sources */,
+				198EE6F71B40FB01001A7BF2 /* XGKeyChain.swift in Sources */,
+				194D0E041B41855200A62650 /* XGHijackListView.swift in Sources */,
+				198EE6C01B40F9D3001A7BF2 /* CXKeychainHelper.m in Sources */,
+				198EE7021B413059001A7BF2 /* XGKeychainView.swift in Sources */,
+				198EE6C41B40F9E4001A7BF2 /* KeychainSwiftAPI.swift in Sources */,
+				198EE7041B424EBC001A7BF2 /* XGHijackListCell.swift in Sources */,
+				198EE6C51B40F9E4001A7BF2 /* XGKeychainObserver.m in Sources */,
+				198EE6F51B40FADA001A7BF2 /* XGSecurityItem.swift in Sources */,
 				198EE6901B40F728001A7BF2 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -323,10 +394,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = XGuardian/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "XGuardian/XGuardian-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -334,10 +408,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = XGuardian/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "XGuardian/XGuardian-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -396,6 +472,7 @@
 				198EE6A61B40F728001A7BF2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		198EE6A71B40F728001A7BF2 /* Build configuration list for PBXNativeTarget "XGuardianTests" */ = {
 			isa = XCConfigurationList;
@@ -404,6 +481,7 @@
 				198EE6A91B40F728001A7BF2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

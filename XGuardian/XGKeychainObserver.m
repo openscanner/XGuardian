@@ -60,13 +60,13 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
 
 +(OSStatus) secKeychainAddCallback{
     OSStatus stat = SecKeychainAddCallback ( XGSecKeychainCBFun, kSecEveryEventMask, &CB_Context );
-    NSLog(@"SecKeychainAddCallback: status- %d ", stat);
+    //NSLog(@"SecKeychainAddCallback: status- %d ", stat);
     return stat;
 }
 
 +(OSStatus) secKeychainRemoveCallback {
     OSStatus stat = SecKeychainRemoveCallback ( XGSecKeychainCBFun );
-    NSLog(@"SecKeychainRemoveCallback: status- %d ", stat);
+    //NSLog(@"SecKeychainRemoveCallback: status- %d ", stat);
     return stat;
 }
 @end

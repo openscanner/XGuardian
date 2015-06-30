@@ -66,6 +66,7 @@ class XGKeyChain  {
             for outDict in ip {
                 let item = XGSecurityItem(attrDict: (outDict as? NSDictionary)!)
                 itemSet.addItem(item)
+                println("\(outDict)")
                 println("\(item)")
             }
         }
@@ -76,6 +77,7 @@ class XGKeyChain  {
             for outDict in gp {
                 let item = XGSecurityItem(attrDict: (outDict as? NSDictionary)!)
                 itemSet.addItem(item)
+                println("\(outDict)")
                 println("\(item)")
             }
         }
@@ -103,9 +105,8 @@ class XGKeychainTest {
         q.kSecValueData = "Privet".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
         
         let res1 = Keychain.secItemAdd(query: q)
-        // assert(res1.status == Keychain.ResultCode.errSecSuccess, "SecItemAdd returned success")
         
-        println("Keychain secItemAdd returned: \(res1.status)")
+        //println("Keychain secItemAdd returned: \(res1.status)")
         
         if let resUw = res1.result {
             println("res1 TypeID = \(CFGetTypeID(resUw)), Description = \(resUw)")
@@ -122,7 +123,7 @@ class XGKeychainTest {
         q2.kSecMatchLimit = Keychain.Query.KSecMatchLimitValue.kSecMatchLimitOne
         
         let res2 = Keychain.secItemCopyMatching(query:q2)
-        //assert(res2.status == Keychain.ResultCode.errSecSuccess, "SecItemCopyMatching returned success")
+
         
         println("Status of secItemCopyMatching: \(res2.status.toRaw())")
         if let r = res2.result
