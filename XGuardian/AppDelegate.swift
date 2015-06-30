@@ -15,6 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
+        NSLog("Hello world!")
         // Insert code here to initialize your application
     }
 
