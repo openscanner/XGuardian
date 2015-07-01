@@ -17,13 +17,13 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dIN-Jg-WFX">
-                    <rect key="frame" x="0.0" y="0.0" width="750" height="432"/>
+                    <rect key="frame" x="0.0" y="0.0" width="750" height="420"/>
                     <clipView key="contentView" id="el3-Mc-yLQ">
                         <rect key="frame" x="1" y="17" width="238" height="117"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="YRH-Gu-5xq" viewBased="YES" id="Czl-oo-1LF">
-                                <rect key="frame" x="0.0" y="0.0" width="615" height="0.0"/>
+                                <rect key="frame" x="0.0" y="0.0" width="748" height="0.0"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -173,19 +173,19 @@
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gtf-Mf-bJV">
                     <rect key="frame" x="0.0" y="435" width="77" height="65"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="65" id="d59-50-6Hk"/>
-                        <constraint firstAttribute="width" constant="77" id="yT1-ue-VUY"/>
+                        <constraint firstAttribute="height" constant="65" id="5jN-CR-qeh"/>
+                        <constraint firstAttribute="width" constant="77" id="r65-l3-URH"/>
                     </constraints>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="YZv-Kt-AWs"/>
                 </imageView>
             </subviews>
             <constraints>
-                <constraint firstItem="dIN-Jg-WFX" firstAttribute="top" secondItem="Gtf-Mf-bJV" secondAttribute="bottom" constant="3" id="Cqf-gr-Ljl"/>
-                <constraint firstAttribute="trailing" secondItem="dIN-Jg-WFX" secondAttribute="trailing" id="RRI-oe-Bcs"/>
-                <constraint firstAttribute="bottom" secondItem="dIN-Jg-WFX" secondAttribute="bottom" id="ZcV-VR-QXq"/>
-                <constraint firstItem="Gtf-Mf-bJV" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="nTY-JS-LGv"/>
-                <constraint firstItem="Gtf-Mf-bJV" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="vqg-8B-3Zw"/>
-                <constraint firstItem="Gtf-Mf-bJV" firstAttribute="leading" secondItem="dIN-Jg-WFX" secondAttribute="leading" id="xLZ-6I-4Kc"/>
+                <constraint firstAttribute="bottom" secondItem="dIN-Jg-WFX" secondAttribute="bottom" id="18F-81-Cst"/>
+                <constraint firstItem="dIN-Jg-WFX" firstAttribute="top" secondItem="Gtf-Mf-bJV" secondAttribute="bottom" constant="15" id="4T1-gB-HpS"/>
+                <constraint firstAttribute="trailing" secondItem="dIN-Jg-WFX" secondAttribute="trailing" id="gH7-ZZ-mR5"/>
+                <constraint firstItem="dIN-Jg-WFX" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="qcw-Pi-mkQ"/>
+                <constraint firstItem="Gtf-Mf-bJV" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="tDz-aZ-0Ox"/>
+                <constraint firstItem="dIN-Jg-WFX" firstAttribute="leading" secondItem="Gtf-Mf-bJV" secondAttribute="leading" id="xNd-Gg-PYa"/>
             </constraints>
             <connections>
                 <outlet property="iconView" destination="Gtf-Mf-bJV" id="5en-jw-Hnj"/>

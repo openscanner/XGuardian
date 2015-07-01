@@ -18,6 +18,7 @@ public func != (left:Keychain.ResultCode, right:Keychain.ResultCode) -> Bool {
     return !(left == right)
 }
 
+
 public class Keychain
 {
     /**
@@ -1083,7 +1084,7 @@ public class Keychain
         if( alcListRaw == nil) {
             return nil
         }
-        let alcList = alcListRaw!.takeUnretainedValue() as! [SecACLRef]
+        let alcList = alcListRaw!.takeRetainedValue() as! [SecACLRef]
         
         //let alcRaw = CFArrayGetValueAtIndex(alcList, 0);
         //let alc = alcRaw as! SecACLRef

@@ -17,7 +17,7 @@ private let nagivationData =  [["name":hijackName, "image":hijackImage],
 ]
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate, NSPageControllerDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSPageControllerDelegate,NSWindowDelegate {
 
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var nagivationView: NSTableView!
@@ -25,10 +25,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPageControllerDelegate {
 
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-
+        //
         XGKeychainObserver.startObserve()
         self.loadViews()
     }
+    
+    func windowShouldClose(sender: AnyObject) -> Bool {
+        window.orderOut(sender)
+        //window.hide
+        return false
+    }
+
 
     func applicationWillTerminate(aNotification: NSNotification) {
         // Insert code here to tear down your application
@@ -36,16 +43,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPageControllerDelegate {
     }
     
     func loadViews() {
-
-        //nagivation table view
-        //self.nagivationView.setDataSource(self)
-        //self.nagivationView.setDelegate(self)
         
+        window.delegate = self
+        window.autodisplay = true
+        window.restorable = true
+        //nagivation table view
         pageController.delegate = self as NSPageControllerDelegate;
         
         pageController.arrangedObjects = nagivationData;
         pageController.transitionStyle = NSPageControllerTransitionStyle.StackBook
         
+        self.nagivationView.headerView = nil;
         self.nagivationView.reloadData()
         //TODO: set the first card in our list
         self.nagivationView.selectRowIndexes(NSIndexSet(index: 0), byExtendingSelection: false)

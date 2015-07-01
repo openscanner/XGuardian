@@ -41,49 +41,7 @@ class XGSecurityItemSet: NSObject {
         return  valueArray;
     }
     
-    private func checkValidApp(fullPath : String ) -> Bool {
-        
-        var ref : Unmanaged<SecStaticCode>?
-        
-        //let urlStr = "file://"+ fullPath
-       /*  let url = NSURL(fileURLWithPath: fullPath)
-        let status = SecStaticCodeCreateWithPath(url! as CFURL!, kSecCSDefaultFlags, &ref)
-        if status != errSecSuccess {
-            return false
-        }
-       SecStaticCodeCheckValidity(_ staticCode: SecStaticCode!, _ flags: SecCSFlags, _ requirement: SecRequirement!) -> OSStatus*/
-        /*
-CFDictionaryRef dictRef = NULL;
-status = SecCodeCopySigningInformation( ref, kSecCSSigningInformation, &dictRef );
-if (noErr != status
-|| NULL == dictRef)
-{
-return ret;
-}
 
-NSArray *cerArray
-= (NSArray *)CFDictionaryGetValue( dictRef, kSecCodeInfoCertificates );
-if (nil == cerArray
-|| 0 == [cerArray count])
-{
-return ret;
-}
-
-SecCertificateRef cert = (SecCertificateRef)[cerArray lastObject];
-CFStringRef subjectSummary;
-//    if ([XXX isSysemVersion10_5])
-//    {
-SecCertificateCopyCommonName( cert, &subjectSummary );
-//    }
-//    else
-//    {
-//    subjectSummary = SecCertificateCopySubjectSummary( cert );
-//    }
-
-*/
-
-        return true
-    }
 
     func getPotentialArray() -> [XGSecurityItem] {
         /*var valueDict =  self.itemDict as NSDictionary
@@ -91,7 +49,7 @@ SecCertificateCopyCommonName( cert, &subjectSummary );
         var valueArray = [XGSecurityItem]()
         
         for item in self.itemDict.values {
-            if(item.applicationNum != 1){
+            if(item.islikely()){
                 //TODO : valid checking should be add
                 valueArray.append(item)
             }

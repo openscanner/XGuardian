@@ -82,11 +82,11 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
     var applicationList: [String]?
     var applicationNum: Int = 0
     var itemRef : SecKeychainItemRef?
+    var keychain : String?
 
     // var accessible : ?
     // var access: SecAccessRef? //kSecAttrAccess
     init(attrDict:NSDictionary) {
-        
         
         // lable -> name
         if let label = attrDict[kSecAttrLabel as NSString] as? NSString {
@@ -147,8 +147,6 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
             self.creator = creator
         }
         
-
-        
         // itemRef
         let item = attrDict["v_Ref"] as! SecKeychainItemRef
         self.itemRef = item
@@ -162,8 +160,7 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
                 self.applicationNum = appRet.appList!.count;
             }
             self.applicationList = appRet.appList;
-        }
-        
+        }        
         
         /*if let access = attrDict[kSecAttrAccess as NSString] as? SecAccessRef {
             self.access = access
@@ -171,6 +168,79 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
 
         super.init()
         return
+    }
+    
+    private func checkApple(fullPath: String) -> Bool {
+        
+       /* if (fullPath == String(UTF8String:"group://InternetAccounts")) {
+            return true
+        } else if ( fullPath == "group://AirPort" ) { "group://IMCore"
+            return true
+        }*/
+        //TODO : change String compare 
+        if fullPath.hasPrefix("group:") {
+            return true
+        }
+        if fullPath.hasPrefix("InternetAccounts") {
+            return true
+        }
+        
+
+        
+        var ref : Unmanaged<SecStaticCode>?
+        let url = NSURL(fileURLWithPath: fullPath)!
+        
+        
+        let cfUrl = url as CFURL;
+        
+
+        var status = SecStaticCodeCreateWithPath(cfUrl , SecCSFlags(kSecCSDefaultFlags) /*0 kSecCSDefaultFlags*/, &ref)
+        if status != errSecSuccess || ref == nil {
+            return false
+        }
+        let secStaticCode = ref!.takeRetainedValue() as SecStaticCode;
+        
+        var dictRef : Unmanaged<CFDictionary>?
+        status = SecCodeCopySigningInformation(secStaticCode, SecCSFlags(kSecCSSigningInformation), &dictRef )
+        if status != errSecSuccess || dictRef == nil {
+            return false
+        }
+        let signingInfoDict = dictRef!.takeRetainedValue() as NSDictionary;
+        
+        if let identifier = signingInfoDict[kSecCodeInfoIdentifier as NSString] as? NSString{
+            let isApple = identifier.hasPrefix("com.apple")
+            if isApple {return true}
+        } else {
+            return false; //no apple's
+        }
+        
+        //NSLog("sining:\(signingInfoDict)")
+        //status = SecStaticCodeCheckValidity(secStaticCode, SecCSFlags(kSecCSCheckAllArchitectures), _ requirement: SecRequirement!)
+        
+        return false
+    }
+    
+    func islikely() -> Bool {
+        
+        if ( applicationNum == 0 || applicationNum == 1 ){
+            return false;
+        }
+        
+        //any application~~
+        if ( applicationNum == -1 ){
+            return false;
+        }
+        
+        if let appArray = self.applicationList {
+            for appPath in appArray {
+                if false == self.checkApple(appPath) {
+                    return true
+                }
+            }
+        }
+        
+        return false
+
     }
     
     /**

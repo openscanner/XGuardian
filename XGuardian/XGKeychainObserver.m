@@ -7,13 +7,11 @@
 //
 
 @import AppKit;
+#import "XGuardian-Swift.h"
 #import "XGKeychainObserver.h"
 
-/*
- struct SecKeychainCallbackInfo
- {
 
- };*/
+
 static XGKeychainObserver* staticSharedObserver = nil;
 static int CB_Context = 12;
 
@@ -178,6 +176,11 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
 
 - (void) processKeychainEvent:(SecKeychainEvent)event CBInfo:(SecKeychainCallbackInfo *)cbinfo {
     
+    /*
+    NSArray* attrArry = [XGKeyChain secKeychainItemGetAttr:cbinfo->item];
+    NSLog(@"attrArry:%@", attrArry);
+    */
+    
     XGKeychainCallbackInfo* info = [[XGKeychainCallbackInfo alloc] init:event CBInfo:cbinfo];
     [self performSelector:@selector(keychainEventProcessor:) onThread:[self thread] withObject:info waitUntilDone:NO];
 }
@@ -231,15 +234,19 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
     NSString *bundleID = [appInfo bundleIdentifier];
     NSURL *bundleURL = [appInfo bundleURL];
     
-   // SecKeychainRef keychain = [info keychain];
-   // SecKeychainItemRef itemRef = [info item];
+    
+    //SecKeychainRef keychain = [info keychain];
+    SecKeychainItemRef itemRef = [info item];
+    
+    NSLog(@"SecKeychainCallbackInfo:\n event:%d version:%d pid:%d \n App Name:%@\nbundle ID:%@\nbudle URL:%@\n ", [info event], [info version], [info pid], appName, bundleID, bundleURL);
     
     
+    NSArray* attrArry = [XGKeyChain secKeychainItemGetAttr:itemRef];
+    if(nil != attrArry) {
+        NSLog(@"item%@", attrArry);
+    }
+    return;
     
-    NSLog(@"SecKeychainCallbackInfo:\n event:%d version:%d pid:%d \n App Name:%@\nbundle ID:%@\nbudle URL:%@", [info event], [info version], [info pid], appName, bundleID, bundleURL);
-    
- 
-
 }
 
 

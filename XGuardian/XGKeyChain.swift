@@ -14,6 +14,7 @@ import Security
 private var globalItemSet: XGSecurityItemSet?
 private var newItemSet: XGSecurityItemSet?
 
+@objc(XGKeyChain)
 class XGKeyChain  {
     
     class func getItemSet() ->  XGSecurityItemSet? {
@@ -34,9 +35,9 @@ class XGKeyChain  {
         
         
         let res = Keychain.secItemCopyMatching(query: query)
-        assert(res.status == Keychain.ResultCode.errSecSuccess, "SecItemCopyMatching returned success")
+        //assert(res.status != Keychain.ResultCode.errSecSuccess, "SecItemCopyMatching returned error\(res.status)")
+        //println("Status of secItemCopyMatching: \(res.status.toRaw())")
         
-        println("Status of secItemCopyMatching: \(res.status.toRaw())")
         let r = res.result
         if (r == nil){
             //TODO error process
@@ -66,8 +67,8 @@ class XGKeyChain  {
             for outDict in ip {
                 let item = XGSecurityItem(attrDict: (outDict as? NSDictionary)!)
                 itemSet.addItem(item)
-                println("\(outDict)")
-                println("\(item)")
+                //println("\(outDict)")
+                //println("\(item)")
             }
         }
         
@@ -77,12 +78,51 @@ class XGKeyChain  {
             for outDict in gp {
                 let item = XGSecurityItem(attrDict: (outDict as? NSDictionary)!)
                 itemSet.addItem(item)
-                println("\(outDict)")
-                println("\(item)")
+                //println("\(outDict)")
+                //println("\(item)")
             }
         }
         
         return itemSet;
+    }
+    
+    @objc(secKeychainItemGetAttr:)
+    class func secKeychainItemGetAttr(itemRef :SecKeychainItemRef!) -> NSArray? {
+        
+        let query = Keychain.Query()
+        //kSecMatchSearchList
+        query.kSecClass = Keychain.Query.KSecClassValue.kSecClassInternetPassword
+        query.kSecMatchItemList = NSArray(array: [itemRef])
+        query.kSecReturnAttributes = true
+        query.kSecReturnRef = true
+        query.kSecReturnPersistentRef = true
+        query.kSecMatchLimit = Keychain.Query.KSecMatchLimitValue.kSecMatchLimitAll
+        
+        let res = Keychain.secItemCopyMatching(query:query)
+        let r = res.result
+        if (r != nil) {
+            let resultArray = r as? NSArray
+            if ( resultArray == nil) {
+                return nil
+            }
+            println("ressult Description: \(resultArray)")
+            return resultArray;
+        }
+        
+        query.kSecClass = Keychain.Query.KSecClassValue.kSecClassGenericPassword
+        let res_gen = Keychain.secItemCopyMatching(query:query)
+        let r_gen  = res_gen.result
+        if (r_gen != nil) {
+            let resultArray = r_gen as? NSArray
+            if ( resultArray == nil) {
+                return nil
+            }
+            println("ressult Description: \(resultArray)")
+            return resultArray;
+
+        }
+
+        return nil;
     }
     
 }
@@ -97,7 +137,7 @@ class XGKeychainTest {
         q.kSecAttrAccount = "Try1 account-" + "105"
         q.kSecAttrLabel = "Try1 label"
         q.kSecAttrAccessible = Keychain.Query.KSecAttrAccessibleValue.kSecAttrAccessibleAlways
-        q.kSecReturnData = true
+        //q.kSecReturnData = true
         q.kSecReturnAttributes = true
         q.kSecReturnRef = true
         q.kSecReturnPersistentRef = true
