@@ -8,6 +8,7 @@
 
 import Cocoa
 
+@objc(XGSecurityItemSet)
 class XGSecurityItemSet: NSObject {
     
     //use XGSecurityItem.key() as keys:
@@ -26,6 +27,7 @@ class XGSecurityItemSet: NSObject {
         self.itemDict.removeValueForKey(item.key())
     }
     
+    @objc(findItem:)
     func findItem(item : XGSecurityItem) -> XGSecurityItem? {
         return self.itemDict[item.key()]
     }

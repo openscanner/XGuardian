@@ -56,6 +56,7 @@ class XGHijackListView: NSView, NSTableViewDelegate, NSTableViewDataSource {
         if  let itemSet = XGKeyChain.getItemSet() {
             self.itemArray = itemSet.getPotentialArray();
         }
+        
         if( (nil == self.itemArray) || self.itemArray!.count <= 0) {
             self.titleImage.objectValue = NSImage(named:noHijackImage);
             self.titleLable.objectValue = noHijackStr;

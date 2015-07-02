@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="XGUpdatePanel" customModule="XGuardian">
+        <customObject id="-2" userLabel="File's Owner" customClass="XGUpdatePanel" customModule="XGuardian" customModuleProvider="target">
             <connections>
                 <outlet property="panel" destination="KtN-3Z-yQh" id="fpc-xn-ia1"/>
                 <outlet property="versionText" destination="uea-x2-pGh" id="pCQ-N0-had"/>
@@ -16,7 +16,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="757" y="627" width="300" height="200"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
             <view key="contentView" id="Nh5-gx-WzR">
                 <rect key="frame" x="0.0" y="-1" width="300" height="200"/>
                 <autoresizingMask key="autoresizingMask"/>

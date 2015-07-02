@@ -171,6 +171,23 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         return
     }
     
+    @objc(isSameWith:)
+    func isSameWith(otherItem: XGSecurityItem) -> Bool {
+        
+        if (self.applicationNum != otherItem.applicationNum
+            || self.createTime != otherItem.createTime
+            || self.creator != otherItem.creator) {
+                return false
+        }
+        
+        let samekey = self.isSameKey(otherItem)
+        if !samekey {
+            return false
+        }
+        
+        return true;
+    }
+    
     private func checkApple(fullPath: String) -> Bool {
         
        /* if (fullPath == String(UTF8String:"group://InternetAccounts")) {
@@ -257,7 +274,9 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         
         if( (key!.name == self.name) &&
             (key!.classType == self.classType) &&
-            (key!.account == self.account)) {
+            (key!.account == self.account) &&
+            (key!.position == self.position)
+            ) {
             return true
         }
         
@@ -268,6 +287,7 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         var key = String()
         if(nil != self.name) { key += self.name! }
         if(nil != self.account) { key += self.account! }
+        if(nil != self.position) { key += self.position! }
         return key
     }
     
@@ -324,9 +344,12 @@ func == (lhs: XGSecurityItem, rhs: XGSecurityItem) -> Bool {
         return false
     }
     
+    if(lhs.applicationNum != rhs.applicationNum) {
+        return false;
+    }
+    
     return true;
     
 }
 
 
- 

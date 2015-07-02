@@ -677,7 +677,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="575" y="349" width="904" height="500"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="904" height="500"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -715,19 +715,32 @@
                                                     <rect key="frame" x="1" y="1" width="151" height="64"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4aM-3N-CqF">
-                                                            <rect key="frame" x="33" y="24" width="105" height="17"/>
+                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="S36-Fv-ay3">
+                                                            <rect key="frame" x="10" y="31" width="17" height="17"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="17" id="4GL-nd-Ep3"/>
+                                                                <constraint firstAttribute="height" constant="17" id="TJ0-xb-OIz"/>
+                                                            </constraints>
+                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="X1b-Y0-p9K"/>
+                                                        </imageView>
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4aM-3N-CqF">
+                                                            <rect key="frame" x="33" y="17" width="117" height="31"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="AJO-jJ-8VT">
-                                                                <font key="font" metaFont="system"/>
+                                                                <font key="font" metaFont="menuBar"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                         </textField>
-                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S36-Fv-ay3">
-                                                            <rect key="frame" x="10" y="24" width="17" height="17"/>
-                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="X1b-Y0-p9K"/>
-                                                        </imageView>
                                                     </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="S36-Fv-ay3" firstAttribute="top" secondItem="xkb-Hx-DJD" secondAttribute="top" constant="16" id="FLM-T0-zRt"/>
+                                                        <constraint firstItem="4aM-3N-CqF" firstAttribute="centerY" secondItem="xkb-Hx-DJD" secondAttribute="centerY" id="HWK-F3-2qh"/>
+                                                        <constraint firstAttribute="bottom" secondItem="S36-Fv-ay3" secondAttribute="bottom" constant="31" id="L76-fy-LaB"/>
+                                                        <constraint firstItem="4aM-3N-CqF" firstAttribute="top" secondItem="S36-Fv-ay3" secondAttribute="top" id="Lj1-Se-zMN"/>
+                                                        <constraint firstItem="S36-Fv-ay3" firstAttribute="leading" secondItem="xkb-Hx-DJD" secondAttribute="leading" constant="10" id="Tzm-iN-jv8"/>
+                                                        <constraint firstAttribute="trailing" secondItem="4aM-3N-CqF" secondAttribute="trailing" constant="3" id="tCd-Hc-UcA"/>
+                                                        <constraint firstItem="4aM-3N-CqF" firstAttribute="leading" secondItem="S36-Fv-ay3" secondAttribute="trailing" constant="8" symbolic="YES" id="xyx-5P-fcN"/>
+                                                    </constraints>
                                                     <connections>
                                                         <outlet property="imageView" destination="S36-Fv-ay3" id="0mQ-Ft-Ku0"/>
                                                         <outlet property="textField" destination="4aM-3N-CqF" id="QNy-cq-66Y"/>

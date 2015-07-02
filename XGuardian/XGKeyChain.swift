@@ -11,15 +11,16 @@ import CoreFoundation
 import Security
 
 
-private var globalItemSet: XGSecurityItemSet?
+private var globalItemSet: XGSecurityItemSet = XGSecurityItemSet()
 private var newItemSet: XGSecurityItemSet?
 
 @objc(XGKeyChain)
 class XGKeyChain  {
     
+    @objc(getItemSet)
     class func getItemSet() ->  XGSecurityItemSet? {
-        if nil == globalItemSet {
-            globalItemSet = XGKeyChain.scanAllItem()
+        if 0 == globalItemSet.count {
+            XGKeyChain.scanAllItem()
         }
         return globalItemSet
     }
@@ -57,9 +58,9 @@ class XGKeyChain  {
     }
     
     
-    class func scanAllItem() -> XGSecurityItemSet {
+    class func scanAllItem() {
         
-        var itemSet:XGSecurityItemSet = XGSecurityItemSet()
+        var itemSet = globalItemSet
         
         //scan internet password
         let internetPassword = getClassAllKey(Keychain.Query.KSecClassValue.kSecClassInternetPassword)
@@ -83,7 +84,6 @@ class XGKeyChain  {
             }
         }
         
-        return itemSet;
     }
     
     @objc(secKeychainItemGetAttr:)

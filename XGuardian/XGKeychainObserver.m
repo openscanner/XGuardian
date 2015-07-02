@@ -224,42 +224,38 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
 
 - (void) keychainEventProcessor:(XGKeychainCallbackInfo *)info {
     
-    switch ([info event]) {
-        /*case kSecLockEvent:
-            break;
-        case kSecUnlockEvent:
-            break;*/
-        case kSecAddEvent:
-            break;
-        case kSecDeleteEvent:
-            break;
-        case kSecUpdateEvent:
-            break;
-        case kSecPasswordChangedEvent:
-            break;
-        case kSecDefaultChangedEvent:
-            break;
-        case kSecDataAccessEvent:
-            break;
-        case kSecKeychainListChangedEvent:
-            break;
-        case kSecTrustSettingsChangedEvent:
-            break;
-        default:
-            NSLog(@"Unknown keychain event");
-            break;
-    }
+    NSLog(@"SecKeychainCallbackInfo:\n event:%d version:%d pid:%d \n App Name:%@\nbundle ID:%@\nbudle URL:%@\n item:%@", [info event], [info version], [info pid], info.appName, info.bundleID, info.bundleURL, info.securityItem);
     
     //find same key info in the dictionary
-    
+    XGSecurityItemSet *itemSet = [XGKeyChain getItemSet];
+    XGSecurityItem *oldItem = [itemSet findItem:[info securityItem]];
+    if(nil == oldItem) {
+        return;
+    }
     
     //check the application list change
+    if (oldItem == info.securityItem) {
+        return;
+    }
     
+    BOOL isSame = [oldItem isSameWith:info.securityItem];
+    if (isSame) {
+        return;
+    }
+    
+    [itemSet addItem:info.securityItem];
     
     //notify
+    NSUserNotification *notification  = [[NSUserNotification alloc]init];
+    NSUserNotificationCenter* ntfCecenter = [NSUserNotificationCenter defaultUserNotificationCenter];
+    [notification setTitle: @"HiJack"];
+    [notification setContentImage:[NSImage imageNamed:@"NSApplicationIcon"]];
+    //notification.activationType = NSUserNotificationActivationTypeContentsClicked;
+    [notification setInformativeText:[[NSString  alloc] initWithFormat:@"%@(%@) may have been hijack! Please check it.", info.securityItem.name, info.securityItem.account]];
+    [ntfCecenter deliverNotification:notification];
     
     
-    NSLog(@"SecKeychainCallbackInfo:\n event:%d version:%d pid:%d \n App Name:%@\nbundle ID:%@\nbudle URL:%@\n item:%@", [info event], [info version], [info pid], info.appName, info.bundleID, info.bundleURL, info.securityItem);
+
     
 }
 
