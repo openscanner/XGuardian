@@ -13,7 +13,7 @@ import Security
 /*
 Just for GenericPassword and InternetPassword
 */
-
+@objc(XGSecurityItem)
 class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
 
     internal enum ClassType : Printable {
@@ -86,6 +86,7 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
 
     // var accessible : ?
     // var access: SecAccessRef? //kSecAttrAccess
+    @objc(init:)
     init(attrDict:NSDictionary) {
         
         // lable -> name
@@ -213,10 +214,7 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         } else {
             return false; //no apple's
         }
-        
-        //NSLog("sining:\(signingInfoDict)")
-        //status = SecStaticCodeCheckValidity(secStaticCode, SecCSFlags(kSecCSCheckAllArchitectures), _ requirement: SecRequirement!)
-        
+                
         return false
     }
     
@@ -281,7 +279,8 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
     
 
     override var description : String {
-        var descStr = "Name: \(self.name!)\n";
+        var descStr = ""
+        if(self.name != nil) { descStr = "Name: \(self.name!)\n" }
         if(self.account != nil)  { descStr += "Account: \(self.account!) \n" }
         if(self.classType != nil) { descStr += "Class: \(self.classType!) \n" }
         if(self.position != nil) {descStr += "Position: \(self.position!) \n"}
@@ -330,3 +329,4 @@ func == (lhs: XGSecurityItem, rhs: XGSecurityItem) -> Bool {
 }
 
 
+ 

@@ -10,11 +10,13 @@ import Cocoa
 
 private let hijackName = "Keychain Hijack"
 private let hijackImage = NSImageNameQuickLookTemplate
-private let keychainName = "Keychain List"
+private let keychainName = "Item List"
 private let keychainImage = NSImageNameListViewTemplate
 private let nagivationData =  [["name":hijackName, "image":hijackImage],
     ["name":keychainName, "image":keychainImage]
 ]
+
+private let updateTimerInterval = 21600.0
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSPageControllerDelegate,NSWindowDelegate {
@@ -28,11 +30,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPageControllerDelegate,NSW
         //
         XGKeychainObserver.startObserve()
         self.loadViews()
+        
+        //check update
+        XGBackend.updateLastedverion()
+        //TODO:read timeinterval form plist add update check timer
+        NSTimer.scheduledTimerWithTimeInterval(updateTimerInterval, target: self, selector: Selector("processUpdateCheck:"), userInfo: nil, repeats: true)
+    }
+    
+    func processUpdateCheck(timer : NSTimer ) {
+        XGBackend.updateLastedverion()
     }
     
     func windowShouldClose(sender: AnyObject) -> Bool {
-        window.orderOut(sender)
-        //window.hide
+        NSApplication.sharedApplication().hide(sender)
         return false
     }
 

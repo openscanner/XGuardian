@@ -87,7 +87,7 @@ class XGKeyChain  {
     }
     
     @objc(secKeychainItemGetAttr:)
-    class func secKeychainItemGetAttr(itemRef :SecKeychainItemRef!) -> NSArray? {
+    class func secKeychainItemGetAttr(itemRef :SecKeychainItemRef!) -> NSDictionary? {
         
         let query = Keychain.Query()
         //kSecMatchSearchList
@@ -96,16 +96,16 @@ class XGKeyChain  {
         query.kSecReturnAttributes = true
         query.kSecReturnRef = true
         query.kSecReturnPersistentRef = true
-        query.kSecMatchLimit = Keychain.Query.KSecMatchLimitValue.kSecMatchLimitAll
+        query.kSecMatchLimit = Keychain.Query.KSecMatchLimitValue.kSecMatchLimitOne
         
         let res = Keychain.secItemCopyMatching(query:query)
         let r = res.result
         if (r != nil) {
-            let resultArray = r as? NSArray
+            let resultArray = r as? NSDictionary
             if ( resultArray == nil) {
                 return nil
             }
-            println("ressult Description: \(resultArray)")
+            //println("ressult Description: \(resultArray)")
             return resultArray;
         }
         
@@ -113,13 +113,12 @@ class XGKeyChain  {
         let res_gen = Keychain.secItemCopyMatching(query:query)
         let r_gen  = res_gen.result
         if (r_gen != nil) {
-            let resultArray = r_gen as? NSArray
+            let resultArray = r_gen as? NSDictionary
             if ( resultArray == nil) {
                 return nil
             }
-            println("ressult Description: \(resultArray)")
-            return resultArray;
 
+            return resultArray;
         }
 
         return nil;

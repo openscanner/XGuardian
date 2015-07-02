@@ -14,12 +14,23 @@ class XGKeychainView: NSView, NSTableViewDelegate, NSTableViewDataSource {
     
     @IBOutlet weak var keychainTable: NSTableView!
     @IBOutlet weak var iconView: NSImageView!
+    @IBOutlet weak var nameLabel: NSTextField!
+    @IBOutlet weak var classLabel: NSTextField!
+    @IBOutlet weak var accountLabel: NSTextField!
+    @IBOutlet weak var positionLabel: NSTextField!
+    
+    @IBOutlet weak var applicationsLabel: NSTextField!
     
     //override func
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
         
         // Drawing code here.
+        let bezierPath = NSBezierPath(roundedRect: self.bounds, xRadius: 0, yRadius: 0)
+        bezierPath.lineWidth = 1.0
+        NSColor.whiteColor().set()
+        bezierPath.fill()
+
 
     }
     
@@ -65,9 +76,23 @@ class XGKeychainView: NSView, NSTableViewDelegate, NSTableViewDataSource {
             let image = NSImage(named: NSImageNameUserAccounts )
             iconView.image = image;
         } else if item.classType == XGSecurityItem.ClassType.GenericPassword {
-            let image = NSImage(named: NSImageNameApplicationIcon )
+            let image = NSImage(named: NSImageNameComputer)
             iconView.image = image;
         }
+        
+        self.nameLabel.objectValue = item.name
+        self.accountLabel.objectValue = item.account
+        self.positionLabel.objectValue = item.position
+        var appStr = ""
+        if let appList = item.applicationList {
+            for (var i = 0 ; i < appList.count ; i++) {
+                if(i > 1) {  appStr += " | " }
+                appStr += appList[i].lastPathComponent
+            }
+        } else  if item.applicationNum == -1 {
+            appStr = "ANY Application"
+        }
+        self.applicationsLabel.objectValue = appStr
         
         
     }

@@ -40,7 +40,7 @@ class XGHijackListCell: NSTableCellView, NSTableViewDelegate, NSTableViewDataSou
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
 
-        // Drawing code here.
+        // Drawing code here.        
     }
     
     override func viewDidMoveToWindow() {

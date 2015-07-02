@@ -50,14 +50,14 @@ class XGHijackView: NSView {
         if (self.scanProcess.doubleValue >= 89.9){
             self.scanState =  ScanSate.END
         } else {
-            self.scanProcess.doubleValue += 10.0
+            self.scanProcess.doubleValue += 15.0
         }
         
         if(self.scanState == ScanSate.END) {
             timer.invalidate();
             self.scanButton.title = "SCANED"
             self.scanPromt.hidden = true;
-            self.scanProcess.doubleValue = 100
+            self.scanProcess.doubleValue = 100.0
             self.scanProcess.stopAnimation(self)
             
             
@@ -77,6 +77,10 @@ class XGHijackView: NSView {
         //bezierPath.lineWidth = 1.0
         //NSColor.whiteColor().set()
         //bezierPath.fill()
+        let bezierPath = NSBezierPath(roundedRect: self.bounds, xRadius: 0, yRadius: 0)
+        bezierPath.lineWidth = 1.0
+        NSColor.whiteColor().set()
+        bezierPath.fill()
 
     }
     

@@ -20,6 +20,7 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
     switch (keychainEvent) {
         case kSecLockEvent:
         case kSecUnlockEvent:
+        case kSecKeychainListChangedEvent:
             /*no need */
             return errSecSuccess;
             break;
@@ -34,8 +35,6 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
         case kSecDefaultChangedEvent:
             break;
         case kSecDataAccessEvent:
-            break;
-        case kSecKeychainListChangedEvent:
             break;
         case kSecTrustSettingsChangedEvent:
             break;
@@ -57,14 +56,13 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
 @implementation XGKeychainObserverCallbackManager
 
 +(OSStatus) secKeychainAddCallback{
-    OSStatus stat = SecKeychainAddCallback ( XGSecKeychainCBFun, kSecEveryEventMask, &CB_Context );
-    //NSLog(@"SecKeychainAddCallback: status- %d ", stat);
+     SecKeychainEventMask wathEventMask = kSecAddEventMask|kSecDeleteEventMask|kSecUpdateEventMask|kSecPasswordChangedEventMask|kSecDefaultChangedEventMask|kSecDataAccessEventMask|kSecTrustSettingsChangedEventMask;
+    OSStatus stat = SecKeychainAddCallback ( XGSecKeychainCBFun, wathEventMask, &CB_Context );
     return stat;
 }
 
 +(OSStatus) secKeychainRemoveCallback {
     OSStatus stat = SecKeychainRemoveCallback ( XGSecKeychainCBFun );
-    //NSLog(@"SecKeychainRemoveCallback: status- %d ", stat);
     return stat;
 }
 @end
@@ -74,23 +72,35 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
 #pragma mark XGKeychainCallbackInfo
 
 @interface XGKeychainCallbackInfo:NSObject
-@property (readonly, assign, nonatomic) SecKeychainEvent event;
-@property (readonly, assign, nonatomic)   UInt32 version;
-@property (readonly, nonatomic)   SecKeychainItemRef	item;
-@property (readonly, nonatomic)   SecKeychainRef		keychain;
-@property (readonly, assign, nonatomic)   pid_t pid;
+@property (readonly, assign, nonatomic) SecKeychainEvent   event;
+@property (readonly, assign, nonatomic) UInt32             version;
+@property (readonly, nonatomic        ) SecKeychainItemRef itemRef;
+@property (readonly, nonatomic        ) SecKeychainRef     keychain;
+@property (readonly, assign, nonatomic) pid_t              pid;
+@property (readonly, nonatomic        ) NSString           *appName;
+@property (readonly, nonatomic        ) NSString           *bundleID;
+@property (readonly, nonatomic        ) NSURL              *bundleURL;
+@property (readonly, nonatomic        ) XGSecurityItem     *securityItem;
 @end
 
 @implementation XGKeychainCallbackInfo
 
-- (instancetype)init:(SecKeychainEvent)event CBInfo:(SecKeychainCallbackInfo *)cbinfo {
+- (instancetype)init:(SecKeychainEvent)event CBInfo:(SecKeychainCallbackInfo *)cbinfo
+             AppInfo:(NSRunningApplication*)appInfo SecurityItem:(XGSecurityItem *)securityItem{
     self = [super  init];
     if (self) {
         _event = event;
         _version = cbinfo->version;
-        _item = cbinfo->item;
+        _itemRef = cbinfo->item;
         _keychain = cbinfo->keychain;
+        
         _pid = cbinfo->pid;
+        _appName = appInfo.localizedName;
+        _bundleID = appInfo.bundleIdentifier;
+        _bundleURL = appInfo.bundleURL;
+        
+        _securityItem = securityItem;
+ 
     }
     return self;
 }
@@ -176,12 +186,24 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
 
 - (void) processKeychainEvent:(SecKeychainEvent)event CBInfo:(SecKeychainCallbackInfo *)cbinfo {
     
-    /*
-    NSArray* attrArry = [XGKeyChain secKeychainItemGetAttr:cbinfo->item];
-    NSLog(@"attrArry:%@", attrArry);
-    */
+    SecKeychainItemRef itemRef = cbinfo->item;
+    XGSecurityItem *securityItem = nil;
+    if( nil != itemRef) {
+        NSDictionary* attrDict = [XGKeyChain secKeychainItemGetAttr:itemRef];
+        if(nil == attrDict) {
+            return;
+        }
+        //NSLog(@"item%@", attrDict);
+        
+        if (nil ==  [attrDict objectForKey:@"v_Ref"] ) {
+            [attrDict setValue:(__bridge id)(itemRef) forKey:@"v_Ref"];
+        }
+        securityItem = [[XGSecurityItem alloc]init:attrDict];
+        
+    }
     
-    XGKeychainCallbackInfo* info = [[XGKeychainCallbackInfo alloc] init:event CBInfo:cbinfo];
+    NSRunningApplication *appInfo = [NSRunningApplication runningApplicationWithProcessIdentifier:cbinfo->pid];
+    XGKeychainCallbackInfo* info = [[XGKeychainCallbackInfo alloc] init:event CBInfo:cbinfo AppInfo:appInfo SecurityItem:securityItem];
     [self performSelector:@selector(keychainEventProcessor:) onThread:[self thread] withObject:info waitUntilDone:NO];
 }
 
@@ -228,28 +250,18 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
             break;
     }
     
-    
-    NSRunningApplication *appInfo = [NSRunningApplication runningApplicationWithProcessIdentifier:[info pid]];
-    NSString *appName = [appInfo localizedName];
-    NSString *bundleID = [appInfo bundleIdentifier];
-    NSURL *bundleURL = [appInfo bundleURL];
+    //find same key info in the dictionary
     
     
-    //SecKeychainRef keychain = [info keychain];
-    SecKeychainItemRef itemRef = [info item];
-    
-    NSLog(@"SecKeychainCallbackInfo:\n event:%d version:%d pid:%d \n App Name:%@\nbundle ID:%@\nbudle URL:%@\n ", [info event], [info version], [info pid], appName, bundleID, bundleURL);
+    //check the application list change
     
     
-    NSArray* attrArry = [XGKeyChain secKeychainItemGetAttr:itemRef];
-    if(nil != attrArry) {
-        NSLog(@"item%@", attrArry);
-    }
-    return;
+    //notify
+    
+    
+    NSLog(@"SecKeychainCallbackInfo:\n event:%d version:%d pid:%d \n App Name:%@\nbundle ID:%@\nbudle URL:%@\n item:%@", [info event], [info version], [info pid], info.appName, info.bundleID, info.bundleURL, info.securityItem);
     
 }
-
-
 
 
 @end

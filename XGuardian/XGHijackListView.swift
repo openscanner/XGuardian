@@ -30,6 +30,10 @@ class XGHijackListView: NSView, NSTableViewDelegate, NSTableViewDataSource {
         super.drawRect(dirtyRect)
 
         // Drawing code here.
+        let bezierPath = NSBezierPath(roundedRect: self.bounds, xRadius: 0, yRadius: 0)
+        bezierPath.lineWidth = 1.0
+        NSColor.whiteColor().set()
+        bezierPath.fill()
     
     }
     
