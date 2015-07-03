@@ -12,7 +12,7 @@ class XGUpdatePanel: NSWindowController , NSWindowDelegate {
 
     weak var versionInfo : XGVersionInfo?
     
-    @IBOutlet var panel: NSWindow!
+    @IBOutlet var panel: NSPanel!
     @IBOutlet weak var versionText: NSTextField!
 
     

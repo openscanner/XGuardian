@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
     </dependencies>
@@ -58,7 +58,7 @@
             </constraints>
             <connections>
                 <outlet property="hijackListView" destination="XpH-bf-nbg" id="AMT-zT-XtK"/>
-                <outlet property="owner" destination="-2" id="9H4-UV-V3y"/>
+                <outlet property="owner" destination="-2" id="pah-3Y-9Cy"/>
                 <outlet property="scanButton" destination="iHf-RO-sso" id="cfc-U5-Lul"/>
                 <outlet property="scanProcess" destination="2T5-lY-KFE" id="wid-rg-YJx"/>
                 <outlet property="scanPromt" destination="54A-9g-Tbg" id="dUx-lP-4HB"/>
@@ -244,9 +244,6 @@
                                                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                                 <font key="font" metaFont="smallSystemBold"/>
                                                                                             </buttonCell>
-                                                                                            <connections>
-                                                                                                <action selector="btnRevealInFinder:" target="XpH-bf-nbg" id="cl8-Kh-dg3"/>
-                                                                                            </connections>
                                                                                         </button>
                                                                                         <button hidden="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JrX-Rm-rWK">
                                                                                             <rect key="frame" x="619" y="-5" width="39" height="38"/>
@@ -390,7 +387,6 @@
                 <constraint firstItem="2GX-vs-fL9" firstAttribute="leading" secondItem="XpH-bf-nbg" secondAttribute="leading" id="xJl-lc-N8V"/>
             </constraints>
             <connections>
-                <outlet property="btnRevealInFinder" destination="Tgm-pX-Mc4" id="c39-GE-DA9"/>
                 <outlet property="tableView" destination="11A-5j-6h5" id="lDn-Pn-hXQ"/>
                 <outlet property="titleImage" destination="bNE-HR-1rs" id="acm-cQ-UJM"/>
                 <outlet property="titleLable" destination="bSx-Xy-PL6" id="LTS-4i-6sH"/>

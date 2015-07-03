@@ -48,7 +48,7 @@ class XGHijackListView: NSView, NSTableViewDelegate, NSTableViewDataSource {
         
         self.scan()
     }
-    
+
     /**
     scan
     */

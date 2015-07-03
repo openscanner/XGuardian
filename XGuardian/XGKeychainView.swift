@@ -19,6 +19,7 @@ class XGKeychainView: NSView, NSTableViewDelegate, NSTableViewDataSource {
     @IBOutlet weak var accountLabel: NSTextField!
     @IBOutlet weak var positionLabel: NSTextField!
     
+    @IBOutlet weak var owner: NSViewController!
     @IBOutlet weak var applicationsLabel: NSTextField!
     
     //override func
@@ -51,12 +52,6 @@ class XGKeychainView: NSView, NSTableViewDelegate, NSTableViewDataSource {
     }
     
     
-    @IBAction func startScan(sender: AnyObject) {
-        XGKeyChain.getItemSet()
-        //var itemSet = XGKeyChain.getItemSet()
-        //self.performSegueWithIdentifier("startToKeychainSegue", sender: self)
-        return;
-    }
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         if let its = self.itemArray {
