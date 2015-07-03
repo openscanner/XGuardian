@@ -69,6 +69,44 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         
     }
     
+    class func protocolFullName(shortName : String ) -> String {
+        switch shortName {
+        case kSecAttrProtocolFTP as! String        :  return "ftp"
+        case kSecAttrProtocolFTPAccount as! String :  return "ftpa"
+        case kSecAttrProtocolHTTP as! String      :  return "http"
+        case kSecAttrProtocolIRC  as! String      :  return "irc"
+        case kSecAttrProtocolNNTP as! String      :  return "nntp"
+        case kSecAttrProtocolPOP3 as! String      :  return "pop3"
+        case kSecAttrProtocolSMTP as! String      :  return "smtp"
+        case kSecAttrProtocolSOCKS as! String     :  return "socks"
+        case kSecAttrProtocolIMAP  as! String     :  return "imap"
+        case kSecAttrProtocolLDAP  as! String     :  return "ldap"
+        case kSecAttrProtocolAppleTalk as! String :  return "atlk" //what's this?
+        case kSecAttrProtocolAFP   as! String     :  return "afp"
+        case kSecAttrProtocolTelnet  as! String   :  return "telnet"
+        case kSecAttrProtocolSSH     as! String   :  return "ssh"
+        case kSecAttrProtocolFTPS    as! String   :  return "ftps"
+        case kSecAttrProtocolHTTPS    as! String  :  return "https"
+        case kSecAttrProtocolHTTPProxy as! String :  return "httpProxy"
+        case kSecAttrProtocolHTTPSProxy as! String:  return "httpsProxy"
+        case kSecAttrProtocolFTPProxy   as! String:  return "ftpProxy"
+        case kSecAttrProtocolSMB        as! String:  return "smb"
+        case kSecAttrProtocolRTSP       as! String:  return "rtsp"
+        case kSecAttrProtocolRTSPProxy as! String :  return "rtspProxy"
+        case kSecAttrProtocolDAAP    as! String   :  return "daap"
+        case kSecAttrProtocolEPPC  as! String     :  return "eppc"
+        case kSecAttrProtocolIPP    as! String    :  return "ipp"
+        case kSecAttrProtocolNNTPS  as! String    :  return "nntps"
+        case kSecAttrProtocolLDAPS   as! String   :  return "ldaps"
+        case kSecAttrProtocolTelnetS as! String   :  return "telnets"
+        case kSecAttrProtocolIMAPS    as! String  :  return "imaps"
+        case kSecAttrProtocolIRCS     as! String  :  return "ircs"
+        case kSecAttrProtocolPOP3S  as! String    :  return "pop3s"
+        default: return shortName
+        }
+    }
+    
+    
 //*MARK: -
     
     var name: String?
@@ -111,7 +149,7 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
                 if ((srvr != nil)  && (ptcl != nil ))
                 {
                     //TODO: Protocol String should chang it!
-                    var position: String = ptcl! + "://" + srvr!
+                    var position: String = XGSecurityItem.protocolFullName(ptcl!) + "://" + srvr!
                     if (path != nil) { position += path! }
                     self.position = position
                 }
@@ -175,7 +213,6 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
     func isSameWith(otherItem: XGSecurityItem) -> Bool {
         
         if (self.applicationNum != otherItem.applicationNum
-            || self.createTime != otherItem.createTime
             || self.creator != otherItem.creator) {
                 return false
         }
@@ -284,7 +321,7 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
     }
     
     override func key() -> String {
-        var key = String()
+        var key = "key-"
         if(nil != self.name) { key += self.name! }
         if(nil != self.account) { key += self.account! }
         if(nil != self.position) { key += self.position! }

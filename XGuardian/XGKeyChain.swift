@@ -27,6 +27,8 @@ class XGKeyChain  {
     
     
     class func getClassAllKey(classValue:Keychain.Query.KSecClassValue ) -> NSArray? {
+        
+        // create qurey
         let query = Keychain.Query()
         query.kSecClass = classValue
         query.kSecReturnRef = true
@@ -34,26 +36,17 @@ class XGKeyChain  {
         query.kSecReturnPersistentRef = true
         query.kSecMatchLimit = Keychain.Query.KSecMatchLimitValue.kSecMatchLimitAll
         
-        
+    
         let res = Keychain.secItemCopyMatching(query: query)
-        //assert(res.status != Keychain.ResultCode.errSecSuccess, "SecItemCopyMatching returned error\(res.status)")
-        //println("Status of secItemCopyMatching: \(res.status.toRaw())")
-        
+        if res.status != Keychain.ResultCode.errSecSuccess {
+            NSLog("secItemCopy error: \(res.status)")
+        }
         let r = res.result
         if (r == nil){
-            //TODO error process
             return nil
-        } else {
-            //println("ressult TypeID: \(CFGetTypeID(r)) \(CFCopyTypeIDDescription(CFGetTypeID(r))) Description: \(r)")
         }
         
         let resultArray = r as? NSArray
-        if ( r == nil) {
-            //TODO error process
-            return nil
-        }
-        //println("ressult Description: \(resultArray)")
-        
         return resultArray;
     }
     

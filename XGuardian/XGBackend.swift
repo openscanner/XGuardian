@@ -87,12 +87,12 @@ class XGBackend: NSObject {
             
             let currentVersion = XGBackend.currentVersion()
             NSLog("currentVersion:\(currentVersion)")
-            
-            //TODO: check current version
+                 
             //don't update
             if (nil != lastedVersion) && (version.version == lastedVersion!.version) {
                 return
             }
+            //check current version
             if (version.version == currentVersion) {
                 return
             }

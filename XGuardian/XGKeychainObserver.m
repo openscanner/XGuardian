@@ -95,9 +95,9 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
         _keychain = cbinfo->keychain;
         
         _pid = cbinfo->pid;
-        _appName = appInfo.localizedName;
-        _bundleID = appInfo.bundleIdentifier;
-        _bundleURL = appInfo.bundleURL;
+        _appName = [appInfo localizedName];
+        _bundleID = [appInfo bundleIdentifier];
+        _bundleURL = [appInfo bundleURL];
         
         _securityItem = securityItem;
  
@@ -203,7 +203,9 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
     }
     
     NSRunningApplication *appInfo = [NSRunningApplication runningApplicationWithProcessIdentifier:cbinfo->pid];
+
     XGKeychainCallbackInfo* info = [[XGKeychainCallbackInfo alloc] init:event CBInfo:cbinfo AppInfo:appInfo SecurityItem:securityItem];
+    
     [self performSelector:@selector(keychainEventProcessor:) onThread:[self thread] withObject:info waitUntilDone:NO];
 }
 
@@ -224,7 +226,7 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
 
 - (void) keychainEventProcessor:(XGKeychainCallbackInfo *)info {
     
-    NSLog(@"SecKeychainCallbackInfo:\n event:%d version:%d pid:%d \n App Name:%@\nbundle ID:%@\nbudle URL:%@\n item:%@", [info event], [info version], [info pid], info.appName, info.bundleID, info.bundleURL, info.securityItem);
+    NSLog(@"SecKeychainCallbackInfo:\nevent:%d version:%d pid:%d \nApp Name:%@\nbundle ID:%@\nbudle URL:%@\n item:%@", [info event], [info version], [info pid], info.appName, info.bundleID, info.bundleURL, info.securityItem);
     
     //find same key info in the dictionary
     XGSecurityItemSet *itemSet = [XGKeyChain getItemSet];
@@ -234,7 +236,7 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
     }
     
     //check the application list change
-    if (oldItem == info.securityItem) {
+    if ((info.securityItem.applicationNum !=1) &&  (oldItem.applicationNum != 1) ) {
         return;
     }
     
