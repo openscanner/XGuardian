@@ -59,8 +59,8 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         
         internal var description: String { get {
             switch self {
-            case InternetPassword:          return "InternetPassword"
-            case GenericPassword:           return "GenericPassword"
+            case InternetPassword:          return "Internet Password"
+            case GenericPassword:           return "Generic Password"
             case Certificate:               return "Certificate"
             case Key:                       return "Key"
             case Identity:                  return "Identity"

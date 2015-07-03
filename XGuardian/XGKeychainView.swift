@@ -75,6 +75,7 @@ class XGKeychainView: NSView, NSTableViewDelegate, NSTableViewDataSource {
             iconView.image = image;
         }
         
+        self.classLabel.objectValue = item.classType?.description;
         self.nameLabel.objectValue = item.name
         self.accountLabel.objectValue = item.account
         self.positionLabel.objectValue = item.position
