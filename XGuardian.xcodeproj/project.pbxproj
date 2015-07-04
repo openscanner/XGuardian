@@ -25,6 +25,7 @@
 		198EE6FF1B412D63001A7BF2 /* KeychainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 198EE6FE1B412D63001A7BF2 /* KeychainView.xib */; };
 		198EE7021B413059001A7BF2 /* XGKeychainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE7011B413059001A7BF2 /* XGKeychainView.swift */; };
 		198EE7041B424EBC001A7BF2 /* XGHijackListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE7031B424EBC001A7BF2 /* XGHijackListCell.swift */; };
+		19A241BF1B4823F200890B93 /* XGHijackListAppCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A241BE1B4823F200890B93 /* XGHijackListAppCell.swift */; };
 		19BC414C1B4409D5009AF853 /* XGBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BC414B1B4409D5009AF853 /* XGBackend.swift */; };
 		C20938C61892D0ACBC8FE1CF /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6A6CE876F90E31416DD60E9 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -66,6 +67,7 @@
 		198EE6FE1B412D63001A7BF2 /* KeychainView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KeychainView.xib; sourceTree = "<group>"; };
 		198EE7011B413059001A7BF2 /* XGKeychainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGKeychainView.swift; sourceTree = "<group>"; };
 		198EE7031B424EBC001A7BF2 /* XGHijackListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGHijackListCell.swift; sourceTree = "<group>"; };
+		19A241BE1B4823F200890B93 /* XGHijackListAppCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGHijackListAppCell.swift; sourceTree = "<group>"; };
 		19BC414B1B4409D5009AF853 /* XGBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGBackend.swift; sourceTree = "<group>"; };
 		C0EDF1BB52CAE8A7D14BBF21 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F6A6CE876F90E31416DD60E9 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,6 +130,7 @@
 				198EE6FC1B410EAD001A7BF2 /* XGHijackView.swift */,
 				194D0E031B41855200A62650 /* XGHijackListView.swift */,
 				198EE7031B424EBC001A7BF2 /* XGHijackListCell.swift */,
+				19A241BE1B4823F200890B93 /* XGHijackListAppCell.swift */,
 				198EE7011B413059001A7BF2 /* XGKeychainView.swift */,
 				198EE6911B40F728001A7BF2 /* Images.xcassets */,
 				198EE68D1B40F728001A7BF2 /* Supporting Files */,
@@ -369,6 +372,7 @@
 				198EE7021B413059001A7BF2 /* XGKeychainView.swift in Sources */,
 				198EE6C41B40F9E4001A7BF2 /* KeychainSwiftAPI.swift in Sources */,
 				198EE7041B424EBC001A7BF2 /* XGHijackListCell.swift in Sources */,
+				19A241BF1B4823F200890B93 /* XGHijackListAppCell.swift in Sources */,
 				198EE6C51B40F9E4001A7BF2 /* XGKeychainObserver.m in Sources */,
 				198EE6F51B40FADA001A7BF2 /* XGSecurityItem.swift in Sources */,
 				198EE6901B40F728001A7BF2 /* AppDelegate.swift in Sources */,

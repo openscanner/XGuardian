@@ -51,8 +51,9 @@ class XGSecurityItemSet: NSObject {
         var valueArray = [XGSecurityItem]()
         
         for item in self.itemDict.values {
+             //valid checking
             if(item.islikely()){
-                //TODO : valid checking should be add
+               
                 valueArray.append(item)
             }
         }

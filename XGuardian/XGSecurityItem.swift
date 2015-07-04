@@ -148,7 +148,7 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
                 
                 if ((srvr != nil)  && (ptcl != nil ))
                 {
-                    //TODO: Protocol String should chang it!
+                    //Protocol String should chang with fullname
                     var position: String = XGSecurityItem.protocolFullName(ptcl!) + "://" + srvr!
                     if (path != nil) { position += path! }
                     self.position = position

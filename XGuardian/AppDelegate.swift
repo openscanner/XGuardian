@@ -16,15 +16,24 @@ private let nagivationData =  [["name":hijackName, "image":hijackImage],
     ["name":keychainName, "image":keychainImage]
 ]
 
+var staticTopLevelItems = [NSString(string: "Keychain")]
+var staticChildrenValue = [NSString(string:"HijackView"), NSString(string:"KeychainView")]
+var staticChildrenDictionary = [NSString(string:"Keychain"): staticChildrenValue]
+
 private let updateTimerInterval = 21600.0
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate, NSPageControllerDelegate,NSWindowDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSOutlineViewDelegate, NSOutlineViewDataSource, NSSplitViewDelegate {
 
     @IBOutlet weak var window: NSWindow!
-    @IBOutlet weak var nagivationView: NSTableView!
-    @IBOutlet weak var pageController: NSPageController!
-
+    @IBOutlet var nagivationView: NSOutlineView!
+    @IBOutlet var mainContentView: NSView!
+    
+    //let topLevelItems = staticTopLevelItems
+    //let childrenDictionary = staticChildrenDictionary
+    
+    //[String:[String]]?
+    var currentContentViewController: NSViewController?
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         //
@@ -54,23 +63,137 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPageControllerDelegate,NSW
     
     func loadViews() {
         
-        window.delegate = self
-        window.autodisplay = true
-        window.restorable = true
+        //window.delegate = self
+        //window.autodisplay = true
+        //window.restorable = true
+        
         //nagivation table view
-        pageController.delegate = self as NSPageControllerDelegate;
-        
-        pageController.arrangedObjects = nagivationData;
-        pageController.transitionStyle = NSPageControllerTransitionStyle.StackBook
-        
-        self.nagivationView.headerView = nil;
+        self.nagivationView.sizeLastColumnToFit()
         self.nagivationView.reloadData()
+        self.nagivationView.floatsGroupRows = false
+        self.nagivationView.rowSizeStyle = NSTableViewRowSizeStyle.Default
+        
+        
+        // Expand all the root items; disable the expansion animation that normally happens
+        NSAnimationContext.beginGrouping()
+        NSAnimationContext.currentContext().duration = NSTimeInterval(0)
+        self.nagivationView.expandItem(nil, expandChildren: true)
+        NSAnimationContext.endGrouping()
+
+        
+        //self.nagivationView.headerView = nil;
+        //self.nagivationView.reloadData()
         //TODO: set the first card in our list
-        self.nagivationView.selectRowIndexes(NSIndexSet(index: 0), byExtendingSelection: false)
+        self.nagivationView.selectRowIndexes(NSIndexSet(index: 1), byExtendingSelection: false)
+    }
+    
+    private func childrenForItem(item: AnyObject?) ->  [NSString] {
+        if  nil != item {
+            return staticChildrenValue
+        }
+        return staticTopLevelItems
+    }
+    
+    //delegate for outline view
+    func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
+        return self.childrenForItem(item).count
+    }
+    
+    //delegate for outline view; get item for index
+    func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
+        let array = self.childrenForItem(item as? NSString)
+        return array[index]
+        //return self.childrenForItem(item)[index]
+    }
+    
+    //delegate for outline view; expandable
+    func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
+       if outlineView.parentForItem(item) == nil  {
+            return true
+        }
+        return false
+    }
+    
+    //delegate for outline view; is group
+   func outlineView(outlineView: NSOutlineView, isGroupItem item: AnyObject) -> Bool {
+        if let key = item as? NSString  {
+            let isGroup = (staticTopLevelItems as NSArray).containsObject(key)
+            return isGroup
+        }
+        return false
+    }
+    
+    //delegate for outline view
+    func outlineView(outlineView: NSOutlineView, shouldShowOutlineCellForItem item: AnyObject) -> Bool {
+        //no show hide
+        return false
+        /*if let itemStr = item as? NSString {
+            if itemStr.isEqualToString("Keychain") {
+                return false
+            }
+        }
+        return true;*/
     }
     
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    //delegate for outline view
+    func outlineView(outlineView: NSOutlineView, viewForTableColumn tableColumn: NSTableColumn?, item: AnyObject) -> NSView? {
+        
+        // For the groups, we just return a regular text view.
+        if  (staticTopLevelItems as NSArray).containsObject(item) {
+            if let result =  outlineView.makeViewWithIdentifier("HeaderCell", owner: self) as? NSTableCellView {
+                result.textField?.objectValue = (item as! NSString).uppercaseString
+                //result.textField?.accessibilitySelected = false
+                return result
+            }
+        }  else {
+            if let result =  outlineView.makeViewWithIdentifier("DataCell", owner: self) as? NSTableCellView {
+                
+                
+                //set icon
+                let parent: (AnyObject?) = outlineView.parentForItem(item)
+                let index = (staticTopLevelItems as NSArray).indexOfObject(parent!)
+                switch item as! String {
+                case "HijackView":
+                    result.textField?.objectValue = "Hijack Scan"
+                    result.imageView?.objectValue = NSImage(named:NSImageNameQuickLookTemplate)
+                case "KeychainView":
+                    result.textField?.objectValue = "Keychain Item List"
+                    result.imageView?.objectValue = NSImage(named:NSImageNameListViewTemplate)
+                default:
+                    break
+                }
+                
+                //
+                return result
+                
+               /* BOOL hideUnreadIndicator = YES;
+                // Setup the unread indicator to show in some cases. Layout is done in SidebarTableCellView's viewWillDraw
+                if (index == 0) {
+                    // First row in the index
+                    hideUnreadIndicator = NO;
+                    [result.button setTitle:@"42"];
+                    [result.button sizeToFit];
+                    // Make it appear as a normal label and not a button
+                    [[result.button cell] setHighlightsBy:0];
+                } else if (index == 2) {
+                    // Example for a button
+                    hideUnreadIndicator = NO;
+                    result.button.target = self;
+                    result.button.action = @selector(buttonClicked:);
+                    [result.button setImage:[NSImage imageNamed:NSImageNameAddTemplate]];
+                    // Make it appear as a button
+                    [[result.button cell] setHighlightsBy:NSPushInCellMask|NSChangeBackgroundCellMask];
+                }
+                [result.button setHidden:hideUnreadIndicator];
+                return result;*/
+            }
+        }
+        return nil
+    }
+    
+    
+    /*func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         return nagivationData.count;
     }
     
@@ -88,61 +211,40 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSPageControllerDelegate,NSW
         return nil
     }
     
-    
-    func tableViewSelectionDidChange(notification: NSNotification) {
-        let row = self.nagivationView.selectedRow;
-        if( row < 0 && row > nagivationData.count && row == self.pageController.selectedIndex) {
-            return
-        }
-        // The selection of the table view changed. We want to animate to the new selection.
-        // However, since we are manually performing the animation,
-        // -pageControllerDidEndLiveTransition: will not be called. We are required to
-        // [self.pageController completeTransition] when the animation completes.
-        //
-        self.pageController.selectedIndex = row
-        NSAnimationContext.runAnimationGroup( {context in self.pageController.animator().selectedIndex = row; return ()}, completionHandler: {self.pageController.completeTransition()})
-        
-    }
-    
-    //- (void)scrollWheel:(NSEvent *)theEvent
-    
-    //*MARK: NSPageControllerDelegate
-    
-    func pageController(pageController: NSPageController,viewControllerForIdentifier identifier: String!) -> NSViewController! {
-        
-        let view = NSViewController(nibName: identifier, bundle: nil)
-        return view
-    }
-    
-    func pageController(pageController: NSPageController, identifierForObject object: AnyObject!) -> String! {
-        
-        let dict:[String:String] = object as! [String:String]
-    
-        let name = dict["name"]
-        if(hijackName == name) {
-            return "HijackView"
-        } else {
-            return "KeychainView"
-        }
-    }
-    
-   /* func pageController(pageController: NSPageController, prepareViewController viewController: NSViewController!, withObject object: AnyObject!) {
-        
-        viewController.loadView();
-        return;
+    func splitView(splitView: NSSplitView, canCollapseSubview subview: NSView) -> Bool {
+        return false
     }*/
     
+    /**********************/
     
-    func pageController(pageController: NSPageController, frameForObject object: AnyObject!) -> NSRect {
-        return NSInsetRect(pageController.view.bounds, 1, 1);
+   /* TODO*/
+    private func setContentView(#name: String) {
+        if let currentVC = self.currentContentViewController {
+            currentVC.view.removeFromSuperview()
+        }
+        self.currentContentViewController = NSViewController(nibName: name, bundle: nil)
+        if let view = self.currentContentViewController?.view {
+            //view.frame = self.mainContentView.bounds
+            //view.autoresizingMask = NSAutoresizingMaskOptions.ViewWidthSizable | NSAutoresizingMaskOptions.ViewHeightSizable
+            self.mainContentView.addSubview(view)
+        }
     }
     
-    func pageControllerDidEndLiveTransition(pageController: NSPageController) {
-        
-        //self.nagivationView.selectRowIndexes(NSIndexSet(index: pageController.selectedIndex), byExtendingSelection: false)
-        
-        pageController.completeTransition();
+    func outlineViewSelectionDidChange(notification: NSNotification) {
+        let row = self.nagivationView.selectedRow;
+        if(row != -1 ) {
+            if let item = self.nagivationView.itemAtRow(row) as? String {
+            if self.nagivationView.parentForItem(item) != nil {
+                self.setContentView(name: item as String)
+                return;
+            }
+            }
+        }
     }
+    
+    
+
+    
     
     
 

@@ -1078,7 +1078,7 @@ public class Keychain
     }
     
     // not warpper
-    public class func secGetACL(#access :SecAccessRef!) -> SecACLRef?
+    public class func secAccessCopyMatchingACLList(#access :SecAccessRef!) -> SecACLRef?
     {
         let authorizationTag:CFTypeRef = kSecACLAuthorizationDecrypt.takeRetainedValue();
         let alcListRaw = SecAccessCopyMatchingACLList( access , authorizationTag)
@@ -1105,6 +1105,13 @@ public class Keychain
 
     }
     
+    public class func secACLSetContents(#alc: SecACLRef, applicationList:NSArray?, description: String?, promptSelector: SecKeychainPromptSelector) -> ResultCode {
+       
+        let status = SecACLSetContents( alc, applicationList, description, promptSelector)
+        
+        return ResultCode.fromRaw(status)
+    }
+    
     
     /*
     func SecTrustedApplicationCopyData(_ appRef: SecTrustedApplication!,
@@ -1122,37 +1129,46 @@ public class Keychain
         return (status: status, data:data)
     }
     
+    public class func secTrustedApplicationSetData(#appRef: SecTrustedApplication, data : NSData) -> ResultCode
+    {
+        let dataRaw  = data as CFData
+        let statusRaw = SecTrustedApplicationSetData(appRef, dataRaw)
+        
+        let status = ResultCode.fromRaw(statusRaw)
+        return status
+    }
+    
     public static let secAuthorizeAllApp = "Any Application"
     public class func secGetAppList(#itemRef :SecKeychainItemRef ) -> (status:ResultCode, appList:[String]?)
     {
         let accessRes = secKeychainItemCopyAccess(itemRef: itemRef)
         if accessRes.status != ResultCode.errSecSuccess {
-            //println("secKeychainItemCopyAccess error")
+            NSLog("secKeychainItemCopyAccess error")
             return (status: accessRes.status, appList:nil)
         }
         
-        let alc = secGetACL(access: accessRes.access)
+        let alc = secAccessCopyMatchingACLList(access: accessRes.access)
         let alcContent = secACLCopyContents(alc: alc!)
         if alcContent.status != ResultCode.errSecSuccess {
-            //println("secACLCopyContents error")
+            NSLog("secACLCopyContents error")
             return (status: accessRes.status, appList:nil)
         }
         
         var appList = [String]()
         
         if let appListArray = alcContent.applicationList {
-            for appData in appListArray {
-                let appRef = appData as! SecTrustedApplicationRef
+            for appRefData in appListArray {
+                let appRef = appRefData as! SecTrustedApplicationRef
                 let res3 = secTrustedApplicationCopyData(appRef: appRef)
                 
                 if res3.status != ResultCode.errSecSuccess {
-                    //println("secTrustedApplicationCopyData error")
+                    NSLog("secTrustedApplicationCopyData error")
                 }
                 
-                let appData = res3.data;
+                let appPathData = res3.data;
                 
-                let appString = NSString(data:appData, encoding:NSUTF8StringEncoding) as! String
-                //println("appdata \(appData) \(appString)")
+                let appString = NSString(data:appPathData, encoding:NSUTF8StringEncoding) as! String
+                //println("appRefData \(appRefData) \(appString)")
                 appList.append(appString)
             }
         }else {     
@@ -1162,6 +1178,114 @@ public class Keychain
         return (status:ResultCode.errSecSuccess, appList:appList)
     }
     
+   public class func secRemoveApp(#itemRef :SecKeychainItemRef, applicationFullPath : String) -> ResultCode {
+        
+        let accessRes = secKeychainItemCopyAccess(itemRef: itemRef)
+        if accessRes.status != ResultCode.errSecSuccess {
+            NSLog("secKeychainItemCopyAccess error")
+            return (status: accessRes.status)
+        }
+        
+        let alc = secAccessCopyMatchingACLList(access: accessRes.access)
+        let alcContent = secACLCopyContents(alc: alc!)
+        if alcContent.status != ResultCode.errSecSuccess {
+            NSLog("secACLCopyContents error")
+            return (status: accessRes.status)
+        }
+        
+        var resultCode = ResultCode.errSecSuccess
+        
+        var appMutableArray = NSMutableArray()
+        if let appArray = alcContent.applicationList {
+            
+            appMutableArray.setArray(appArray as [AnyObject])
+            
+            for appRefData in appArray {
+                let appRef = appRefData as! SecTrustedApplicationRef
+                let res3 = secTrustedApplicationCopyData(appRef: appRef)
+                
+                if res3.status != ResultCode.errSecSuccess {
+                    //println("secTrustedApplicationCopyData error")
+                }
+                
+                let appPathData = res3.data;
+                
+                let appString = NSString(data:appPathData, encoding:NSUTF8StringEncoding) as! String
+                if(appString == applicationFullPath){
+                    appMutableArray.removeObject(appRefData)
+                    resultCode = secACLSetContents(alc: alc!, applicationList: appMutableArray, description: alcContent.description, promptSelector: alcContent.promptSelector);
+                    var statusRaw = SecKeychainItemSetAccess (itemRef, accessRes.access);
+                    resultCode = ResultCode.fromRaw(statusRaw)
+
+                    break;
+                }
+            }
+        }
+        
+        return resultCode
+    }
     
+   /* public class func secRemoveApp(#itemRef :SecKeychainItemRef, applicationFullPath : String) -> ResultCode {
+        
+        let accessRes = secKeychainItemCopyAccess(itemRef: itemRef)
+        if accessRes.status != ResultCode.errSecSuccess {
+            NSLog("secKeychainItemCopyAccess error")
+            return (status: accessRes.status)
+        }
+        
+        let alc = secAccessCopyMatchingACLList(access: accessRes.access)
+        let alcContent = secACLCopyContents(alc: alc!)
+        if alcContent.status != ResultCode.errSecSuccess {
+            NSLog("secACLCopyContents error")
+            return (status: accessRes.status)
+        }
+        
+        var resultCode = ResultCode.errSecSuccess
+        
+        var appMutableArray = NSMutableArray()
+        if let appArray = alcContent.applicationList {
+            
+            appMutableArray.setArray(appArray as [AnyObject])
+            
+            for appRefData in appArray {
+                let appRef = appRefData as! SecTrustedApplicationRef
+                let res3 = secTrustedApplicationCopyData(appRef: appRef)
+                
+                
+                let appPathData = res3.data;
+                
+                let appString = NSString(data:appPathData, encoding:NSUTF8StringEncoding) as! String
+                if(appString == applicationFullPath){
+                    
+                    var newACLUnmanaged : Unmanaged<SecACL>?
+                    //remove app
+                    appMutableArray.removeObject(appRefData)
+                    
+                    // Get the authorizations from the old ACL.
+                    let authorizationsUnmanaged : Unmanaged<CFArray> = SecACLCopyAuthorizations(alc) //TODO
+                    
+                    // Delete the old ACL from the access object. The user is
+                    // prompted for permission to alter the keychain item.
+                    var statusRaw = SecACLRemove (alc);
+                    
+                    // Create a new ACL with the same attributes as the old
+                    // one, except use the new CFArray of trusted applications.
+                    statusRaw = SecACLCreateWithSimpleContents (accessRes.access!, appMutableArray, alcContent.description, alcContent.promptSelector,
+                    &newACLUnmanaged);
+                    
+                    // Set the authorizations for the new ACL to be the same as
+                    //  those for the old ACL.
+                    let newACL = newACLUnmanaged?.takeRetainedValue() as SecACL!
+                    let authorizations = authorizationsUnmanaged.takeRetainedValue() as CFArray!
+                    statusRaw = SecACLUpdateAuthorizations (newACL, authorizations);
+                    
+                    statusRaw = SecKeychainItemSetAccess (itemRef, accessRes.access);
+                    resultCode = ResultCode.fromRaw(statusRaw)
+                }
+            }
+        }
+        
+        return resultCode
+    }*/
 
 }
