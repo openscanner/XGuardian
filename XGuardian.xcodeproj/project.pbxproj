@@ -10,6 +10,7 @@
 		1934F43D1B443EAA00B0F3D7 /* update.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1934F43C1B443EAA00B0F3D7 /* update.xib */; };
 		1934F4431B44427400B0F3D7 /* XGUpdatePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1934F4421B44427400B0F3D7 /* XGUpdatePanel.swift */; };
 		194D0E041B41855200A62650 /* XGHijackListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194D0E031B41855200A62650 /* XGHijackListView.swift */; };
+		19750DA01B4A7EED0089F467 /* XGMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19750D9F1B4A7EED0089F467 /* XGMainViewController.swift */; };
 		198EE6901B40F728001A7BF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE68F1B40F728001A7BF2 /* AppDelegate.swift */; };
 		198EE6921B40F728001A7BF2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 198EE6911B40F728001A7BF2 /* Images.xcassets */; };
 		198EE6951B40F728001A7BF2 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 198EE6931B40F728001A7BF2 /* MainMenu.xib */; };
@@ -45,6 +46,7 @@
 		1934F43C1B443EAA00B0F3D7 /* update.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = update.xib; sourceTree = "<group>"; };
 		1934F4421B44427400B0F3D7 /* XGUpdatePanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGUpdatePanel.swift; sourceTree = "<group>"; };
 		194D0E031B41855200A62650 /* XGHijackListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGHijackListView.swift; sourceTree = "<group>"; };
+		19750D9F1B4A7EED0089F467 /* XGMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGMainViewController.swift; sourceTree = "<group>"; };
 		198EE68A1B40F728001A7BF2 /* XGuardian.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XGuardian.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		198EE68E1B40F728001A7BF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		198EE68F1B40F728001A7BF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				198EE68F1B40F728001A7BF2 /* AppDelegate.swift */,
+				19750D9F1B4A7EED0089F467 /* XGMainViewController.swift */,
 				198EE6FC1B410EAD001A7BF2 /* XGHijackView.swift */,
 				194D0E031B41855200A62650 /* XGHijackListView.swift */,
 				198EE7031B424EBC001A7BF2 /* XGHijackListCell.swift */,
@@ -364,6 +367,7 @@
 			files = (
 				198EE6F91B40FB09001A7BF2 /* XGSecurityItemSet.swift in Sources */,
 				19BC414C1B4409D5009AF853 /* XGBackend.swift in Sources */,
+				19750DA01B4A7EED0089F467 /* XGMainViewController.swift in Sources */,
 				198EE6FD1B410EAD001A7BF2 /* XGHijackView.swift in Sources */,
 				1934F4431B44427400B0F3D7 /* XGUpdatePanel.swift in Sources */,
 				198EE6F71B40FB01001A7BF2 /* XGKeyChain.swift in Sources */,

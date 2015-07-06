@@ -6,7 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
             <connections>
-                <outlet property="delegate" destination="Voe-Tx-rLC" id="GzC-gU-4Uq"/>
+                <outlet property="delegate" destination="Voe-Tx-rLC" id="btu-tk-zgv"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
@@ -14,11 +14,17 @@
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="XGuardian" customModuleProvider="target">
             <connections>
                 <outlet property="mainContentView" destination="2Cj-c3-sa6" id="bAs-oV-gmf"/>
-                <outlet property="nagivationView" destination="maM-vb-sAN" id="ThB-yB-ZVe"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
+        <viewController id="bMU-15-mjG" customClass="XGMainViewController" customModule="XGuardian" customModuleProvider="target">
+            <connections>
+                <outlet property="mainContentView" destination="2Cj-c3-sa6" id="qtO-13-vUd"/>
+                <outlet property="nagivationView" destination="maM-vb-sAN" id="s7l-z6-Si7"/>
+                <outlet property="view" destination="EiT-Mj-1SZ" id="Dsv-fW-cz5"/>
+            </connections>
+        </viewController>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
             <items>
                 <menuItem title="XGuardian" id="1Xt-HY-uBw">
@@ -753,8 +759,8 @@
                                                         </tableColumn>
                                                     </tableColumns>
                                                     <connections>
-                                                        <outlet property="dataSource" destination="Voe-Tx-rLC" id="l9U-zV-cKM"/>
-                                                        <outlet property="delegate" destination="Voe-Tx-rLC" id="hge-Ny-0qs"/>
+                                                        <outlet property="dataSource" destination="bMU-15-mjG" id="uVC-JS-Dis"/>
+                                                        <outlet property="delegate" destination="bMU-15-mjG" id="U3A-kI-Gzd"/>
                                                     </connections>
                                                 </outlineView>
                                             </subviews>

@@ -66,7 +66,7 @@ class XGHijackView: NSView, NSUserNotificationCenterDelegate {
             
             self.owner.view = self.hijackListView
             self.upperView = self.superview
-            //self.superview?.addSubview(self.hijackListView)
+            self.superview?.addSubview(self.hijackListView)
             self.superview?.replaceSubview(self, with:self.hijackListView)
         }
         return;
@@ -77,7 +77,7 @@ class XGHijackView: NSView, NSUserNotificationCenterDelegate {
         self.scanState = ScanSate.INIT
         self.scanButton.title = "SCAN"
         self.owner.view = self
-        //self.upperView?.addSubview(self)
+        self.upperView?.addSubview(self)
         self.upperView?.replaceSubview(self.hijackListView, with:self)
         //self.owner.loadView()
         
