@@ -155,10 +155,6 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
                 }
             }
             
-            // no support types under at now
-            //case ClassType.kSecClassCertificate
-            //case ClassType.Key
-            //case ClassTypeIdentity
         }
         
         // account
@@ -225,31 +221,24 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         return true;
     }
     
-    private func checkApple(fullPath: String) -> Bool {
+    private func checkApple(appFullPath: String) -> Bool {
         
-       /* if (fullPath == String(UTF8String:"group://InternetAccounts")) {
-            return true
-        } else if ( fullPath == "group://AirPort" ) { "group://IMCore"
-            return true
-        }*/
         //TODO : change String compare 
-        if fullPath.hasPrefix("group:") {
+        if appFullPath.hasPrefix("group:") {
             return true
         }
-        if fullPath.hasPrefix("InternetAccounts") {
+        if appFullPath.hasPrefix("InternetAccounts") {
             return true
         }
-        
-
         
         var ref : Unmanaged<SecStaticCode>?
-        let url = NSURL(fileURLWithPath: fullPath)!
+        let url = NSURL(fileURLWithPath: appFullPath)!
         
         
         let cfUrl = url as CFURL;
         
 
-        var status = SecStaticCodeCreateWithPath(cfUrl , SecCSFlags(kSecCSDefaultFlags) /*0 kSecCSDefaultFlags*/, &ref)
+        var status = SecStaticCodeCreateWithPath(cfUrl , SecCSFlags(kSecCSDefaultFlags) /*0*/, &ref)
         if status != errSecSuccess || ref == nil {
             return false
         }
@@ -272,7 +261,7 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         return false
     }
     
-    func islikely() -> Bool {
+    func isLikely() -> Bool {
         
         if ( applicationNum == 0 || applicationNum == 1 ){
             return false;

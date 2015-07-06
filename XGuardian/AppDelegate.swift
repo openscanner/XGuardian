@@ -66,6 +66,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSOutlineV
         //window.delegate = self
         //window.autodisplay = true
         //window.restorable = true
+        self.window.titlebarAppearsTransparent = true
+        self.window.movableByWindowBackground = true
+        self.window.titleVisibility = NSWindowTitleVisibility.Hidden
+        //self.window.styleMask |= NSFullSizeContentViewWindowMask;
         
         //nagivation table view
         self.nagivationView.sizeLastColumnToFit()

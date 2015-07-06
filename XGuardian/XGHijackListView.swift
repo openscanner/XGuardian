@@ -8,8 +8,8 @@
 
 import Cocoa
 
-private let noHijackStr = "Congratulation! We don't find hijack!"
-private let noHijackImage = NSImageNameStatusAvailable
+private let noHijackStr = "Congratulation! We don't find any hijack!"
+private let noHijackImage = NSImageNameApplicationIcon
 private let hijackStr = "OW, NO!"
 private let hijackImage = NSImageNameCaution
 

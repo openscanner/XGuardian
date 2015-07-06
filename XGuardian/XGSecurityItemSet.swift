@@ -52,7 +52,7 @@ class XGSecurityItemSet: NSObject {
         
         for item in self.itemDict.values {
              //valid checking
-            if(item.islikely()){
+            if(item.isLikely()){
                
                 valueArray.append(item)
             }
