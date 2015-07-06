@@ -134,6 +134,7 @@ class XGHijackListView: NSView, NSOutlineViewDelegate, NSOutlineViewDataSource {
         //no show hide
         return false
     }
+    
     func outlineView(outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat {
         if let secItem = item as? XGSecurityItem  {
            return 100

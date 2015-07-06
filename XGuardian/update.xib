@@ -15,15 +15,18 @@
         <window title="XGuardian Upate" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" showsToolbarButton="NO" animationBehavior="default" id="KtN-3Z-yQh" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="757" y="627" width="300" height="200"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
+            <rect key="contentRect" x="757" y="627" width="374" height="262"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
             <view key="contentView" id="Nh5-gx-WzR">
-                <rect key="frame" x="0.0" y="-1" width="300" height="200"/>
+                <rect key="frame" x="0.0" y="0.0" width="374" height="262"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="U75-qD-sGL">
-                        <rect key="frame" x="14" y="13" width="83" height="32"/>
-                        <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AMF-5C-IoC">
+                        <rect key="frame" x="24" y="12" width="87" height="34"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="83" id="0Ja-01-i7b"/>
+                        </constraints>
+                        <buttonCell key="cell" type="bevel" title="Cancel" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AMF-5C-IoC">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                             <string key="keyEquivalent" base64-UTF8="YES">
@@ -34,20 +37,13 @@ Gw
                             <action selector="btnUpdateCancel:" target="-2" id="N1G-KL-cBd"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="uea-x2-pGh">
-                        <rect key="frame" x="20" y="63" width="244" height="117"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="117" id="vD8-al-Ngp"/>
-                        </constraints>
-                        <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="qZX-An-qFf">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="T3d-0x-7gI">
-                        <rect key="frame" x="168" y="13" width="102" height="32"/>
-                        <buttonCell key="cell" type="push" title="Download" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7eK-a3-6d5">
+                        <rect key="frame" x="247" y="13" width="102" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="27" id="xzY-sY-XKr"/>
+                            <constraint firstAttribute="width" constant="98" id="ztb-fH-IfQ"/>
+                        </constraints>
+                        <buttonCell key="cell" type="bevel" title="Download" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7eK-a3-6d5">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -55,21 +51,33 @@ Gw
                             <action selector="btnUpdateDownload:" target="-2" id="NGr-5J-L00"/>
                         </connections>
                     </button>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="uea-x2-pGh">
+                        <rect key="frame" x="18" y="59" width="338" height="178"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="178" id="u23-iq-9jz"/>
+                        </constraints>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" state="on" id="qZX-An-qFf">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="U75-qD-sGL" firstAttribute="leading" secondItem="uea-x2-pGh" secondAttribute="leading" id="45w-kg-Qab"/>
-                    <constraint firstItem="T3d-0x-7gI" firstAttribute="leading" secondItem="U75-qD-sGL" secondAttribute="trailing" constant="83" id="8XT-lk-dPB"/>
-                    <constraint firstItem="U75-qD-sGL" firstAttribute="baseline" secondItem="T3d-0x-7gI" secondAttribute="baseline" id="I7R-r4-saX"/>
-                    <constraint firstItem="uea-x2-pGh" firstAttribute="top" secondItem="Nh5-gx-WzR" secondAttribute="top" constant="20" symbolic="YES" id="Orj-g3-PAh"/>
-                    <constraint firstItem="uea-x2-pGh" firstAttribute="leading" secondItem="Nh5-gx-WzR" secondAttribute="leading" constant="20" symbolic="YES" id="TxB-nl-DyF"/>
-                    <constraint firstAttribute="bottom" secondItem="U75-qD-sGL" secondAttribute="bottom" constant="20" symbolic="YES" id="hVf-Ie-u0J"/>
-                    <constraint firstItem="uea-x2-pGh" firstAttribute="trailing" secondItem="T3d-0x-7gI" secondAttribute="trailing" id="oX2-1d-nlh"/>
+                    <constraint firstItem="U75-qD-sGL" firstAttribute="top" secondItem="uea-x2-pGh" secondAttribute="bottom" constant="15" id="GH9-Mt-6H8"/>
+                    <constraint firstItem="U75-qD-sGL" firstAttribute="centerY" secondItem="T3d-0x-7gI" secondAttribute="centerY" id="JGv-8h-SdL"/>
+                    <constraint firstItem="uea-x2-pGh" firstAttribute="leading" secondItem="Nh5-gx-WzR" secondAttribute="leading" constant="20" symbolic="YES" id="PLH-yT-a9L"/>
+                    <constraint firstItem="T3d-0x-7gI" firstAttribute="top" secondItem="uea-x2-pGh" secondAttribute="bottom" constant="16" id="Y05-hc-snp"/>
+                    <constraint firstItem="uea-x2-pGh" firstAttribute="top" secondItem="Nh5-gx-WzR" secondAttribute="top" constant="25" id="aXQ-l0-W42"/>
+                    <constraint firstAttribute="trailing" secondItem="T3d-0x-7gI" secondAttribute="trailing" constant="27" id="guw-10-G1A"/>
+                    <constraint firstItem="U75-qD-sGL" firstAttribute="leading" secondItem="Nh5-gx-WzR" secondAttribute="leading" constant="26" id="jKS-0w-igF"/>
+                    <constraint firstAttribute="trailing" secondItem="uea-x2-pGh" secondAttribute="trailing" constant="20" symbolic="YES" id="pMx-q2-E7P"/>
                 </constraints>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="M3N-Rn-Ng0"/>
             </connections>
-            <point key="canvasLocation" x="552" y="463"/>
+            <point key="canvasLocation" x="305" y="260"/>
         </window>
     </objects>
 </document>

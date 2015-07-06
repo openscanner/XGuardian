@@ -25,17 +25,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate{
         self.loadViews()
         
         //check update
-        XGBackend.updateLastedverion()
         //TODO:read timeinterval form plist add update check timer
-        NSTimer.scheduledTimerWithTimeInterval(updateTimerInterval, target: self, selector: Selector("processUpdateCheck:"), userInfo: nil, repeats: true)
+        NSTimer.scheduledTimerWithTimeInterval(15.0, target: self, selector: Selector("processUpdateCheck:"), userInfo: nil, repeats: false)
     }
     
     func applicationWillTerminate(aNotification: NSNotification) {
         // Insert code here to tear down your application
+
         XGKeychainObserver.stopObserve()
     }
     
     func processUpdateCheck(timer : NSTimer ) {
+        NSTimer.scheduledTimerWithTimeInterval(updateTimerInterval, target: self, selector: Selector("processUpdateCheck:"), userInfo: nil, repeats: false)
         XGBackend.updateLastedverion()
     }
     
@@ -54,7 +55,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate{
         self.window.titlebarAppearsTransparent = true
         self.window.movableByWindowBackground = true
         self.window.titleVisibility = NSWindowTitleVisibility.Hidden
-        //self.window.styleMask |= NSFullSizeContentViewWindowMask;
+        self.window.styleMask |= NSFullSizeContentViewWindowMask;
         
 
     }

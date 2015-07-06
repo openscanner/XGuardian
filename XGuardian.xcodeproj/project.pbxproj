@@ -28,6 +28,7 @@
 		198EE7041B424EBC001A7BF2 /* XGHijackListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE7031B424EBC001A7BF2 /* XGHijackListCell.swift */; };
 		19A241BF1B4823F200890B93 /* XGHijackListAppCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A241BE1B4823F200890B93 /* XGHijackListAppCell.swift */; };
 		19BC414C1B4409D5009AF853 /* XGBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BC414B1B4409D5009AF853 /* XGBackend.swift */; };
+		19FC85271B4ACC1A00D3AC9D /* threatsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19FC85261B4ACC1A00D3AC9D /* threatsView.xib */; };
 		C20938C61892D0ACBC8FE1CF /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6A6CE876F90E31416DD60E9 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -71,6 +72,7 @@
 		198EE7031B424EBC001A7BF2 /* XGHijackListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGHijackListCell.swift; sourceTree = "<group>"; };
 		19A241BE1B4823F200890B93 /* XGHijackListAppCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGHijackListAppCell.swift; sourceTree = "<group>"; };
 		19BC414B1B4409D5009AF853 /* XGBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGBackend.swift; sourceTree = "<group>"; };
+		19FC85261B4ACC1A00D3AC9D /* threatsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = threatsView.xib; sourceTree = "<group>"; };
 		C0EDF1BB52CAE8A7D14BBF21 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F6A6CE876F90E31416DD60E9 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -187,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				198EE6931B40F728001A7BF2 /* MainMenu.xib */,
+				19FC85261B4ACC1A00D3AC9D /* threatsView.xib */,
 				198EE6FA1B410E48001A7BF2 /* HijackView.xib */,
 				198EE6FE1B412D63001A7BF2 /* KeychainView.xib */,
 				1934F43C1B443EAA00B0F3D7 /* update.xib */,
@@ -299,6 +302,7 @@
 				198EE6FB1B410E48001A7BF2 /* HijackView.xib in Resources */,
 				198EE6921B40F728001A7BF2 /* Images.xcassets in Resources */,
 				198EE6951B40F728001A7BF2 /* MainMenu.xib in Resources */,
+				19FC85271B4ACC1A00D3AC9D /* threatsView.xib in Resources */,
 				1934F43D1B443EAA00B0F3D7 /* update.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

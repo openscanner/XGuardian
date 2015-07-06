@@ -678,7 +678,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="575" y="349" width="904" height="500"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="904" height="500"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -696,11 +696,11 @@
                                             <rect key="frame" x="1" y="1" width="148" height="398"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <outlineView appearanceType="vibrantLight" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="LW6-LS-kn2" id="maM-vb-sAN">
+                                                <outlineView appearanceType="vibrantLight" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" viewBased="YES" indentationPerLevel="16" outlineTableColumn="LW6-LS-kn2" id="maM-vb-sAN">
                                                     <rect key="frame" x="0.0" y="0.0" width="202" height="0.0"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="0.0"/>
-                                                    <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" red="0.039380736649036407" green="0.16011646389961243" blue="0.19833275675773621" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                     <tableColumns>
                                                         <tableColumn width="199" minWidth="16" maxWidth="1000" id="LW6-LS-kn2">
@@ -745,7 +745,7 @@
                                                                             <rect key="frame" x="25" y="0.0" width="120" height="17"/>
                                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="BQQ-Ri-zLw">
                                                                                 <font key="font" metaFont="system"/>
-                                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="textColor" red="0.98943418264389038" green="0.95794391632080078" blue="0.86405980587005615" alpha="1" colorSpace="calibratedRGB"/>
                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                             </textFieldCell>
                                                                         </textField>
@@ -766,6 +766,9 @@
                                             </subviews>
                                             <nil key="backgroundColor"/>
                                         </clipView>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="204" id="Q6d-ay-aZK"/>
+                                        </constraints>
                                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="SB4-cb-c2F">
                                             <rect key="frame" x="1" y="364.16285669803619" width="142" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
@@ -777,10 +780,15 @@
                                     </scrollView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="d5E-JU-4Q9" secondAttribute="trailing" id="Gil-5f-67P"/>
-                                    <constraint firstItem="d5E-JU-4Q9" firstAttribute="leading" secondItem="hUC-Sk-Igd" secondAttribute="leading" id="JEG-5c-aoh"/>
-                                    <constraint firstAttribute="bottom" secondItem="d5E-JU-4Q9" secondAttribute="bottom" id="XCR-cp-X6v"/>
-                                    <constraint firstItem="d5E-JU-4Q9" firstAttribute="top" secondItem="hUC-Sk-Igd" secondAttribute="top" id="oSf-YG-gof"/>
+                                    <constraint firstItem="d5E-JU-4Q9" firstAttribute="top" secondItem="hUC-Sk-Igd" secondAttribute="top" id="3F3-eC-NvW"/>
+                                    <constraint firstItem="d5E-JU-4Q9" firstAttribute="top" secondItem="hUC-Sk-Igd" secondAttribute="top" id="52e-1X-4kd"/>
+                                    <constraint firstAttribute="trailing" secondItem="d5E-JU-4Q9" secondAttribute="trailing" id="9ZH-kb-3ac"/>
+                                    <constraint firstAttribute="width" constant="204" id="Duz-pn-Phh"/>
+                                    <constraint firstAttribute="bottom" secondItem="d5E-JU-4Q9" secondAttribute="bottom" id="Fno-CL-RHX"/>
+                                    <constraint firstItem="d5E-JU-4Q9" firstAttribute="leading" secondItem="hUC-Sk-Igd" secondAttribute="leading" id="ibz-lI-guc"/>
+                                    <constraint firstAttribute="trailing" secondItem="d5E-JU-4Q9" secondAttribute="trailing" id="j9b-8s-Xd4"/>
+                                    <constraint firstItem="d5E-JU-4Q9" firstAttribute="leading" secondItem="hUC-Sk-Igd" secondAttribute="leading" id="jLC-RR-f0f"/>
+                                    <constraint firstAttribute="bottom" secondItem="d5E-JU-4Q9" secondAttribute="bottom" id="mgB-oV-ALJ"/>
                                 </constraints>
                             </customView>
                             <customView fixedFrame="YES" id="2Cj-c3-sa6">

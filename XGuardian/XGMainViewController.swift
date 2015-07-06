@@ -17,9 +17,8 @@ private let nagivationData =  [["name":hijackName, "image":hijackImage],
     ["name":keychainName, "image":keychainImage]
 ]
 
-var staticTopLevelItems = [NSString(string: "Keychain")]
-var staticChildrenValue = [NSString(string:"HijackView"), NSString(string:"KeychainView")]
-var staticChildrenDictionary = [NSString(string:"Keychain"): staticChildrenValue]
+let staticTopArray =  [NSString(string:" "), NSString(string:"Keychain"), NSString(string:"222")]
+let staticChildrenDictionary = [NSString(string:" ") : [NSString(string:" ")], NSString(string:"Keychain"): [NSString(string:"HijackView"), NSString(string:"KeychainView"), NSString(string: "threatsView")], NSString(string:"2") : [NSString(string:" ")]]
 
 class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineViewDataSource, NSSplitViewDelegate{
 
@@ -35,11 +34,11 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
         
         //nagivation table view
         self.nagivationView.sizeLastColumnToFit()
-        self.nagivationView.reloadData()
         self.nagivationView.floatsGroupRows = false
-        self.nagivationView.rowSizeStyle = NSTableViewRowSizeStyle.Default
+        //self.nagivationView.rowSizeStyle = NSTableViewRowSizeStyle.Custom
+        self.nagivationView.reloadData()
         
-        
+       
         // Expand all the root items; disable the expansion animation that normally happens
         NSAnimationContext.beginGrouping()
         NSAnimationContext.currentContext().duration = NSTimeInterval(0)
@@ -50,26 +49,31 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
         //self.nagivationView.headerView = nil;
         //self.nagivationView.reloadData()
         //TODO: set the first card in our list
-        self.nagivationView.selectRowIndexes(NSIndexSet(index: 1), byExtendingSelection: false)
+        self.nagivationView.selectRowIndexes(NSIndexSet(index: 2), byExtendingSelection: false)
     }
     
-    private func childrenForItem(item: AnyObject?) ->  [NSString] {
-        if  nil != item {
-            return staticChildrenValue
+    private func childrenForItem(item: AnyObject?) ->  [NSString]? {
+        if  let key = item as? NSString {
+            if(key.length <= 1) { return nil }
+            return staticChildrenDictionary[key]
         }
-        return staticTopLevelItems
+        let keys = staticTopArray
+        return keys
     }
     
     //delegate for outline view
     func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
-        return self.childrenForItem(item).count
+        if let childrens = self.childrenForItem(item){
+            return childrens.count
+        }
+        return 0
     }
     
     //delegate for outline view; get item for index
     func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
-        let array = self.childrenForItem(item as? NSString)
+        //it must be have data
+        let array = self.childrenForItem(item)!
         return array[index]
-        //return self.childrenForItem(item)[index]
     }
     
     //delegate for outline view; expandable
@@ -83,13 +87,22 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
     //delegate for outline view; is group
     func outlineView(outlineView: NSOutlineView, isGroupItem item: AnyObject) -> Bool {
         if let key = item as? NSString  {
-            let isGroup = (staticTopLevelItems as NSArray).containsObject(key)
+            let isGroup = (staticTopArray as NSArray).containsObject(key)
             return isGroup
         }
         return false
     }
     
-    //delegate for outline view
+    //delegate for outline view; isSelected?
+    func outlineView(outlineView: NSOutlineView, shouldSelectItem item: AnyObject) -> Bool {
+        if let key = item as? NSString  {
+            let isGroup = (staticTopArray as NSArray).containsObject(key)
+            return !isGroup
+        }
+        return true
+    }
+    
+    //delegate for outline view; show hide
     func outlineView(outlineView: NSOutlineView, shouldShowOutlineCellForItem item: AnyObject) -> Bool {
         //no show hide
         return false
@@ -101,15 +114,22 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
         return true;*/
     }
     
+    //delegate for outline view; row height
+    func outlineView(outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat {
+        if (item as? NSString)?.length <= 1 {
+            return 9.0
+        }
+        return 17.0
+    }
+    
     
     //delegate for outline view
     func outlineView(outlineView: NSOutlineView, viewForTableColumn tableColumn: NSTableColumn?, item: AnyObject) -> NSView? {
         
         // For the groups, we just return a regular text view.
-        if  (staticTopLevelItems as NSArray).containsObject(item) {
+        if  (staticTopArray as NSArray).containsObject(item) {
             if let result =  outlineView.makeViewWithIdentifier("HeaderCell", owner: self) as? NSTableCellView {
                 result.textField?.objectValue = (item as! NSString).uppercaseString
-                //result.textField?.accessibilitySelected = false
                 return result
             }
         }  else {
@@ -117,14 +137,15 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
                 
                 
                 //set icon
-                let parent: (AnyObject?) = outlineView.parentForItem(item)
-                let index = (staticTopLevelItems as NSArray).indexOfObject(parent!)
                 switch item as! String {
                 case "HijackView":
                     result.textField?.objectValue = "Hijack Scan"
                     result.imageView?.objectValue = NSImage(named:NSImageNameQuickLookTemplate)
                 case "KeychainView":
                     result.textField?.objectValue = "Keychain Item List"
+                    result.imageView?.objectValue = NSImage(named:NSImageNameListViewTemplate)
+                case "threatsView":
+                    result.textField?.objectValue = "AllScan"
                     result.imageView?.objectValue = NSImage(named:NSImageNameListViewTemplate)
                 default:
                     break
@@ -133,7 +154,10 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
                 //
                 return result
                 
-                /* BOOL hideUnreadIndicator = YES;
+                /* 
+                let parent: (AnyObject?) = outlineView.parentForItem(item)
+                let index = (staticTopArray as NSArray).indexOfObject(parent!)
+                BOOL hideUnreadIndicator = YES;
                 // Setup the unread indicator to show in some cases. Layout is done in SidebarTableCellView's viewWillDraw
                 if (index == 0) {
                 // First row in the index
@@ -157,10 +181,12 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
         }
         return nil
     }
-    /*
+    
     func splitView(splitView: NSSplitView, canCollapseSubview subview: NSView) -> Bool {
-    return false
-    }*/
+        return false
+    }
+    
+    
     /**********************/
     
     /* TODO*/

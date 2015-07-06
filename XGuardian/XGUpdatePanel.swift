@@ -28,6 +28,10 @@ class XGUpdatePanel: NSWindowController , NSWindowDelegate {
     
     func panelShow() {
         self.loadWindow()
+        self.panel.titlebarAppearsTransparent = true
+        self.panel.movableByWindowBackground = true
+        self.panel.titleVisibility = NSWindowTitleVisibility.Hidden
+        self.panel.styleMask |= NSFullSizeContentViewWindowMask;
     
         self.versionInfo = XGBackend.getLastedverion()
         var versionStr = ""
@@ -53,9 +57,9 @@ class XGUpdatePanel: NSWindowController , NSWindowDelegate {
         return true
     }
     
-    func windowWillBeginSheet(notification: NSNotification) {
+  /*  func windowWillBeginSheet(notification: NSNotification) {
 
-    }
+    }*/
     
         
  /*   - (void)showInWindow:(NSWindow *)window {
