@@ -16,22 +16,31 @@ private let updateTimerInterval = 21600.0
 class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate{
 
     @IBOutlet weak var window: NSWindow!
-    @IBOutlet var mainContentView: NSView!
     
-
+    /**
+    menu for update check
+    
+    :param: sender update menu
+    */
+    @IBAction func Update(sender: AnyObject) {
+         XGBackend.updateLastedverion()
+    }
+    
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        //
+        
+        //start observe thread
         XGKeychainObserver.startObserve()
         self.loadViews()
         
         //check update
         //TODO:read timeinterval form plist add update check timer
-        NSTimer.scheduledTimerWithTimeInterval(15.0, target: self, selector: Selector("processUpdateCheck:"), userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(60.0, target: self, selector: Selector("processUpdateCheck:"), userInfo: nil, repeats: false)
     }
     
     func applicationWillTerminate(aNotification: NSNotification) {
         // Insert code here to tear down your application
-
+        
+        // stop observe thread
         XGKeychainObserver.stopObserve()
     }
     

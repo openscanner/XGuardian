@@ -62,7 +62,7 @@ class XGKeychainView: NSView, NSTableViewDelegate, NSTableViewDataSource {
     
     func tableViewSelectionDidChange(notification: NSNotification) {
         let row = self.keychainTable.selectedRow;
-        if( row < 0 && row > self.itemArray?.count) {
+        if( row < 0 || row > self.itemArray?.count) {
             return
         }
         

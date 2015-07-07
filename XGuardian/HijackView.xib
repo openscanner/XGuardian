@@ -13,11 +13,11 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="c22-O7-iKe" customClass="XGHijackView" customModule="XGuardian" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="750" height="500"/>
+            <rect key="frame" x="0.0" y="0.0" width="785" height="666"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="iHf-RO-sso">
-                    <rect key="frame" x="279" y="255" width="192" height="83"/>
+                    <rect key="frame" x="296" y="77" width="192" height="83"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="188" id="AyX-1e-mYg"/>
                         <constraint firstAttribute="height" constant="78" id="Hr6-YI-Rtb"/>
@@ -30,14 +30,8 @@
                         <action selector="scanAction:" target="c22-O7-iKe" id="Kq0-SX-g3l"/>
                     </connections>
                 </button>
-                <progressIndicator maxValue="100" displayedWhenStopped="NO" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="2T5-lY-KFE">
-                    <rect key="frame" x="137" y="146" width="477" height="20"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="477" id="9zL-ng-cV6"/>
-                    </constraints>
-                </progressIndicator>
                 <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="54A-9g-Tbg">
-                    <rect key="frame" x="294" y="108" width="162" height="17"/>
+                    <rect key="frame" x="311" y="180" width="162" height="17"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="17" id="1hp-Dl-c9G"/>
                     </constraints>
@@ -47,14 +41,20 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <progressIndicator maxValue="100" displayedWhenStopped="NO" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="2T5-lY-KFE">
+                    <rect key="frame" x="154" y="234" width="477" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="477" id="9zL-ng-cV6"/>
+                    </constraints>
+                </progressIndicator>
             </subviews>
             <constraints>
                 <constraint firstItem="2T5-lY-KFE" firstAttribute="centerX" secondItem="54A-9g-Tbg" secondAttribute="centerX" id="b2i-s2-hcT"/>
-                <constraint firstItem="2T5-lY-KFE" firstAttribute="top" secondItem="iHf-RO-sso" secondAttribute="bottom" constant="93" id="bcx-Tm-Mkf"/>
+                <constraint firstItem="2T5-lY-KFE" firstAttribute="top" secondItem="iHf-RO-sso" secondAttribute="bottom" constant="-173" id="bcx-Tm-Mkf"/>
                 <constraint firstItem="2T5-lY-KFE" firstAttribute="centerX" secondItem="c22-O7-iKe" secondAttribute="centerX" id="cHV-WY-nWx"/>
-                <constraint firstItem="54A-9g-Tbg" firstAttribute="top" secondItem="2T5-lY-KFE" secondAttribute="bottom" constant="22" id="d7c-KQ-gxG"/>
+                <constraint firstItem="54A-9g-Tbg" firstAttribute="top" secondItem="2T5-lY-KFE" secondAttribute="bottom" constant="38" id="d7c-KQ-gxG"/>
                 <constraint firstItem="2T5-lY-KFE" firstAttribute="centerX" secondItem="iHf-RO-sso" secondAttribute="centerX" id="nOI-kP-UJ0"/>
-                <constraint firstItem="iHf-RO-sso" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="164" id="wsP-Yp-cOU"/>
+                <constraint firstItem="iHf-RO-sso" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="508" id="wsP-Yp-cOU"/>
             </constraints>
             <connections>
                 <outlet property="hijackListView" destination="XpH-bf-nbg" id="LWD-zA-XzY"/>

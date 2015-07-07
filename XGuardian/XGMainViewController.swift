@@ -17,8 +17,26 @@ private let nagivationData =  [["name":hijackName, "image":hijackImage],
     ["name":keychainName, "image":keychainImage]
 ]
 
-let staticTopArray =  [NSString(string:" "), NSString(string:"Keychain"), NSString(string:"222")]
-let staticChildrenDictionary = [NSString(string:" ") : [NSString(string:" ")], NSString(string:"Keychain"): [NSString(string:"HijackView"), NSString(string:"KeychainView"), NSString(string: "threatsView")], NSString(string:"2") : [NSString(string:" ")]]
+class XGSideBarItem : NSObject {
+    let title : String
+    let nib: String
+    let imageName : String
+    
+    init(_ title : String, _ nib : String, _ imageName : String) {
+        self.title = title
+        self.nib = nib
+        self.imageName = imageName
+    }
+}
+
+let staticFirstEmpty = "     "
+let staticTopArray =  [NSString(string:staticFirstEmpty), NSString(string:"Flaws"), NSString(string:"Information")]
+
+let staticChildrenDictionary = [
+    staticTopArray[0] : [XGSideBarItem("All Scan", "ThreatsView", NSImageNameQuickLookTemplate)] ,
+    staticTopArray[1] : [XGSideBarItem("Keychain Hijack", "HijackView", NSImageNameQuickLookTemplate)],
+    staticTopArray[2] : [XGSideBarItem("Keychain List","KeychainView", NSImageNameListViewTemplate)]
+]
 
 class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineViewDataSource, NSSplitViewDelegate{
 
@@ -49,10 +67,10 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
         //self.nagivationView.headerView = nil;
         //self.nagivationView.reloadData()
         //TODO: set the first card in our list
-        self.nagivationView.selectRowIndexes(NSIndexSet(index: 2), byExtendingSelection: false)
+        self.nagivationView.selectRowIndexes(NSIndexSet(index: 1), byExtendingSelection: false)
     }
     
-    private func childrenForItem(item: AnyObject?) ->  [NSString]? {
+    private func childrenForItem(item: AnyObject?) ->  [AnyObject]? {
         if  let key = item as? NSString {
             if(key.length <= 1) { return nil }
             return staticChildrenDictionary[key]
@@ -106,20 +124,14 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
     func outlineView(outlineView: NSOutlineView, shouldShowOutlineCellForItem item: AnyObject) -> Bool {
         //no show hide
         return false
-        /*if let itemStr = item as? NSString {
-        if itemStr.isEqualToString("Keychain") {
-        return false
-        }
-        }
-        return true;*/
     }
     
     //delegate for outline view; row height
     func outlineView(outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat {
-        if (item as? NSString)?.length <= 1 {
-            return 9.0
+        if (item as? String) == staticFirstEmpty  {
+            return 34.0
         }
-        return 17.0
+        return 20.0
     }
     
     
@@ -135,23 +147,10 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
         }  else {
             if let result =  outlineView.makeViewWithIdentifier("DataCell", owner: self) as? NSTableCellView {
                 
-                
-                //set icon
-                switch item as! String {
-                case "HijackView":
-                    result.textField?.objectValue = "Hijack Scan"
-                    result.imageView?.objectValue = NSImage(named:NSImageNameQuickLookTemplate)
-                case "KeychainView":
-                    result.textField?.objectValue = "Keychain Item List"
-                    result.imageView?.objectValue = NSImage(named:NSImageNameListViewTemplate)
-                case "threatsView":
-                    result.textField?.objectValue = "AllScan"
-                    result.imageView?.objectValue = NSImage(named:NSImageNameListViewTemplate)
-                default:
-                    break
+                if let barItem = item as? XGSideBarItem {
+                    result.textField?.objectValue = barItem.title
+                    result.imageView?.objectValue = NSImage(named:barItem.imageName)
                 }
-                
-                //
                 return result
                 
                 /* 
@@ -198,13 +197,17 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
         if let contentViewController = self.contentViewControllerDict[name] {
             self.currentContentViewController = contentViewController
         } else {
-            self.currentContentViewController = NSViewController(nibName: name, bundle: nil)
+            if "ThreatsView" == name {
+                self.currentContentViewController  = XGThreatsViewController(nibName: name, bundle: nil)
+            }else {
+                self.currentContentViewController = NSViewController(nibName: name, bundle: nil)
+            }
+            
             self.contentViewControllerDict[name] = self.currentContentViewController
         }
         
         if let view = self.currentContentViewController?.view {
-            //view.frame = self.mainContentView.bounds
-            //view.autoresizingMask = NSAutoresizingMaskOptions.ViewWidthSizable | NSAutoresizingMaskOptions.ViewHeightSizable
+
             if let currentVC = currentViewController {
                 self.mainContentView.replaceSubview(currentVC.view, with: view)
             } else {
@@ -216,9 +219,9 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
     func outlineViewSelectionDidChange(notification: NSNotification) {
         let row = self.nagivationView.selectedRow;
         if(row != -1 ) {
-            if let item = self.nagivationView.itemAtRow(row) as? String {
+            if let item = self.nagivationView.itemAtRow(row) as? XGSideBarItem {
                 if self.nagivationView.parentForItem(item) != nil {
-                    self.setContentView(name: item as String)
+                    self.setContentView(name: item.nib)
                     return;
                 }
             }

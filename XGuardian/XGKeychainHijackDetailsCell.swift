@@ -1,14 +1,14 @@
 //
-//  XGHijackListAppCell.swift
+//  XGKeychainHijackDetailsCell.swift
 //  XGuardian
 //
-//  Created by WuYadong on 15/7/4.
+//  Created by  吴亚冬 on 15/7/7.
 //  Copyright (c) 2015年 杭州网蛙科技. All rights reserved.
 //
 
 import Cocoa
 
-class XGHijackListAppCell: NSTableCellView {
+class XGKeychainHijackDetailsCell: NSTableCellView {
 
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
@@ -21,6 +21,7 @@ class XGHijackListAppCell: NSTableCellView {
     
     override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()
+        
     }
     
     @IBAction func btnRevelAction(sender: AnyObject) {
