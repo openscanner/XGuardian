@@ -16,24 +16,16 @@
             <rect key="frame" x="0.0" y="0.0" width="785" height="666"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <button translatesAutoresizingMaskIntoConstraints="NO" id="iHf-RO-sso">
-                    <rect key="frame" x="296" y="77" width="192" height="83"/>
+                <progressIndicator maxValue="100" displayedWhenStopped="NO" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="2T5-lY-KFE">
+                    <rect key="frame" x="154" y="234" width="477" height="20"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="188" id="AyX-1e-mYg"/>
-                        <constraint firstAttribute="height" constant="78" id="Hr6-YI-Rtb"/>
+                        <constraint firstAttribute="width" constant="477" id="Z5g-t1-ee6"/>
                     </constraints>
-                    <buttonCell key="cell" type="bevel" title="SCAN" bezelStyle="regularSquare" imagePosition="left" alignment="center" borderStyle="border" inset="2" id="Wzg-eC-3xV">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" size="25" name="HelveticaNeue"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="scanAction:" target="c22-O7-iKe" id="Kq0-SX-g3l"/>
-                    </connections>
-                </button>
+                </progressIndicator>
                 <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="54A-9g-Tbg">
-                    <rect key="frame" x="311" y="180" width="162" height="17"/>
+                    <rect key="frame" x="311" y="197" width="162" height="17"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="17" id="1hp-Dl-c9G"/>
+                        <constraint firstAttribute="height" constant="17" id="qFH-nP-9Gu"/>
                     </constraints>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Scanning, wait some seconds" id="9bo-Ul-gzh">
                         <font key="font" metaFont="toolTip"/>
@@ -41,20 +33,28 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <progressIndicator maxValue="100" displayedWhenStopped="NO" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="2T5-lY-KFE">
-                    <rect key="frame" x="154" y="234" width="477" height="20"/>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="iHf-RO-sso">
+                    <rect key="frame" x="345" y="143" width="101" height="48"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="477" id="9zL-ng-cV6"/>
+                        <constraint firstAttribute="width" constant="97" id="khk-Rt-CwA"/>
+                        <constraint firstAttribute="height" constant="43" id="lEy-d2-IIt"/>
                     </constraints>
-                </progressIndicator>
+                    <buttonCell key="cell" type="bevel" title="SCAN" bezelStyle="regularSquare" imagePosition="left" alignment="center" borderStyle="border" inset="2" id="Wzg-eC-3xV">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="scanAction:" target="c22-O7-iKe" id="Kq0-SX-g3l"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
-                <constraint firstItem="2T5-lY-KFE" firstAttribute="centerX" secondItem="54A-9g-Tbg" secondAttribute="centerX" id="b2i-s2-hcT"/>
-                <constraint firstItem="2T5-lY-KFE" firstAttribute="top" secondItem="iHf-RO-sso" secondAttribute="bottom" constant="-173" id="bcx-Tm-Mkf"/>
-                <constraint firstItem="2T5-lY-KFE" firstAttribute="centerX" secondItem="c22-O7-iKe" secondAttribute="centerX" id="cHV-WY-nWx"/>
-                <constraint firstItem="54A-9g-Tbg" firstAttribute="top" secondItem="2T5-lY-KFE" secondAttribute="bottom" constant="38" id="d7c-KQ-gxG"/>
-                <constraint firstItem="2T5-lY-KFE" firstAttribute="centerX" secondItem="iHf-RO-sso" secondAttribute="centerX" id="nOI-kP-UJ0"/>
-                <constraint firstItem="iHf-RO-sso" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="508" id="wsP-Yp-cOU"/>
+                <constraint firstAttribute="bottom" secondItem="iHf-RO-sso" secondAttribute="bottom" constant="146" id="EcO-3I-TtE"/>
+                <constraint firstItem="54A-9g-Tbg" firstAttribute="top" secondItem="2T5-lY-KFE" secondAttribute="bottom" constant="21" id="YOT-ZE-OkY"/>
+                <constraint firstItem="54A-9g-Tbg" firstAttribute="centerX" secondItem="2T5-lY-KFE" secondAttribute="centerX" id="i5p-Nf-8CH"/>
+                <constraint firstItem="iHf-RO-sso" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="347" id="pMG-aB-pch"/>
+                <constraint firstItem="54A-9g-Tbg" firstAttribute="centerX" secondItem="c22-O7-iKe" secondAttribute="centerX" id="rc9-eX-XJh"/>
+                <constraint firstItem="iHf-RO-sso" firstAttribute="top" secondItem="54A-9g-Tbg" secondAttribute="bottom" constant="8" symbolic="YES" id="vee-uk-6iU"/>
             </constraints>
             <connections>
                 <outlet property="hijackListView" destination="XpH-bf-nbg" id="LWD-zA-XzY"/>
@@ -64,7 +64,7 @@
                 <outlet property="scanProcess" destination="2T5-lY-KFE" id="wid-rg-YJx"/>
                 <outlet property="scanPromt" destination="54A-9g-Tbg" id="dUx-lP-4HB"/>
             </connections>
-            <point key="canvasLocation" x="313" y="484"/>
+            <point key="canvasLocation" x="312.5" y="484"/>
         </customView>
         <customView id="XpH-bf-nbg" customClass="XGHijackListView" customModule="XGuardian" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="750" height="500"/>
@@ -351,7 +351,7 @@
                 <outlet property="titleImage" destination="bNE-HR-1rs" id="acm-cQ-UJM"/>
                 <outlet property="titleLable" destination="bSx-Xy-PL6" id="LTS-4i-6sH"/>
             </connections>
-            <point key="canvasLocation" x="313" y="1041"/>
+            <point key="canvasLocation" x="295" y="1189"/>
         </customView>
     </objects>
     <resources>

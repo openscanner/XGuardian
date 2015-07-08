@@ -6,17 +6,17 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="XGUpdatePanel" customModule="XGuardian" customModuleProvider="target">
             <connections>
-                <outlet property="panel" destination="KtN-3Z-yQh" id="fpc-xn-ia1"/>
                 <outlet property="versionText" destination="uea-x2-pGh" id="pCQ-N0-had"/>
+                <outlet property="window" destination="KtN-3Z-yQh" id="fWg-NL-Xar"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <window title="XGuardian Upate" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" showsToolbarButton="NO" animationBehavior="default" id="KtN-3Z-yQh" customClass="NSPanel">
+        <window title="XGuardian Upate" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hidesOnDeactivate="YES" oneShot="NO" showsToolbarButton="NO" animationBehavior="default" id="KtN-3Z-yQh" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="757" y="627" width="374" height="262"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <view key="contentView" id="Nh5-gx-WzR">
                 <rect key="frame" x="0.0" y="0.0" width="374" height="262"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -59,7 +59,7 @@ Gw
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" state="on" id="qZX-An-qFf">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                 </subviews>

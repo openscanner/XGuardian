@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class XGHijackView: NSView, NSUserNotificationCenterDelegate {
+class XGHijackView: NSView {
 
     @IBOutlet weak var owner: NSViewController!
     @IBOutlet weak var hijackListView: XGHijackListView!
@@ -72,22 +72,10 @@ class XGHijackView: NSView, NSUserNotificationCenterDelegate {
         return;
     }
     
-    //reactive scan view
-    func userNotificationCenter(center: NSUserNotificationCenter, didDeliverNotification notification: NSUserNotification) {
-        self.scanState = ScanSate.INIT
-        self.scanButton.title = "SCAN"
-        self.owner.view = self
-        self.upperView?.addSubview(self)
-        self.upperView?.replaceSubview(self.hijackListView, with:self)
-        //self.owner.loadView()
-        
-    }
     
     override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()
         
-        //set user notification delegate
-        NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
     }
     
     override func drawRect(dirtyRect: NSRect) {

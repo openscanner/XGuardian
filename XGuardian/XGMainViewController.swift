@@ -1,4 +1,28 @@
 //
+/*
+let parent: (AnyObject?) = outlineView.parentForItem(item)
+let index = (staticTopArray as NSArray).indexOfObject(parent!)
+BOOL hideUnreadIndicator = YES;
+// Setup the unread indicator to show in some cases. Layout is done in SidebarTableCellView's viewWillDraw
+if (index == 0) {
+// First row in the index
+hideUnreadIndicator = NO;
+[result.button setTitle:@"42"];
+[result.button sizeToFit];
+// Make it appear as a normal label and not a button
+[[result.button cell] setHighlightsBy:0];
+} else if (index == 2) {
+// Example for a button
+hideUnreadIndicator = NO;
+result.button.target = self;
+result.button.action = @selector(buttonClicked:);
+[result.button setImage:[NSImage imageNamed:NSImageNameAddTemplate]];
+// Make it appear as a button
+[[result.button cell] setHighlightsBy:NSPushInCellMask|NSChangeBackgroundCellMask];
+}
+[result.button setHidden:hideUnreadIndicator];
+return result;*/
+
 //  XGMainViewController.swift
 //  XGuardian
 //
@@ -9,34 +33,32 @@
 import Cocoa
 
 
-private let hijackName = "Keychain Hijack"
-private let hijackImage = NSImageNameQuickLookTemplate
-private let keychainName = "Item List"
-private let keychainImage = NSImageNameListViewTemplate
-private let nagivationData =  [["name":hijackName, "image":hijackImage],
-    ["name":keychainName, "image":keychainImage]
-]
-
 class XGSideBarItem : NSObject {
     let title : String
-    let nib: String
     let imageName : String
+    let firstNib: String
+    let secondNib: String
     
-    init(_ title : String, _ nib : String, _ imageName : String) {
+    init(_ title : String, _ imageName : String, _ firstNib : String,  _  secondNib : String) {
         self.title = title
-        self.nib = nib
         self.imageName = imageName
+        self.firstNib = firstNib
+        self.secondNib = secondNib
     }
 }
 
-let staticFirstEmpty = "     "
-let staticTopArray =  [NSString(string:staticFirstEmpty), NSString(string:"Flaws"), NSString(string:"Information")]
+// side bar item dictionary
+private let staticFirstEmpty = "     "
+private let staticTopArray =  [NSString(string:staticFirstEmpty), NSString(string:"Flaws"), NSString(string:"Information")]
 
-let staticChildrenDictionary = [
-    staticTopArray[0] : [XGSideBarItem("All Scan", "ThreatsView", NSImageNameQuickLookTemplate)] ,
-    staticTopArray[1] : [XGSideBarItem("Keychain Hijack", "HijackView", NSImageNameQuickLookTemplate)],
-    staticTopArray[2] : [XGSideBarItem("Keychain List","KeychainView", NSImageNameListViewTemplate)]
-]
+private let staticChildrenDictionary = [
+    staticTopArray[0] : [XGSideBarItem("All Scan", "AllscanIcon",  "ScanView", "ThreatsView")] ,
+    staticTopArray[1] : [XGSideBarItem("Keychain Hijack", "KeychainIcon", "ScanView",  "ThreatsView")],
+    staticTopArray[2] : [XGSideBarItem("Keychain List","UrlschemlIcon", "AllscanIcon", "")]
+];
+
+// notification 
+let ScanFinisheNotification = "scanFinisheNotification"
 
 class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineViewDataSource, NSSplitViewDelegate{
 
@@ -45,6 +67,7 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
     
     var currentContentViewController: NSViewController?
     var contentViewControllerDict  = [String:NSViewController]()
+    var viewControllerArray =  [NSViewController]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,6 +91,8 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
         //self.nagivationView.reloadData()
         //TODO: set the first card in our list
         self.nagivationView.selectRowIndexes(NSIndexSet(index: 1), byExtendingSelection: false)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("scanDidFinished:"), name: ScanFinisheNotification, object: nil)
     }
     
     private func childrenForItem(item: AnyObject?) ->  [AnyObject]? {
@@ -153,29 +178,6 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
                 }
                 return result
                 
-                /* 
-                let parent: (AnyObject?) = outlineView.parentForItem(item)
-                let index = (staticTopArray as NSArray).indexOfObject(parent!)
-                BOOL hideUnreadIndicator = YES;
-                // Setup the unread indicator to show in some cases. Layout is done in SidebarTableCellView's viewWillDraw
-                if (index == 0) {
-                // First row in the index
-                hideUnreadIndicator = NO;
-                [result.button setTitle:@"42"];
-                [result.button sizeToFit];
-                // Make it appear as a normal label and not a button
-                [[result.button cell] setHighlightsBy:0];
-                } else if (index == 2) {
-                // Example for a button
-                hideUnreadIndicator = NO;
-                result.button.target = self;
-                result.button.action = @selector(buttonClicked:);
-                [result.button setImage:[NSImage imageNamed:NSImageNameAddTemplate]];
-                // Make it appear as a button
-                [[result.button cell] setHighlightsBy:NSPushInCellMask|NSChangeBackgroundCellMask];
-                }
-                [result.button setHidden:hideUnreadIndicator];
-                return result;*/
             }
         }
         return nil
@@ -187,23 +189,28 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
     
     
     /**********************/
+   
+    private func getViewController(name: String) -> NSViewController? {
+        if "ThreatsView" == name {
+            return XGThreatsViewController(nibName: name, bundle: nil)
+        } else if "ScanView" == name {
+            return XGScanViewController(nibName: name, bundle: nil)
+        }
+        
+        return NSViewController(nibName: name, bundle: nil)
+    }
     
     /* TODO*/
-    private func setContentView(#name: String) {
-        /*if let currentVC = self.currentContentViewController {
-            currentVC.view.removeFromSuperview()
-        }*/
+    private func setCurrentView(nibName: String, _ title: String, _ forceSwitch: Bool) {
+        
         let currentViewController = self.currentContentViewController
-        if let contentViewController = self.contentViewControllerDict[name] {
+        let contentViewController = self.contentViewControllerDict[title]
+        if  !forceSwitch && contentViewController != nil  {
             self.currentContentViewController = contentViewController
         } else {
-            if "ThreatsView" == name {
-                self.currentContentViewController  = XGThreatsViewController(nibName: name, bundle: nil)
-            }else {
-                self.currentContentViewController = NSViewController(nibName: name, bundle: nil)
-            }
-            
-            self.contentViewControllerDict[name] = self.currentContentViewController
+            self.currentContentViewController = self.getViewController(nibName)
+            self.currentContentViewController?.title = title
+            self.contentViewControllerDict[title] = self.currentContentViewController
         }
         
         if let view = self.currentContentViewController?.view {
@@ -221,11 +228,21 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
         if(row != -1 ) {
             if let item = self.nagivationView.itemAtRow(row) as? XGSideBarItem {
                 if self.nagivationView.parentForItem(item) != nil {
-                    self.setContentView(name: item.nib)
+                    self.setCurrentView(item.firstNib, item.title, false)
                     return;
                 }
             }
         }
     }
     
+    func scanDidFinished(notification: NSNotification) {
+        println("notification: \(notification)")
+        let title = notification.object as! String
+        self.setCurrentView("ThreatsView", title, true)
+        return;
+    }
+    
 }
+
+
+

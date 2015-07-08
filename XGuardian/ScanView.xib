@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="XGScanViewController" customModule="XGuardian" customModuleProvider="target">
+            <connections>
+                <outlet property="scanButton" destination="SnD-bY-I2P" id="c1Q-mV-8cS"/>
+                <outlet property="scanProcess" destination="1he-KQ-PZD" id="LaQ-mQ-HcA"/>
+                <outlet property="scanPromt" destination="MxB-2r-tHl" id="FRX-D8-Sm4"/>
+                <outlet property="sourceItemView" destination="c22-O7-iKe" id="22c-X0-rvG"/>
+                <outlet property="view" destination="c22-O7-iKe" id="Un3-lF-Pl2"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe" customClass="XGScanView" customModule="XGuardian" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="785" height="666"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MxB-2r-tHl">
+                    <rect key="frame" x="311" y="139" width="162" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Scanning, wait some seconds" id="Ik4-aA-w7Q">
+                        <font key="font" metaFont="toolTip"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SnD-bY-I2P">
+                    <rect key="frame" x="342" y="85" width="101" height="48"/>
+                    <buttonCell key="cell" type="bevel" title="SCAN" bezelStyle="regularSquare" imagePosition="left" alignment="center" borderStyle="border" inset="2" id="ziv-ad-0bC">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="scanAction:" target="-2" id="7ga-Y6-enR"/>
+                    </connections>
+                </button>
+                <progressIndicator fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="1he-KQ-PZD">
+                    <rect key="frame" x="154" y="163" width="477" height="20"/>
+                </progressIndicator>
+                <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T2y-26-eDi">
+                    <rect key="frame" x="502" y="289" width="240" height="240"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="NetforgImage" id="lEf-kl-NGm"/>
+                </imageView>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9pp-fH-uhN">
+                    <rect key="frame" x="55" y="373" width="362" height="58"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Multiline Label, some descriptions some descriptions some descriptions some descriptionssome descriptions" id="oLH-77-gyd">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zjz-0e-DV7" userLabel="ViewTitle">
+                    <rect key="frame" x="0.0" y="622" width="785" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="xFs-ZR-gmk"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" state="on" alignment="center" title="Test" drawsBackground="YES" id="9Yj-dr-4JT">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="po2-BV-7SF">
+                    <rect key="frame" x="0.0" y="620" width="785" height="5"/>
+                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <font key="titleFont" metaFont="system"/>
+                </box>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h9f-a9-eBh">
+                    <rect key="frame" x="55" y="439" width="116" height="24"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="KHw-CA-TL6">
+                        <font key="font" metaFont="systemBold" size="20"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="zjz-0e-DV7" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="Dqn-aD-xv4"/>
+                <constraint firstItem="po2-BV-7SF" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="LMg-sk-xVe"/>
+                <constraint firstItem="po2-BV-7SF" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="43" id="Sil-oz-E2E"/>
+                <constraint firstAttribute="trailing" secondItem="po2-BV-7SF" secondAttribute="trailing" id="bUF-5E-aTb"/>
+                <constraint firstItem="zjz-0e-DV7" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="roL-IO-RVF"/>
+                <constraint firstAttribute="trailing" secondItem="zjz-0e-DV7" secondAttribute="trailing" id="vjM-Q9-IYj"/>
+            </constraints>
+        </customView>
+    </objects>
+    <resources>
+        <image name="NetforgImage" width="240" height="240"/>
+    </resources>
+</document>

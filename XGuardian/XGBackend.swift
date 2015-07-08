@@ -74,6 +74,10 @@ class XGBackend: NSObject {
         return lastedVersion
     }
     
+    class func cleanLastedverion() {
+        lastedVersion = nil
+    }
+    
     class func updateLastedverion() {
         let response = Alamofire.request(.GET, lastedVersionURL)
             .responseObject { (_, _, versionInfo: XGVersionInfo?, _) in
@@ -98,7 +102,8 @@ class XGBackend: NSObject {
             }
             lastedVersion = version
             println(versionInfo)
-            let updatePanel = XGUpdatePanel(windowNibName: "update")
+            let updatePanel = XGUpdatePanel(windowNibName: "UpdateWindow")
+            //updatePanel.loadWindow()
             updatePanel.panelShow()
             
         }
@@ -118,14 +123,15 @@ class XGBackend: NSObject {
     class func downloadLastedVersion() {
       /*  let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DownloadsDirectory, domain: .UserDomainMask)*/
         if lastedVersion != nil && lastedVersion?.url != nil {
-           /* Alamofire.download(.GET, lastedVersion!.url!, destination)
+            openURL(lastedVersion!.url)
+/* Alamofire.download(.GET, lastedVersion!.url!, destination)
                 .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
                     println(totalBytesRead)
                 }
                 .response { (request, response, _, error) in
                     println(response)
             }*/
-            openURL(lastedVersion!.url)
         }
     }
+    
 }

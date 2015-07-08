@@ -12,13 +12,11 @@ class XGUpdatePanel: NSWindowController , NSWindowDelegate {
 
     weak var versionInfo : XGVersionInfo?
     
-    @IBOutlet var panel: NSPanel!
     @IBOutlet weak var versionText: NSTextField!
 
     
     @IBAction func btnUpdateCancel(sender: AnyObject) {
-        NSApplication.sharedApplication().stopModal()
-        panel.close();
+        self.window?.performClose(sender);
     }
     
     @IBAction func btnUpdateDownload(sender: AnyObject) {
@@ -26,13 +24,17 @@ class XGUpdatePanel: NSWindowController , NSWindowDelegate {
         self.btnUpdateCancel(sender)
     }
     
-    func panelShow() {
-        self.loadWindow()
-        self.panel.titlebarAppearsTransparent = true
-        self.panel.movableByWindowBackground = true
-        self.panel.titleVisibility = NSWindowTitleVisibility.Hidden
-        self.panel.styleMask |= NSFullSizeContentViewWindowMask;
-    
+    override func windowDidLoad() {
+        super.windowDidLoad()
+        
+        //set window title
+        self.window?.titlebarAppearsTransparent = true
+        self.window?.movableByWindowBackground = true
+        self.window?.titleVisibility = NSWindowTitleVisibility.Hidden
+        self.window?.styleMask |= NSFullSizeContentViewWindowMask;
+        
+        self.window?.delegate = self
+        
         self.versionInfo = XGBackend.getLastedverion()
         var versionStr = ""
         if(self.versionInfo != nil && self.versionInfo?.version != nil) {
@@ -41,40 +43,22 @@ class XGUpdatePanel: NSWindowController , NSWindowDelegate {
         if(self.versionInfo != nil && self.versionInfo?.changeLog != nil) {
             versionStr += "ChangeLog: \n" + self.versionInfo!.changeLog!
         }
-    
+        
         self.versionText.objectValue = versionStr
+        //NSApplication.sharedApplication().beginModalSessionForWindow(self.window!)
+        NSApplication.sharedApplication().runModalForWindow(self.window!)
+    }
     
-        NSApplication.sharedApplication().runModalForWindow(self.panel)
-        self.showWindow(nil)
+    func panelShow() {
+        self.showWindow(self)
     }
     
     func windowShouldClose(sender: AnyObject) -> Bool {
-        //window.orderOut(sender)
-        //window.hidesOnDeactivate
-        //window.hide
         //NSApplication.sharedApplication().hide(sender)
         NSApplication.sharedApplication().stopModal()
         return true
     }
     
-  /*  func windowWillBeginSheet(notification: NSNotification) {
-
-    }*/
-    
-        
- /*   - (void)showInWindow:(NSWindow *)window {
-    if (!panel) {
-    [NSBundle loadNibNamed:@"SecondWindow" owner:self];
-    }
-    
-    [NSApp beginSheet: panel
-	   modalForWindow: window
-    modalDelegate: nil
-	   didEndSelector: nil
-		  contextInfo: nil];
-    //[NSApp runModalSession:[NSApp beginModalSessionForWindow:panel]];
-    }*/
-
     
     
 }

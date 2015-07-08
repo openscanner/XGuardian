@@ -23,7 +23,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate{
     :param: sender update menu
     */
     @IBAction func Update(sender: AnyObject) {
-         XGBackend.updateLastedverion()
+        XGBackend.cleanLastedverion() // manual check
+        XGBackend.updateLastedverion()
     }
     
     func applicationDidFinishLaunching(aNotification: NSNotification) {

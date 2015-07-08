@@ -14,6 +14,7 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
 
     @IBOutlet weak var threatsListView: NSOutlineView!
     @IBOutlet weak var detailView: NSView!
+    @IBOutlet weak var titleText: NSTextField!
     
     var currentdetailViewController: NSViewController?
     
@@ -191,7 +192,7 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     func outlineViewSelectionDidChange(notification: NSNotification) {
         let row = self.threatsListView.selectedRow;
         if(row != -1 ) {
-            if  let item = self.threatsListView.itemAtRow(row) {
+            if  let item : AnyObject = self.threatsListView.itemAtRow(row) {
                 
                 if self.threatsListView.parentForItem(item) == nil {
                     return

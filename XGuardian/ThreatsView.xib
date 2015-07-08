@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="detailView" destination="6PU-Dj-Htg" id="nQE-oA-xjg"/>
                 <outlet property="threatsListView" destination="rOA-Mz-BvO" id="9SJ-k2-tGm"/>
+                <outlet property="titleText" destination="vkS-O7-VK4" id="HMg-Ta-kUe"/>
                 <outlet property="view" destination="c22-O7-iKe" id="kEd-C9-fOI"/>
             </connections>
         </customObject>
@@ -18,20 +19,20 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <splitView dividerStyle="thin" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vlD-zs-CMT">
-                    <rect key="frame" x="0.0" y="0.0" width="785" height="622"/>
+                    <rect key="frame" x="0.0" y="20" width="785" height="602"/>
                     <subviews>
                         <customView id="uXd-Qp-C05">
-                            <rect key="frame" x="0.0" y="0.0" width="294" height="622"/>
+                            <rect key="frame" x="0.0" y="0.0" width="294" height="602"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <subviews>
                                 <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ji-YQ-tJZ">
-                                    <rect key="frame" x="0.0" y="-14" width="294" height="636"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="294" height="602"/>
                                     <clipView key="contentView" copiesOnScroll="NO" id="27B-Sg-2f6">
                                         <rect key="frame" x="1" y="1" width="148" height="398"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <outlineView appearanceType="vibrantLight" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="8Ac-J1-VoQ" id="rOA-Mz-BvO">
-                                                <rect key="frame" x="0.0" y="0.0" width="292" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="294" height="0.0"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <size key="intercellSpacing" width="3" height="2"/>
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -101,7 +102,7 @@
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </clipView>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="294" id="Zbl-LS-5po"/>
+                                        <constraint firstAttribute="width" constant="294" id="V1N-if-pa9"/>
                                     </constraints>
                                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Tko-vm-eaj">
                                         <rect key="frame" x="1" y="119" width="238" height="15"/>
@@ -114,21 +115,14 @@
                                 </scrollView>
                             </subviews>
                             <constraints>
-                                <constraint firstAttribute="trailing" secondItem="7Ji-YQ-tJZ" secondAttribute="trailing" id="0ut-Po-lfa"/>
-                                <constraint firstAttribute="trailing" secondItem="7Ji-YQ-tJZ" secondAttribute="trailing" id="7LI-oI-3VQ"/>
-                                <constraint firstItem="7Ji-YQ-tJZ" firstAttribute="top" secondItem="uXd-Qp-C05" secondAttribute="top" id="8Sq-Xm-ZP4"/>
-                                <constraint firstItem="7Ji-YQ-tJZ" firstAttribute="leading" secondItem="uXd-Qp-C05" secondAttribute="leading" id="KP5-Jh-Yo8"/>
-                                <constraint firstItem="7Ji-YQ-tJZ" firstAttribute="top" secondItem="uXd-Qp-C05" secondAttribute="top" id="gZ8-W4-cOg"/>
-                                <constraint firstItem="7Ji-YQ-tJZ" firstAttribute="top" secondItem="uXd-Qp-C05" secondAttribute="top" id="gkw-jt-7ac"/>
-                                <constraint firstAttribute="bottom" secondItem="7Ji-YQ-tJZ" secondAttribute="bottom" constant="-14" id="ikR-tt-ShI"/>
-                                <constraint firstItem="7Ji-YQ-tJZ" firstAttribute="leading" secondItem="uXd-Qp-C05" secondAttribute="leading" id="nGN-hb-BKa"/>
-                                <constraint firstAttribute="trailing" secondItem="7Ji-YQ-tJZ" secondAttribute="trailing" id="q2k-tn-znQ"/>
-                                <constraint firstAttribute="bottom" secondItem="7Ji-YQ-tJZ" secondAttribute="bottom" constant="-14" id="wtc-IY-Jnw"/>
-                                <constraint firstItem="7Ji-YQ-tJZ" firstAttribute="leading" secondItem="uXd-Qp-C05" secondAttribute="leading" id="xgO-hK-LZe"/>
+                                <constraint firstItem="7Ji-YQ-tJZ" firstAttribute="leading" secondItem="uXd-Qp-C05" secondAttribute="leading" id="4BD-zc-mD6"/>
+                                <constraint firstAttribute="trailing" secondItem="7Ji-YQ-tJZ" secondAttribute="trailing" id="UGB-2B-b88"/>
+                                <constraint firstItem="7Ji-YQ-tJZ" firstAttribute="top" secondItem="uXd-Qp-C05" secondAttribute="top" id="sb9-ZN-4P5"/>
+                                <constraint firstAttribute="bottom" secondItem="7Ji-YQ-tJZ" secondAttribute="bottom" id="w9T-KF-5o7"/>
                             </constraints>
                         </customView>
                         <customView fixedFrame="YES" id="6PU-Dj-Htg">
-                            <rect key="frame" x="295" y="0.0" width="490" height="622"/>
+                            <rect key="frame" x="295" y="0.0" width="490" height="602"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </customView>
                     </subviews>
@@ -142,17 +136,14 @@
                 </splitView>
                 <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="IFd-S0-vo2">
                     <rect key="frame" x="0.0" y="619" width="785" height="5"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="1" id="1xS-No-juz"/>
-                    </constraints>
                     <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                     <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <font key="titleFont" metaFont="system"/>
                 </box>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vkS-O7-VK4">
-                    <rect key="frame" x="0.0" y="638" width="785" height="17"/>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vkS-O7-VK4" userLabel="ViewTitle">
+                    <rect key="frame" x="0.0" y="622" width="785" height="44"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="17" id="2Ol-df-6ea"/>
+                        <constraint firstAttribute="height" constant="44" id="2Ol-df-6ea"/>
                         <constraint firstAttribute="width" constant="785" id="2wf-uf-HJ0"/>
                     </constraints>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" state="on" alignment="center" title="ALL SCAN" drawsBackground="YES" id="fmz-GK-S6M">
@@ -161,19 +152,25 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <box verticalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="91b-uV-kNT">
+                    <rect key="frame" x="0.0" y="18" width="785" height="5"/>
+                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <font key="titleFont" metaFont="system"/>
+                </box>
             </subviews>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="vlD-zs-CMT" secondAttribute="bottom" id="28q-Sr-MUV"/>
+                <constraint firstAttribute="bottom" secondItem="vlD-zs-CMT" secondAttribute="bottom" constant="20" id="28q-Sr-MUV"/>
+                <constraint firstItem="IFd-S0-vo2" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="2hu-Bz-HcT"/>
                 <constraint firstItem="vlD-zs-CMT" firstAttribute="trailing" secondItem="vkS-O7-VK4" secondAttribute="trailing" id="5JX-av-O94"/>
-                <constraint firstItem="vkS-O7-VK4" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="11" id="7p1-vt-uxK"/>
-                <constraint firstItem="vlD-zs-CMT" firstAttribute="top" secondItem="vkS-O7-VK4" secondAttribute="bottom" constant="16" id="BwY-se-KDH"/>
+                <constraint firstItem="vkS-O7-VK4" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="7p1-vt-uxK"/>
+                <constraint firstAttribute="trailing" secondItem="IFd-S0-vo2" secondAttribute="trailing" id="AQv-Wf-2L8"/>
+                <constraint firstItem="vlD-zs-CMT" firstAttribute="top" secondItem="vkS-O7-VK4" secondAttribute="bottom" id="BwY-se-KDH"/>
                 <constraint firstItem="vlD-zs-CMT" firstAttribute="leading" secondItem="vkS-O7-VK4" secondAttribute="leading" id="DQn-PA-iF1"/>
                 <constraint firstItem="vkS-O7-VK4" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="EHI-4h-xA4"/>
-                <constraint firstAttribute="trailing" secondItem="IFd-S0-vo2" secondAttribute="trailing" id="FbF-om-GBl"/>
                 <constraint firstAttribute="trailing" secondItem="vkS-O7-VK4" secondAttribute="trailing" id="T9h-jY-jps"/>
                 <constraint firstItem="vkS-O7-VK4" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="Yii-Lp-dOP"/>
-                <constraint firstItem="IFd-S0-vo2" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="eUH-6n-OMQ"/>
-                <constraint firstItem="IFd-S0-vo2" firstAttribute="top" secondItem="vkS-O7-VK4" secondAttribute="bottom" constant="16" id="hUX-5f-Sw3"/>
+                <constraint firstItem="IFd-S0-vo2" firstAttribute="top" secondItem="vkS-O7-VK4" secondAttribute="bottom" id="k5c-8f-Ko6"/>
                 <constraint firstAttribute="trailing" secondItem="vkS-O7-VK4" secondAttribute="trailing" id="rKs-54-LFu"/>
             </constraints>
             <point key="canvasLocation" x="389.5" y="396"/>
