@@ -9,8 +9,14 @@
 import Cocoa
 
 class XGScanViewController: NSViewController, NSUserNotificationCenterDelegate {
-
+    
+    @IBOutlet weak var scanButton: NSButton!
+    @IBOutlet weak var functionalLabel: NSTextField!
+    @IBOutlet weak var functionalDescrption: NSTextField!
+    @IBOutlet weak var titleButton: NSButton!
+    
     weak var scanView : XGScanView?
+    weak var barItem: XGSideBarItem?
     
     private enum ScanSate {
         case INIT
@@ -19,16 +25,6 @@ class XGScanViewController: NSViewController, NSUserNotificationCenterDelegate {
     }
     private var scanState = ScanSate.INIT
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.scanView = self.view as? XGScanView
-        // Do view setup here.
-        NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
-    }
-    
-    @IBOutlet weak var scanButton: NSButton!
-
     @IBAction func scanAction(sender: AnyObject) {
         switch self.scanState {
         case ScanSate.INIT:
@@ -46,7 +42,18 @@ class XGScanViewController: NSViewController, NSUserNotificationCenterDelegate {
         return;
     }
     
-    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Do view setup here.
+        //NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
+        //self.scanView = self.view as? XGScanView
+        self.titleButton.title = self.barItem!.title
+        self.functionalLabel.objectValue = self.barItem?.title
+        self.functionalDescrption.objectValue = self.barItem?.desc
+
+    }
+        
     func processFireMethod(timer : NSTimer ){
         let processValue = self.getScanProcessValue()
             if ( processValue >= 89.9){
@@ -59,8 +66,8 @@ class XGScanViewController: NSViewController, NSUserNotificationCenterDelegate {
             timer.invalidate();
             self.stopScan()
             
-            //TODO:notification to swich
-            NSNotificationCenter.defaultCenter().postNotificationName(ScanFinisheNotification, object: self.title! as NSString)
+            
+            
         }
         return;
     }
@@ -90,6 +97,8 @@ class XGScanViewController: NSViewController, NSUserNotificationCenterDelegate {
     }
     
     func stopScan() {
+        //notification to swich
+        NSNotificationCenter.defaultCenter().postNotificationName(ScanFinisheNotification, object: self.barItem)
         //self.scanButton.title = "SCAN"
         self.scanState =  ScanSate.INIT
         self.scanButton.state = NSOnState

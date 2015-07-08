@@ -37,6 +37,7 @@
 		19927C7D1B4B760700FF0619 /* XGThreatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19927C7C1B4B760700FF0619 /* XGThreatsViewController.swift */; };
 		19A241BF1B4823F200890B93 /* XGHijackListAppCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A241BE1B4823F200890B93 /* XGHijackListAppCell.swift */; };
 		19BC414C1B4409D5009AF853 /* XGBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BC414B1B4409D5009AF853 /* XGBackend.swift */; };
+		19F821591B4D7FC6007B5285 /* XGSideBarCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F821581B4D7FC6007B5285 /* XGSideBarCellView.swift */; };
 		19FC85271B4ACC1A00D3AC9D /* ThreatsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19FC85261B4ACC1A00D3AC9D /* ThreatsView.xib */; };
 		C20938C61892D0ACBC8FE1CF /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6A6CE876F90E31416DD60E9 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -90,6 +91,7 @@
 		19927C7C1B4B760700FF0619 /* XGThreatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGThreatsViewController.swift; sourceTree = "<group>"; };
 		19A241BE1B4823F200890B93 /* XGHijackListAppCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XGHijackListAppCell.swift; path = XGuardian/XGHijackListAppCell.swift; sourceTree = "<group>"; };
 		19BC414B1B4409D5009AF853 /* XGBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGBackend.swift; sourceTree = "<group>"; };
+		19F821581B4D7FC6007B5285 /* XGSideBarCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGSideBarCellView.swift; sourceTree = "<group>"; };
 		19FC85261B4ACC1A00D3AC9D /* ThreatsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThreatsView.xib; sourceTree = "<group>"; };
 		C0EDF1BB52CAE8A7D14BBF21 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F6A6CE876F90E31416DD60E9 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -229,6 +231,7 @@
 		19927C771B4B6A6300FF0619 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				19F821581B4D7FC6007B5285 /* XGSideBarCellView.swift */,
 				1956255E1B4D0567009EAD8E /* XGTitleText.swift */,
 				1956255A1B4CB6BD009EAD8E /* XGScanView.swift */,
 				1956255C1B4CB9AD009EAD8E /* XGScanViewController.swift */,
@@ -430,6 +433,7 @@
 				198EE6C01B40F9D3001A7BF2 /* CXKeychainHelper.m in Sources */,
 				198EE7021B413059001A7BF2 /* XGKeychainView.swift in Sources */,
 				19927C7D1B4B760700FF0619 /* XGThreatsViewController.swift in Sources */,
+				19F821591B4D7FC6007B5285 /* XGSideBarCellView.swift in Sources */,
 				198EE6C41B40F9E4001A7BF2 /* KeychainSwiftAPI.swift in Sources */,
 				198EE7041B424EBC001A7BF2 /* XGHijackListCell.swift in Sources */,
 				19A241BF1B4823F200890B93 /* XGHijackListAppCell.swift in Sources */,

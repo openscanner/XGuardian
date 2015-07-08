@@ -10,17 +10,21 @@ import Cocoa
 
 private let kechainHijackString = "KEYCHAIN HIJACK"
 
+
+
 class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlineViewDataSource, NSSplitViewDelegate {
 
     @IBOutlet weak var threatsListView: NSOutlineView!
     @IBOutlet weak var detailView: NSView!
-    @IBOutlet weak var titleText: NSTextField!
+    @IBOutlet weak var titleButton: NSButton!
     
     var currentdetailViewController: NSViewController?
     
     private let topArray = [NSString(string: kechainHijackString )]
     
     private var kechainItemArray : [XGSecurityItem]?
+    
+    var threatsType = XGThreatsType.None
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +36,15 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
         self.threatsListView.sizeLastColumnToFit()
         self.threatsListView.floatsGroupRows = true
         self.threatsListView.reloadData()
+        
+        switch self.threatsType {
+        case XGThreatsType.ALL:
+            self.titleButton?.title = "ALL SCAN"
+        case XGThreatsType.keychainHijack:
+            self.titleButton.title = "Keychain Hijack"
+        default:
+            break
+        }
         
         
         // Expand all the root items; disable the expansion animation that normally happens
@@ -60,14 +73,40 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     
     
     private func childrenForItem(item: AnyObject?) ->  [AnyObject]? {
-        if  let key = item as? NSString {
-            if key.isEqualToString(kechainHijackString) {
-                return self.kechainItemArray
-            } else {
-                return nil
+        switch self.threatsType {
+        case XGThreatsType.ALL:
+            if  let key = item as? NSString {
+                if key.isEqualToString(kechainHijackString) {
+                    return self.kechainItemArray
+                } else {
+                    return nil
+                }
             }
+            return self.topArray
+            
+        case XGThreatsType.keychainHijack:
+            return self.kechainItemArray
+            
+        default:
+            break
         }
-        return self.topArray
+        return nil
+    }
+    
+    func getThreatsNum() -> Int {
+        switch self.threatsType {
+        case XGThreatsType.ALL:
+            //TODO: now only have keychain
+            return self.kechainItemArray!.count
+            
+        case XGThreatsType.keychainHijack:
+            return self.kechainItemArray!.count
+            
+        default:
+            break
+            
+        }
+        return 0
     }
     
     //delegate for outline view
@@ -87,6 +126,10 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     
     //delegate for outline view; expandable
     func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
+        if self.threatsType != XGThreatsType.ALL {
+            return false
+        }
+        
         if outlineView.parentForItem(item) == nil  {
             return true
         }
@@ -96,6 +139,11 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     
     //delegate for outline view; isSelected?
     func outlineView(outlineView: NSOutlineView, shouldSelectItem item: AnyObject) -> Bool {
+        
+        if self.threatsType != XGThreatsType.ALL {
+            return true
+        }
+        
         if nil == outlineView.parentForItem(item) {
             return false
         }
@@ -116,7 +164,7 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     func outlineView(outlineView: NSOutlineView, viewForTableColumn tableColumn: NSTableColumn?, item: AnyObject) -> NSView? {
         
         // For the groups, we just return a regular text view.
-        if  (self.topArray as NSArray).containsObject(item) {
+        if  (self.threatsType == XGThreatsType.ALL) && ((self.topArray as NSArray).containsObject(item)) {
             if let result =  outlineView.makeViewWithIdentifier("HeaderCell", owner: self) as? NSTableCellView {
                 result.textField?.objectValue = (item as! NSString).uppercaseString
                 return result
@@ -124,41 +172,22 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
         }  else {
             if let result =  outlineView.makeViewWithIdentifier("DataCell", owner: self) as? NSTableCellView {
 
-                
-                let key = outlineView.parentForItem(item) as! NSString
-                if key.isEqualToString(kechainHijackString) {
+                if self.threatsType == XGThreatsType.ALL {
+                    let key = outlineView.parentForItem(item) as! NSString
+                    if key.isEqualToString(kechainHijackString) {
+                        let secItem = item as! XGSecurityItem
+                        result.textField?.objectValue = secItem.name
+                        result.imageView?.objectValue = NSImage(named:NSImageNameQuickLookTemplate)
+                    } else {
+                        return nil
+                    }
+                } else if self.threatsType == XGThreatsType.keychainHijack {
                     let secItem = item as! XGSecurityItem
                     result.textField?.objectValue = secItem.name
                     result.imageView?.objectValue = NSImage(named:NSImageNameQuickLookTemplate)
-                } else {
-                    return nil
                 }
                 
                 return result
-                
-                /*
-                let parent: (AnyObject?) = outlineView.parentForItem(item)
-                let index = (self.topArray as NSArray).indexOfObject(parent!)
-                BOOL hideUnreadIndicator = YES;
-                // Setup the unread indicator to show in some cases. Layout is done in SidebarTableCellView's viewWillDraw
-                if (index == 0) {
-                // First row in the index
-                hideUnreadIndicator = NO;
-                [result.button setTitle:@"42"];
-                [result.button sizeToFit];
-                // Make it appear as a normal label and not a button
-                [[result.button cell] setHighlightsBy:0];
-                } else if (index == 2) {
-                // Example for a button
-                hideUnreadIndicator = NO;
-                result.button.target = self;
-                result.button.action = @selector(buttonClicked:);
-                [result.button setImage:[NSImage imageNamed:NSImageNameAddTemplate]];
-                // Make it appear as a button
-                [[result.button cell] setHighlightsBy:NSPushInCellMask|NSChangeBackgroundCellMask];
-                }
-                [result.button setHidden:hideUnreadIndicator];
-                return result;*/
             }
         }
         return nil
@@ -191,7 +220,11 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     
     func outlineViewSelectionDidChange(notification: NSNotification) {
         let row = self.threatsListView.selectedRow;
-        if(row != -1 ) {
+        if(row < 0 ) {
+            return
+        }
+        switch self.threatsType {
+        case XGThreatsType.ALL:
             if  let item : AnyObject = self.threatsListView.itemAtRow(row) {
                 
                 if self.threatsListView.parentForItem(item) == nil {
@@ -206,10 +239,19 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
                     break
                 }
                 //self.setContentView(name: item as String)
-                println("row : \(row) \(item)")
-                return;
+                //println("row : \(row) \(item)")
+                
             }
+        case XGThreatsType.keychainHijack:
+            if  let item = self.threatsListView.itemAtRow(row) as? XGSecurityItem{
+                self.setHijackDetailView(secItem: item )
+                
+            }
+        default:
+            break
         }
+        return;
+        
     }
 
 

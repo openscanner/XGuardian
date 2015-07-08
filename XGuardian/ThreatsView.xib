@@ -8,7 +8,7 @@
             <connections>
                 <outlet property="detailView" destination="6PU-Dj-Htg" id="nQE-oA-xjg"/>
                 <outlet property="threatsListView" destination="rOA-Mz-BvO" id="9SJ-k2-tGm"/>
-                <outlet property="titleText" destination="vkS-O7-VK4" id="HMg-Ta-kUe"/>
+                <outlet property="titleButton" destination="EfS-Hu-frV" id="xmV-rZ-epN"/>
                 <outlet property="view" destination="c22-O7-iKe" id="kEd-C9-fOI"/>
             </connections>
         </customObject>
@@ -140,38 +140,38 @@
                     <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <font key="titleFont" metaFont="system"/>
                 </box>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vkS-O7-VK4" userLabel="ViewTitle">
-                    <rect key="frame" x="0.0" y="622" width="785" height="44"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="44" id="2Ol-df-6ea"/>
-                        <constraint firstAttribute="width" constant="785" id="2wf-uf-HJ0"/>
-                    </constraints>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" state="on" alignment="center" title="ALL SCAN" drawsBackground="YES" id="fmz-GK-S6M">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <box verticalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="91b-uV-kNT">
-                    <rect key="frame" x="0.0" y="18" width="785" height="5"/>
+                <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="91b-uV-kNT">
+                    <rect key="frame" x="0.0" y="18" width="785" height="4"/>
                     <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                     <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <font key="titleFont" metaFont="system"/>
                 </box>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="EfS-Hu-frV">
+                    <rect key="frame" x="0.0" y="621" width="785" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="k6T-pc-zNX"/>
+                    </constraints>
+                    <buttonCell key="cell" type="smallSquare" title="all" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="DmT-22-qfo">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="vlD-zs-CMT" secondAttribute="bottom" constant="20" id="28q-Sr-MUV"/>
                 <constraint firstItem="IFd-S0-vo2" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="2hu-Bz-HcT"/>
-                <constraint firstItem="vlD-zs-CMT" firstAttribute="trailing" secondItem="vkS-O7-VK4" secondAttribute="trailing" id="5JX-av-O94"/>
-                <constraint firstItem="vkS-O7-VK4" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="7p1-vt-uxK"/>
+                <constraint firstItem="IFd-S0-vo2" firstAttribute="trailing" secondItem="91b-uV-kNT" secondAttribute="trailing" id="3ZX-cm-fOR"/>
+                <constraint firstItem="91b-uV-kNT" firstAttribute="top" secondItem="vlD-zs-CMT" secondAttribute="bottom" id="47h-Kg-3Yf"/>
+                <constraint firstItem="91b-uV-kNT" firstAttribute="bottom" secondItem="vlD-zs-CMT" secondAttribute="bottom" id="49v-Ke-hOX"/>
                 <constraint firstAttribute="trailing" secondItem="IFd-S0-vo2" secondAttribute="trailing" id="AQv-Wf-2L8"/>
-                <constraint firstItem="vlD-zs-CMT" firstAttribute="top" secondItem="vkS-O7-VK4" secondAttribute="bottom" id="BwY-se-KDH"/>
-                <constraint firstItem="vlD-zs-CMT" firstAttribute="leading" secondItem="vkS-O7-VK4" secondAttribute="leading" id="DQn-PA-iF1"/>
-                <constraint firstItem="vkS-O7-VK4" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="EHI-4h-xA4"/>
-                <constraint firstAttribute="trailing" secondItem="vkS-O7-VK4" secondAttribute="trailing" id="T9h-jY-jps"/>
-                <constraint firstItem="vkS-O7-VK4" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="Yii-Lp-dOP"/>
-                <constraint firstItem="IFd-S0-vo2" firstAttribute="top" secondItem="vkS-O7-VK4" secondAttribute="bottom" id="k5c-8f-Ko6"/>
-                <constraint firstAttribute="trailing" secondItem="vkS-O7-VK4" secondAttribute="trailing" id="rKs-54-LFu"/>
+                <constraint firstAttribute="trailing" secondItem="EfS-Hu-frV" secondAttribute="trailing" id="D3j-vY-AWt"/>
+                <constraint firstItem="IFd-S0-vo2" firstAttribute="top" secondItem="vlD-zs-CMT" secondAttribute="top" id="I7M-SZ-sny"/>
+                <constraint firstItem="IFd-S0-vo2" firstAttribute="leading" secondItem="vlD-zs-CMT" secondAttribute="leading" id="JRK-61-IEe"/>
+                <constraint firstItem="IFd-S0-vo2" firstAttribute="trailing" secondItem="vlD-zs-CMT" secondAttribute="trailing" id="Mvs-Rh-J2e"/>
+                <constraint firstItem="IFd-S0-vo2" firstAttribute="leading" secondItem="91b-uV-kNT" secondAttribute="leading" id="RsB-Iq-Jjt"/>
+                <constraint firstItem="IFd-S0-vo2" firstAttribute="bottom" secondItem="EfS-Hu-frV" secondAttribute="bottom" id="Wlq-1B-Dmc"/>
+                <constraint firstItem="EfS-Hu-frV" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="YDN-7Z-ret"/>
+                <constraint firstItem="EfS-Hu-frV" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="x9y-hI-GXr"/>
             </constraints>
             <point key="canvasLocation" x="389.5" y="396"/>
         </customView>
