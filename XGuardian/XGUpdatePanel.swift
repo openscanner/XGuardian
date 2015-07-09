@@ -8,6 +8,8 @@
 
 import Cocoa
 
+private var updatePanel : XGUpdatePanel?
+
 class XGUpdatePanel: NSWindowController , NSWindowDelegate {
 
     weak var versionInfo : XGVersionInfo?
@@ -46,16 +48,22 @@ class XGUpdatePanel: NSWindowController , NSWindowDelegate {
         
         self.versionText.objectValue = versionStr
         //NSApplication.sharedApplication().beginModalSessionForWindow(self.window!)
-        NSApplication.sharedApplication().runModalForWindow(self.window!)
+        //NSApplication.sharedApplication().runModalForWindow(self.window!)
     }
     
-    func panelShow() {
-        self.showWindow(self)
+    class func panelShow() {
+        if (nil == updatePanel) {
+            updatePanel = XGUpdatePanel(windowNibName: "UpdateWindow")
+            if(nil == updatePanel)  {
+                return
+            }
+        }
+        updatePanel!.showWindow(nil)
     }
     
     func windowShouldClose(sender: AnyObject) -> Bool {
         //NSApplication.sharedApplication().hide(sender)
-        NSApplication.sharedApplication().stopModal()
+        //NSApplication.sharedApplication().stopModal()
         return true
     }
     

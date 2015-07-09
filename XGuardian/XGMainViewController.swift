@@ -13,6 +13,7 @@ enum XGThreatsType {
     case None
     case ALL
     case keychainHijack
+    case BundleIDHijack
 }
 
 class XGSideBarItem : NSObject {
@@ -42,7 +43,8 @@ private let staticTopArray =  [NSString(string:staticFirstEmpty), NSString(strin
 
 private let staticChildrenDictionary = [
     staticTopArray[0] : [XGSideBarItem("All Scan",          "AllscanIcon",      XGThreatsType.ALL ,             "ScanView", "ThreatsView", "Scan all vulnerability attack")] ,
-    staticTopArray[1] : [XGSideBarItem("Keychain Hijack",   "KeychainIcon",     XGThreatsType.keychainHijack ,  "ScanView", "ThreatsView", "Keychain Hijack: Attack App can hijack keychain item through by delete keychain item first, then create the new one.")],
+    staticTopArray[1] : [XGSideBarItem("Keychain Hijack",   "KeychainIcon",     XGThreatsType.keychainHijack ,  "ScanView", "ThreatsView", "Keychain Hijack: Attack App can hijack keychain item through by delete keychain item first, then create the new one."),
+                        XGSideBarItem("BundleID Hijack",    "BudleIDIcon",     XGThreatsType.BundleIDHijack ,   "ScanView", "ThreatsView", "BundleIDHijack")],
     staticTopArray[2] : [XGSideBarItem("Keychain List",     "UrlschemlIcon",    XGThreatsType.None,             "KeychainView"," ", " ")]
 ];
 
@@ -68,6 +70,8 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
         self.nagivationView.sizeLastColumnToFit()
         self.nagivationView.floatsGroupRows = false
         //self.nagivationView.rowSizeStyle = NSTableViewRowSizeStyle.Custom
+        //self.nagivationView.rowHeight               =   NSFont.systemFontSizeForControlSize:(NSSmallControlSize) + 4;
+        //self.nagivationView.intercellSpacing        =   CGSizeMake(20, 5);
         self.nagivationView.reloadData()
         
         
@@ -120,10 +124,10 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
     
     //delegate for outline view; is group
     func outlineView(outlineView: NSOutlineView, isGroupItem item: AnyObject) -> Bool {
-        if let key = item as? NSString  {
-            let isGroup = (staticTopArray as NSArray).containsObject(key)
-            return isGroup
-        }
+//        if let key = item as? NSString  {
+//            let isGroup = (staticTopArray as NSArray).containsObject(key)
+//            return isGroup
+//        }
         return false
     }
     
@@ -147,7 +151,7 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
         if (item as? String) == staticFirstEmpty  {
             return 40.0
         }
-        return 20.0
+        return 25.0
     }
     
     

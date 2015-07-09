@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1934F43D1B443EAA00B0F3D7 /* UpdateWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1934F43C1B443EAA00B0F3D7 /* UpdateWindow.xib */; };
 		1934F4431B44427400B0F3D7 /* XGUpdatePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1934F4421B44427400B0F3D7 /* XGUpdatePanel.swift */; };
-		194D0E041B41855200A62650 /* XGHijackListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194D0E031B41855200A62650 /* XGHijackListView.swift */; };
 		195625561B4BBF25009EAD8E /* XGKeychainHijackDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195625551B4BBF25009EAD8E /* XGKeychainHijackDetailsCell.swift */; };
 		195625591B4CB633009EAD8E /* ScanView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 195625581B4CB633009EAD8E /* ScanView.xib */; };
 		1956255B1B4CB6BD009EAD8E /* XGScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1956255A1B4CB6BD009EAD8E /* XGScanView.swift */; };
@@ -26,16 +25,12 @@
 		198EE6F51B40FADA001A7BF2 /* XGSecurityItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE6F41B40FADA001A7BF2 /* XGSecurityItem.swift */; };
 		198EE6F71B40FB01001A7BF2 /* XGKeyChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE6F61B40FB01001A7BF2 /* XGKeyChain.swift */; };
 		198EE6F91B40FB09001A7BF2 /* XGSecurityItemSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE6F81B40FB09001A7BF2 /* XGSecurityItemSet.swift */; };
-		198EE6FB1B410E48001A7BF2 /* HijackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 198EE6FA1B410E48001A7BF2 /* HijackView.xib */; };
-		198EE6FD1B410EAD001A7BF2 /* XGHijackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE6FC1B410EAD001A7BF2 /* XGHijackView.swift */; };
 		198EE6FF1B412D63001A7BF2 /* KeychainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 198EE6FE1B412D63001A7BF2 /* KeychainView.xib */; };
 		198EE7021B413059001A7BF2 /* XGKeychainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE7011B413059001A7BF2 /* XGKeychainView.swift */; };
-		198EE7041B424EBC001A7BF2 /* XGHijackListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198EE7031B424EBC001A7BF2 /* XGHijackListCell.swift */; };
 		19927C761B4B6A5500FF0619 /* XGThreatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19927C751B4B6A5500FF0619 /* XGThreatsView.swift */; };
 		19927C791B4B6DA100FF0619 /* KeychainHijackDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19927C781B4B6DA100FF0619 /* KeychainHijackDetailsView.xib */; };
 		19927C7B1B4B735A00FF0619 /* XGKeychainHijackDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19927C7A1B4B735A00FF0619 /* XGKeychainHijackDetailsView.swift */; };
 		19927C7D1B4B760700FF0619 /* XGThreatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19927C7C1B4B760700FF0619 /* XGThreatsViewController.swift */; };
-		19A241BF1B4823F200890B93 /* XGHijackListAppCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A241BE1B4823F200890B93 /* XGHijackListAppCell.swift */; };
 		19BC414C1B4409D5009AF853 /* XGBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BC414B1B4409D5009AF853 /* XGBackend.swift */; };
 		19F821591B4D7FC6007B5285 /* XGSideBarCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F821581B4D7FC6007B5285 /* XGSideBarCellView.swift */; };
 		19FC85271B4ACC1A00D3AC9D /* ThreatsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19FC85261B4ACC1A00D3AC9D /* ThreatsView.xib */; };
@@ -56,7 +51,6 @@
 		1583F91FBE70D81D96260E9C /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		1934F43C1B443EAA00B0F3D7 /* UpdateWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpdateWindow.xib; sourceTree = "<group>"; };
 		1934F4421B44427400B0F3D7 /* XGUpdatePanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGUpdatePanel.swift; sourceTree = "<group>"; };
-		194D0E031B41855200A62650 /* XGHijackListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XGHijackListView.swift; path = XGuardian/XGHijackListView.swift; sourceTree = "<group>"; };
 		195625551B4BBF25009EAD8E /* XGKeychainHijackDetailsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGKeychainHijackDetailsCell.swift; sourceTree = "<group>"; };
 		195625581B4CB633009EAD8E /* ScanView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScanView.xib; sourceTree = "<group>"; };
 		1956255A1B4CB6BD009EAD8E /* XGScanView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGScanView.swift; sourceTree = "<group>"; };
@@ -80,16 +74,12 @@
 		198EE6F41B40FADA001A7BF2 /* XGSecurityItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XGSecurityItem.swift; path = XGuardian.xcodeproj/../XGuardian/XGSecurityItem.swift; sourceTree = "<group>"; };
 		198EE6F61B40FB01001A7BF2 /* XGKeyChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XGKeyChain.swift; path = XGuardian/XGKeyChain.swift; sourceTree = "<group>"; };
 		198EE6F81B40FB09001A7BF2 /* XGSecurityItemSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XGSecurityItemSet.swift; path = XGuardian/XGSecurityItemSet.swift; sourceTree = "<group>"; };
-		198EE6FA1B410E48001A7BF2 /* HijackView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HijackView.xib; path = XGuardian/HijackView.xib; sourceTree = "<group>"; };
-		198EE6FC1B410EAD001A7BF2 /* XGHijackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XGHijackView.swift; path = XGuardian/XGHijackView.swift; sourceTree = "<group>"; };
 		198EE6FE1B412D63001A7BF2 /* KeychainView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KeychainView.xib; sourceTree = "<group>"; };
 		198EE7011B413059001A7BF2 /* XGKeychainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGKeychainView.swift; sourceTree = "<group>"; };
-		198EE7031B424EBC001A7BF2 /* XGHijackListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XGHijackListCell.swift; path = XGuardian/XGHijackListCell.swift; sourceTree = "<group>"; };
 		19927C751B4B6A5500FF0619 /* XGThreatsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGThreatsView.swift; sourceTree = "<group>"; };
 		19927C781B4B6DA100FF0619 /* KeychainHijackDetailsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KeychainHijackDetailsView.xib; sourceTree = "<group>"; };
 		19927C7A1B4B735A00FF0619 /* XGKeychainHijackDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGKeychainHijackDetailsView.swift; sourceTree = "<group>"; };
 		19927C7C1B4B760700FF0619 /* XGThreatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGThreatsViewController.swift; sourceTree = "<group>"; };
-		19A241BE1B4823F200890B93 /* XGHijackListAppCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XGHijackListAppCell.swift; path = XGuardian/XGHijackListAppCell.swift; sourceTree = "<group>"; };
 		19BC414B1B4409D5009AF853 /* XGBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGBackend.swift; sourceTree = "<group>"; };
 		19F821581B4D7FC6007B5285 /* XGSideBarCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGSideBarCellView.swift; sourceTree = "<group>"; };
 		19FC85261B4ACC1A00D3AC9D /* ThreatsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThreatsView.xib; sourceTree = "<group>"; };
@@ -128,11 +118,6 @@
 		195625571B4CB559009EAD8E /* bak */ = {
 			isa = PBXGroup;
 			children = (
-				198EE6FA1B410E48001A7BF2 /* HijackView.xib */,
-				198EE6FC1B410EAD001A7BF2 /* XGHijackView.swift */,
-				194D0E031B41855200A62650 /* XGHijackListView.swift */,
-				198EE7031B424EBC001A7BF2 /* XGHijackListCell.swift */,
-				19A241BE1B4823F200890B93 /* XGHijackListAppCell.swift */,
 			);
 			name = bak;
 			sourceTree = "<group>";
@@ -346,7 +331,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				198EE6FF1B412D63001A7BF2 /* KeychainView.xib in Resources */,
-				198EE6FB1B410E48001A7BF2 /* HijackView.xib in Resources */,
 				198EE6921B40F728001A7BF2 /* Images.xcassets in Resources */,
 				198EE6951B40F728001A7BF2 /* MainMenu.xib in Resources */,
 				19FC85271B4ACC1A00D3AC9D /* ThreatsView.xib in Resources */,
@@ -423,10 +407,8 @@
 				19927C7B1B4B735A00FF0619 /* XGKeychainHijackDetailsView.swift in Sources */,
 				19750DA01B4A7EED0089F467 /* XGMainViewController.swift in Sources */,
 				19927C761B4B6A5500FF0619 /* XGThreatsView.swift in Sources */,
-				198EE6FD1B410EAD001A7BF2 /* XGHijackView.swift in Sources */,
 				1934F4431B44427400B0F3D7 /* XGUpdatePanel.swift in Sources */,
 				198EE6F71B40FB01001A7BF2 /* XGKeyChain.swift in Sources */,
-				194D0E041B41855200A62650 /* XGHijackListView.swift in Sources */,
 				195625561B4BBF25009EAD8E /* XGKeychainHijackDetailsCell.swift in Sources */,
 				1956255D1B4CB9AD009EAD8E /* XGScanViewController.swift in Sources */,
 				1956255B1B4CB6BD009EAD8E /* XGScanView.swift in Sources */,
@@ -435,8 +417,6 @@
 				19927C7D1B4B760700FF0619 /* XGThreatsViewController.swift in Sources */,
 				19F821591B4D7FC6007B5285 /* XGSideBarCellView.swift in Sources */,
 				198EE6C41B40F9E4001A7BF2 /* KeychainSwiftAPI.swift in Sources */,
-				198EE7041B424EBC001A7BF2 /* XGHijackListCell.swift in Sources */,
-				19A241BF1B4823F200890B93 /* XGHijackListAppCell.swift in Sources */,
 				1956255F1B4D0567009EAD8E /* XGTitleText.swift in Sources */,
 				198EE6C51B40F9E4001A7BF2 /* XGKeychainObserver.m in Sources */,
 				198EE6F51B40FADA001A7BF2 /* XGSecurityItem.swift in Sources */,

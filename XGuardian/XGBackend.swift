@@ -102,9 +102,9 @@ class XGBackend: NSObject {
             }
             lastedVersion = version
             println(versionInfo)
-            let updatePanel = XGUpdatePanel(windowNibName: "UpdateWindow")
+
             //updatePanel.loadWindow()
-            updatePanel.panelShow()
+            XGUpdatePanel.panelShow()
             
         }
     }
