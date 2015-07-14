@@ -16,12 +16,12 @@ class XGKeychainHijackDetailsCell: NSTableCellView {
         // Drawing code here.
     }
     
+    weak var upperView: XGKeychainHijackDetailsView?
     weak var secItem: XGSecurityItem?
     var appFullPath : String?
     
     override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()
-        
     }
     
     @IBAction func btnRevelAction(sender: AnyObject) {
@@ -30,9 +30,11 @@ class XGKeychainHijackDetailsCell: NSTableCellView {
     
     @IBAction func btnDeleteAction(sender: AnyObject) {
         if let applicationPath = self.appFullPath {
-            //println("\(secItem)")
+            println("\(secItem)")
             if let secKeyItemRef = self.secItem?.itemRef {
                 Keychain.secRemoveApp(itemRef: secKeyItemRef, applicationFullPath: applicationPath)
+                //Notifiy cell change
+                self.upperView?.tableViewCellChanged()
             }
         }
         return

@@ -11,13 +11,16 @@ import Cocoa
 private let kechainHijackString = "KEYCHAIN HIJACK"
 
 
-
 class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlineViewDataSource, NSSplitViewDelegate {
 
     @IBOutlet weak var threatsListView: NSOutlineView!
     @IBOutlet weak var detailView: NSView!
     @IBOutlet weak var titleButton: NSButton!
     
+    weak var barItem: XGSideBarItem?
+    
+    
+    //for current selected threat detail informations view controlller
     var currentdetailViewController: NSViewController?
     
     private let topArray = [NSString(string: kechainHijackString )]
@@ -29,13 +32,13 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
-        
-        let keychainHijackNum = self.getKeychainHijack()
+        self.reloadKeychainHijack()
+       
         
         //nagivation table view
         self.threatsListView.sizeLastColumnToFit()
         self.threatsListView.floatsGroupRows = true
-        self.threatsListView.reloadData()
+        
         
         switch self.threatsType {
         case XGThreatsType.ALL:
@@ -53,12 +56,46 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
         self.threatsListView.expandItem(nil, expandChildren: true)
         NSAnimationContext.endGrouping()
         
+   }
+    
+    override func viewDidAppear() {
+        super.viewDidAppear()
         
-        //TODO: set the first card in our list
-        //self.threatsListView.selectRowIndexes(NSIndexSet(index: 2), byExtendingSelection: false)
+        //add notification observer for threats change
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("threatsDidChanged:"), name: "XGThreadsChangeNotification", object: nil)
+        
+        self.refreshThreatsListView()
     }
     
-    private func getKeychainHijack() -> Int {
+    override func viewDidDisappear() {
+        super.viewDidDisappear()
+        
+        //remove notification observer for threats change
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "XGThreadsChangeNotification", object: nil)
+        
+    }
+    
+    
+    private func refreshThreatsListView() {
+        let keychainHijackNum = self.reloadKeychainHijack()
+        
+        //TODO: if at back??
+        self.threatsListView.reloadData()
+        
+        //set the first card in our list
+        self.selectFirstRow()
+    }
+    
+    
+    private func selectFirstRow() {
+        if(self.threatsType == XGThreatsType.ALL) {
+            self.threatsListView.selectRowIndexes(NSIndexSet(index: 1), byExtendingSelection: false)
+        }else {
+            self.threatsListView.selectRowIndexes(NSIndexSet(index: 0), byExtendingSelection: false)
+        }
+    }
+    
+    private func reloadKeychainHijack() -> Int {
         
         if  let itemSet = XGKeyChain.getItemSet() {
             self.kechainItemArray = itemSet.getPotentialArray();
@@ -94,6 +131,10 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     }
     
     func getThreatsNum() -> Int {
+        //update
+        self.refreshThreatsListView();
+        
+        //return number
         switch self.threatsType {
         case XGThreatsType.ALL:
             //TODO: now only have keychain
@@ -202,18 +243,17 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     
     /* TODO*/
     private func setHijackDetailView( #secItem : XGSecurityItem) {
-        let currentViewController = self.currentdetailViewController
+        if let currentViewController = self.currentdetailViewController {
+            currentViewController.view.removeFromSuperview()
+        }
         
 
         self.currentdetailViewController = NSViewController(nibName: "KeychainHijackDetailsView", bundle: nil)
    
         if let view = self.currentdetailViewController?.view as? XGKeychainHijackDetailsView{
             view.secItem = secItem
-            if let currentVC = currentViewController {
-                self.detailView.replaceSubview(currentVC.view, with: view)
-            } else {
-                self.detailView.addSubview(view)
-            }
+            view.upperViewController = self
+            self.detailView.addSubview(view)
         }
         return
     }
@@ -238,9 +278,6 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
                 default:
                     break
                 }
-                //self.setContentView(name: item as String)
-                //println("row : \(row) \(item)")
-                
             }
         case XGThreatsType.keychainHijack:
             if  let item = self.threatsListView.itemAtRow(row) as? XGSecurityItem{
@@ -253,7 +290,23 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
         return;
         
     }
-
+    
+    
+    func KeychainHijackViewChanged() {
+        //println("KeychainHijackViewChanged ")
+        self.refreshThreatsListView()
+        NSNotificationCenter.defaultCenter().postNotificationName(NotificationRescan, object: self.barItem)
+    }
+    
+    func threatsDidChanged(notification: NSNotification) {
+        //println("threatsDidChanged")
+        dispatch_async(dispatch_get_main_queue(), {
+            
+            // DO SOMETHING ON THE MAINTHREAD
+            self.KeychainHijackViewChanged()
+        })
+        
+    }
 
 
 }

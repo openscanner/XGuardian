@@ -20,7 +20,9 @@ class XGKeychainHijackDetailsView: NSView, NSTableViewDelegate, NSTableViewDataS
     
     @IBOutlet weak var hijackAppTableView: NSTableView!
     
+    
     weak var secItem : XGSecurityItem?
+    weak var upperViewController : XGThreatsViewController?
     
     
     override func drawRect(dirtyRect: NSRect) {
@@ -53,6 +55,7 @@ class XGKeychainHijackDetailsView: NSView, NSTableViewDelegate, NSTableViewDataS
 
         self.hijackAppTableView.setDelegate(self)
         self.hijackAppTableView.setDataSource(self)
+        self.hijackAppTableView.headerView = nil
         self.hijackAppTableView.reloadData()
         
         //seleted first row
@@ -75,7 +78,6 @@ class XGKeychainHijackDetailsView: NSView, NSTableViewDelegate, NSTableViewDataS
             return nil
         }
         let appList = self.secItem?.applicationList
-        
         let appPath = appList![row]
         
         if let identifier = tableColumn?.identifier {
@@ -86,11 +88,18 @@ class XGKeychainHijackDetailsView: NSView, NSTableViewDelegate, NSTableViewDataS
                 result.appFullPath = appPath
                 result.secItem = self.secItem
                 
+                result.upperView = self
                 return result
             }
         }
         
         return nil;
+    }
+    
+    
+    
+    func tableViewCellChanged() {
+        self.upperViewController?.KeychainHijackViewChanged()
     }
 
     

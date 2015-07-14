@@ -236,16 +236,15 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
     }
     
     //check the application list change
-    if ((info.securityItem.applicationNum !=1) &&  (oldItem.applicationNum != 1) ) {
-        return;
-    }
-    
     BOOL isSame = [oldItem isSameWith:info.securityItem];
     if (isSame) {
         return;
     }
     
+    // notification rescan?
     [itemSet addItem:info.securityItem];
+    //[self performSelectorOnMainThread:@selector(threatsDidChanged) withObject:nil waitUntilDone:NO];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"XGThreadsChangeNotification" object:nil];
     
     //notify
     NSUserNotification *notification  = [[NSUserNotification alloc]init];

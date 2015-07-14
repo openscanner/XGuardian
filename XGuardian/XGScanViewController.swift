@@ -53,7 +53,7 @@ class XGScanViewController: NSViewController, NSUserNotificationCenterDelegate {
         self.functionalDescrption.objectValue = self.barItem?.desc
 
     }
-        
+
     func processFireMethod(timer : NSTimer ){
         let processValue = self.getScanProcessValue()
             if ( processValue >= 89.9){
@@ -98,7 +98,7 @@ class XGScanViewController: NSViewController, NSUserNotificationCenterDelegate {
     
     func stopScan() {
         //notification to swich
-        NSNotificationCenter.defaultCenter().postNotificationName(ScanFinisheNotification, object: self.barItem)
+        NSNotificationCenter.defaultCenter().postNotificationName(NotificationScanFinish, object: self.barItem)
         //self.scanButton.title = "SCAN"
         self.scanState =  ScanSate.INIT
         self.scanButton.state = NSOnState

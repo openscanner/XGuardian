@@ -44,14 +44,18 @@ private let staticTopArray =  [NSString(string:staticFirstEmpty), NSString(strin
 private let staticChildrenDictionary = [
     staticTopArray[0] : [XGSideBarItem("All Scan",          "AllscanIcon",      XGThreatsType.ALL ,             "ScanView", "ThreatsView", "Scan all vulnerability attack")] ,
     staticTopArray[1] : [XGSideBarItem("Keychain Hijack",   "KeychainIcon",     XGThreatsType.keychainHijack ,  "ScanView", "ThreatsView", "Keychain Hijack: Attack App can hijack keychain item through by delete keychain item first, then create the new one."),
-                        XGSideBarItem("BundleID Hijack",    "BudleIDIcon",     XGThreatsType.BundleIDHijack ,   "ScanView", "ThreatsView", "BundleIDHijack")],
+        XGSideBarItem("BundleID Hijack",    "BudleIDIcon",     XGThreatsType.BundleIDHijack ,   "ScanView", "ThreatsView", "BundleIDHijack")],
     staticTopArray[2] : [XGSideBarItem("Keychain List",     "UrlschemlIcon",    XGThreatsType.None,             "KeychainView"," ", " ")]
 ];
 
 
 
-// notification
-let ScanFinisheNotification = "scanFinisheNotification"
+// notification observer
+let NotificationScanFinish = "scanFinishNotification"
+let NotificationRescan = "RescanNotification"
+
+let XGNotificationDictArray = [ ["Name" : NotificationScanFinish, "Selector" : "scanDidFinished:"],
+    ["Name" : NotificationRescan,     "Selector" : "shouldRescan:"]]
 
 class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineViewDataSource, NSSplitViewDelegate{
     
@@ -81,13 +85,14 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
         self.nagivationView.expandItem(nil, expandChildren: true)
         NSAnimationContext.endGrouping()
         
-        
-        //self.nagivationView.headerView = nil;
-        //self.nagivationView.reloadData()
-        //TODO: set the first card in our list
+        //set the first card in our list
         self.nagivationView.selectRowIndexes(NSIndexSet(index: 1), byExtendingSelection: false)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("scanDidFinished:"), name: ScanFinisheNotification, object: nil)
+        //regist notifcation observer
+        for noteDict in XGNotificationDictArray {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector(noteDict["Selector"]!), name: noteDict["Name"], object: nil)
+        }
+        
     }
     
     private func childrenForItem(item: AnyObject?) ->  [AnyObject]? {
@@ -124,10 +129,10 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
     
     //delegate for outline view; is group
     func outlineView(outlineView: NSOutlineView, isGroupItem item: AnyObject) -> Bool {
-//        if let key = item as? NSString  {
-//            let isGroup = (staticTopArray as NSArray).containsObject(key)
-//            return isGroup
-//        }
+        //        if let key = item as? NSString  {
+        //            let isGroup = (staticTopArray as NSArray).containsObject(key)
+        //            return isGroup
+        //        }
         return false
     }
     
@@ -171,12 +176,14 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
                     result.textField?.objectValue = barItem.title
                     result.imageView?.objectValue = NSImage(named:barItem.imageName)
                     if barItem.isThreatsView {
-                        result.indicatorButton.hidden = false
-                        result.indicatorButton.title = (self.currentContentViewController as! XGThreatsViewController).getThreatsNum().description
-                        result.indicatorButton.sizeToFit()
-                        let cell = result.indicatorButton.cell()  as! NSButtonCell
-                        cell.highlightsBy = NSCellStyleMask.allZeros
-
+                        if let threatsView = self.currentContentViewController as? XGThreatsViewController {
+                            result.indicatorButton.hidden = false
+                            result.indicatorButton.title = threatsView.getThreatsNum().description
+                            result.indicatorButton.sizeToFit()
+                            let cell = result.indicatorButton.cell()  as! NSButtonCell
+                            cell.highlightsBy = NSCellStyleMask.allZeros
+                        }
+                        
                     }else {
                         result.indicatorButton.hidden = true
                     }
@@ -197,6 +204,7 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
         if "ThreatsView" == name {
             let threatsViewController = XGThreatsViewController(nibName: name, bundle: nil)
             threatsViewController?.threatsType = barItem.type
+            threatsViewController?.barItem = barItem
             return threatsViewController
         } else if "ScanView" == name {
             let scanViewController = XGScanViewController(nibName: name, bundle: nil)
@@ -241,8 +249,9 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
         }
     }
     
+    //MARK: -
+    
     func scanDidFinished(notification: NSNotification) {
-        println("notification: \(notification)")
         if let bar = notification.object as? XGSideBarItem {
             self.setCurrentView(bar.secondNib, bar, true)
             bar.isThreatsView = true
@@ -252,7 +261,12 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
         return;
     }
     
+    
+    func shouldRescan(notification: NSNotification) {
+        println("shouldRescan notification: \(notification)")
+        if let bar = notification.object as? XGSideBarItem {
+            self.nagivationView.reloadData()
+        }
+    }
+    
 }
-
-
-
