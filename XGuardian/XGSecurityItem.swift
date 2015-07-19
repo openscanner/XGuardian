@@ -16,6 +16,7 @@ Just for GenericPassword and InternetPassword
 @objc(XGSecurityItem)
 class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
 
+    //*MARK: ClassType
     internal enum ClassType : Printable {
         case InternetPassword
         case GenericPassword
@@ -69,6 +70,8 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         
     }
     
+//*MARK: -
+    
     class func protocolFullName(shortName : String ) -> String {
         switch shortName {
         case kSecAttrProtocolFTP as! String        :  return "ftp"
@@ -106,6 +109,25 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         }
     }
     
+ //*MARK: -
+    
+    enum XGSecurityAppType: Int {
+        case Unknown = 0
+        case WhiteList = 1
+        case Sining = 2
+        case Group = 3
+        case Apple = 4
+    }
+    
+    class XGSecurityItemApp: NSObject {
+        var type : XGSecurityAppType = XGSecurityAppType.Unknown
+        var fullPath: String = ""
+        
+        init(path : String, _ type : XGSecurityAppType) {
+            self.fullPath = path
+            self.type = type
+        }
+    }
     
 //*MARK: -
     
@@ -122,8 +144,8 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
     var itemRef : SecKeychainItemRef?
     var keychain : String?
 
-    // var accessible : ?
-    // var access: SecAccessRef? //kSecAttrAccess
+//*MARK: -
+    
     @objc(init:)
     init(attrDict:NSDictionary) {
         
@@ -204,6 +226,8 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         super.init()
         return
     }
+
+//*MARK: -
     
     @objc(isSameWith:)
     func isSameWith(otherItem: XGSecurityItem) -> Bool {
@@ -221,66 +245,88 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         return true;
     }
     
-    private func checkApple(appFullPath: String) -> Bool {
-        
-        //TODO : change String compare 
-        if appFullPath.hasPrefix("group:") {
-            return true
-        }
-        if appFullPath.hasPrefix("InternetAccounts") {
-            return true
-        }
-        
-        var ref : Unmanaged<SecStaticCode>?
-        let url = NSURL(fileURLWithPath: appFullPath)!
-        
-        
-        let cfUrl = url as CFURL;
-        
 
-        var status = SecStaticCodeCreateWithPath(cfUrl , SecCSFlags(kSecCSDefaultFlags) /*0*/, &ref)
-        if status != errSecSuccess || ref == nil {
-            return false
-        }
-        let secStaticCode = ref!.takeRetainedValue() as SecStaticCode;
+    
+    private func checkApple(appFullPath: String) -> XGSecurityAppType {
         
-        var dictRef : Unmanaged<CFDictionary>?
-        status = SecCodeCopySigningInformation(secStaticCode, SecCSFlags(kSecCSSigningInformation), &dictRef )
-        if status != errSecSuccess || dictRef == nil {
-            return false
+        if appFullPath.hasPrefix("group:") {
+            return XGSecurityAppType.Group
         }
-        let signingInfoDict = dictRef!.takeRetainedValue() as NSDictionary;
         
-        if let identifier = signingInfoDict[kSecCodeInfoIdentifier as NSString] as? NSString{
-            let isApple = identifier.hasPrefix("com.apple")
-            if isApple {return true}
-        } else {
-            return false; //no apple's
+        //TODO : change String compare
+        let ia = "InternetAccounts"
+        if appFullPath.hasPrefix(ia) {
+            return XGSecurityAppType.Apple
         }
-                
-        return false
+        
+        
+        if let identifier = XGUtilize.getBundleIDFromPath(appFullPath){
+            if identifier.hasPrefix("com.apple") {
+                return XGSecurityAppType.Apple
+            } else {
+                return XGSecurityAppType.Sining     
+            }
+        }
+        
+        return XGSecurityAppType.Unknown
     }
     
     func isLikely() -> Bool {
         
-        if ( applicationNum == 0 || applicationNum == 1 ){
+        //check application numbers
+        if ( self.applicationNum <= 1  ){
             return false;
         }
         
-        //any application~~
-        if ( applicationNum == -1 ){
+        
+        if (nil == self.applicationList ) {
             return false;
         }
         
-        if let appArray = self.applicationList {
-            for appPath in appArray {
-                if false == self.checkApple(appPath) {
-                    return true
+        var appList = self.applicationList!
+        var leftApps = [String]()
+        var leftAppNum = appList.count
+        
+        var applicationTypeList = [XGSecurityAppType](count: leftAppNum, repeatedValue: XGSecurityAppType.Unknown )
+        
+        //check is apple
+        for ( var i = 0; i <  appList.count ; i++ ){
+            let type = self.checkApple(appList[i])
+            applicationTypeList[i] = type
+            if (XGSecurityAppType.Group == type || XGSecurityAppType.Apple == type){
+                leftAppNum -= 1
+                if appList[i].lastPathComponent.hasPrefix("Keychain Access.app") {
+                    leftAppNum -= 1
                 }
+            } else {
+                leftApps.append(appList[i])
             }
         }
         
-        return false
+        
+        if leftAppNum <= 0 {
+            return false
+        }
+        
+        //check is same
+        while leftApps.count > 1 {
+            let appLast = leftApps.removeLast()
+
+            for appOther in leftApps {
+                if(appOther.hasPrefix(appLast) || appLast.hasPrefix(appOther)) {
+                    leftAppNum--
+                }
+            }
+            
+        }
+        
+        if leftAppNum <= 0 {
+            return false
+        }
+        
+        //check white list
+        
+        return true
 
     }
     

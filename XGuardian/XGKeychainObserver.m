@@ -243,14 +243,13 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
     
     // notification rescan?
     [itemSet addItem:info.securityItem];
-    //[self performSelectorOnMainThread:@selector(threatsDidChanged) withObject:nil waitUntilDone:NO];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"XGThreadsChangeNotification" object:nil];
     
     //notify
     NSUserNotification *notification  = [[NSUserNotification alloc]init];
     NSUserNotificationCenter* ntfCecenter = [NSUserNotificationCenter defaultUserNotificationCenter];
     [notification setTitle: @"HiJack"];
-    [notification setContentImage:[NSImage imageNamed:@"NSApplicationIcon"]];
+    //[notification setContentImage:[NSImage imageNamed:@"NSApplicationIcon"]];
     //notification.activationType = NSUserNotificationActivationTypeContentsClicked;
     [notification setInformativeText:[[NSString  alloc] initWithFormat:@"%@(%@) may have been hijack! Please check it.", info.securityItem.name, info.securityItem.account]];
     [ntfCecenter deliverNotification:notification];

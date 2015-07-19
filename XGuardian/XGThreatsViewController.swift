@@ -8,7 +8,8 @@
 
 import Cocoa
 
-private let kechainHijackString = "KEYCHAIN HIJACK"
+private let kechainHijackString = "keychain Hijack"
+private let bundleIDHijackString = "BundleID Hijack"
 
 
 class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlineViewDataSource, NSSplitViewDelegate {
@@ -23,28 +24,28 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     //for current selected threat detail informations view controlller
     var currentdetailViewController: NSViewController?
     
-    private let topArray = [NSString(string: kechainHijackString )]
+    private let topArray = [NSString(string: kechainHijackString ), NSString(string: bundleIDHijackString)]
     
     private var kechainItemArray : [XGSecurityItem]?
+    private var bundleItemArray : [XGBundleHijackItem]?
     
     var threatsType = XGThreatsType.None
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do view setup here.
-        self.reloadKeychainHijack()
-       
-        
-        //nagivation table view
+      
+           //nagivation table view
         self.threatsListView.sizeLastColumnToFit()
         self.threatsListView.floatsGroupRows = true
         
         
         switch self.threatsType {
         case XGThreatsType.ALL:
-            self.titleButton?.title = "ALL SCAN"
+            self.titleButton?.title = "All Scan"
         case XGThreatsType.keychainHijack:
             self.titleButton.title = "Keychain Hijack"
+        case XGThreatsType.BundleIDHijack:
+            self.titleButton.title = "BundleID Hijack"
         default:
             break
         }
@@ -76,8 +77,26 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     }
     
     
+    private func reloadThreatsData() {
+        switch self.threatsType {
+        case XGThreatsType.ALL:
+            self.reloadKeychainHijack()
+            self.reloadBundleHijiack()
+            
+        case XGThreatsType.keychainHijack:
+            self.reloadKeychainHijack()
+            
+        case XGThreatsType.BundleIDHijack:
+            self.reloadBundleHijiack()
+            
+        default:
+            break
+        }
+    }
+    
     private func refreshThreatsListView() {
-        let keychainHijackNum = self.reloadKeychainHijack()
+
+        self.reloadThreatsData()
         
         //TODO: if at back??
         self.threatsListView.reloadData()
@@ -93,6 +112,15 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
         }else {
             self.threatsListView.selectRowIndexes(NSIndexSet(index: 0), byExtendingSelection: false)
         }
+    }
+    
+    private func reloadBundleHijiack() -> Int {
+        self.bundleItemArray = XGContainerApplicationManager.sharedInstance.hijackedApplicationArray
+        if (nil == self.bundleItemArray) {
+            return 0
+        }
+        
+        return self.bundleItemArray!.count
     }
     
     private func reloadKeychainHijack() -> Int {
@@ -115,6 +143,8 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
             if  let key = item as? NSString {
                 if key.isEqualToString(kechainHijackString) {
                     return self.kechainItemArray
+                } else if  key.isEqualToString(bundleIDHijackString) {
+                    return self.bundleItemArray
                 } else {
                     return nil
                 }
@@ -124,24 +154,43 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
         case XGThreatsType.keychainHijack:
             return self.kechainItemArray
             
+        case XGThreatsType.BundleIDHijack:
+            return self.bundleItemArray
+            
         default:
             break
         }
         return nil
     }
     
+    private func keychainThreatsNum() -> Int {
+        if let array = self.kechainItemArray {
+            return array.count
+        }
+        return 0
+    }
+    
+    private func bundleIDThreatsNum() -> Int {
+        if let array = self.bundleItemArray {
+            return array.count
+        }
+        return 0
+    }
+    
     func getThreatsNum() -> Int {
-        //update
-        self.refreshThreatsListView();
-        
+
+        self.reloadThreatsData()
         //return number
         switch self.threatsType {
         case XGThreatsType.ALL:
             //TODO: now only have keychain
-            return self.kechainItemArray!.count
+            return  self.keychainThreatsNum() + self.bundleIDThreatsNum()
             
         case XGThreatsType.keychainHijack:
-            return self.kechainItemArray!.count
+            return self.keychainThreatsNum()
+        
+        case XGThreatsType.BundleIDHijack:
+            return self.bundleIDThreatsNum()
             
         default:
             break
@@ -193,12 +242,12 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     
     
     //delegate for outline view; row height
-    func outlineView(outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat {
-        if nil == outlineView.parentForItem(item) {
-            return 17.0
-        }
-        return 17.0
-    }
+//    func outlineView(outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat {
+//        if nil == outlineView.parentForItem(item) {
+//            return 17.0
+//        }
+//        return 17.0
+//    }
     
     
     //delegate for outline view
@@ -207,27 +256,44 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
         // For the groups, we just return a regular text view.
         if  (self.threatsType == XGThreatsType.ALL) && ((self.topArray as NSArray).containsObject(item)) {
             if let result =  outlineView.makeViewWithIdentifier("HeaderCell", owner: self) as? NSTableCellView {
-                result.textField?.objectValue = (item as! NSString).uppercaseString
+                result.textField?.objectValue = (item as! NSString)
                 return result
             }
         }  else {
             if let result =  outlineView.makeViewWithIdentifier("DataCell", owner: self) as? NSTableCellView {
-
-                if self.threatsType == XGThreatsType.ALL {
+                
+                var itemType = XGThreatsType.None
+                
+                switch self.threatsType {
+                case XGThreatsType.ALL:
                     let key = outlineView.parentForItem(item) as! NSString
                     if key.isEqualToString(kechainHijackString) {
-                        let secItem = item as! XGSecurityItem
-                        result.textField?.objectValue = secItem.name
-                        result.imageView?.objectValue = NSImage(named:NSImageNameQuickLookTemplate)
-                    } else {
-                        return nil
+                        itemType = XGThreatsType.keychainHijack
+                    } else if  key.isEqualToString(bundleIDHijackString) {
+                        itemType = XGThreatsType.BundleIDHijack
                     }
-                } else if self.threatsType == XGThreatsType.keychainHijack {
+                    
+                default:
+                    itemType = self.threatsType
+                }
+                
+                switch itemType {
+                case XGThreatsType.keychainHijack:
                     let secItem = item as! XGSecurityItem
                     result.textField?.objectValue = secItem.name
                     result.imageView?.objectValue = NSImage(named:NSImageNameQuickLookTemplate)
+                    
+                    
+                case XGThreatsType.BundleIDHijack:
+                    let bundleItem = item  as! XGBundleHijackItem
+                    result.textField?.objectValue = bundleItem.application.bundleID
+                    result.imageView?.objectValue = NSWorkspace.sharedWorkspace().iconForFile(bundleItem.application.fullPath)
+                    
+                default:
+                    break
+                    
                 }
-                
+            
                 return result
             }
         }
@@ -258,11 +324,30 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
         return
     }
     
+    private func setBundleDetailView( #bundleItem : XGBundleHijackItem) {
+        if let currentViewController = self.currentdetailViewController {
+            currentViewController.view.removeFromSuperview()
+        }
+        
+        
+        self.currentdetailViewController = NSViewController(nibName: "XGBundleDetailsView", bundle: nil)
+        
+        if let view = self.currentdetailViewController?.view as? XGBundleDetailsView{
+            view.bundleHijackItem = bundleItem
+            view.upperViewController = self
+            self.detailView.addSubview(view)
+        }
+        return
+    }
+    
     func outlineViewSelectionDidChange(notification: NSNotification) {
         let row = self.threatsListView.selectedRow;
         if(row < 0 ) {
             return
         }
+        
+        var itemType = XGThreatsType.None
+        
         switch self.threatsType {
         case XGThreatsType.ALL:
             if  let item : AnyObject = self.threatsListView.itemAtRow(row) {
@@ -274,14 +359,28 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
                 let parent = self.threatsListView.parentForItem(item) as! String
                 switch parent {
                 case kechainHijackString:
-                    self.setHijackDetailView(secItem: item as! XGSecurityItem)
+                    itemType = XGThreatsType.keychainHijack
+                case bundleIDHijackString:
+                    itemType = XGThreatsType.BundleIDHijack
                 default:
                     break
                 }
             }
+            
+        default:
+            itemType = self.threatsType
+        }
+        
+        switch itemType{
         case XGThreatsType.keychainHijack:
             if  let item = self.threatsListView.itemAtRow(row) as? XGSecurityItem{
                 self.setHijackDetailView(secItem: item )
+                
+            }
+        
+        case XGThreatsType.BundleIDHijack:
+            if  let item = self.threatsListView.itemAtRow(row) as? XGBundleHijackItem{
+                self.setBundleDetailView(bundleItem: item )
                 
             }
         default:

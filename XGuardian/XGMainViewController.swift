@@ -25,7 +25,7 @@ class XGSideBarItem : NSObject {
     let desc : String
     var isThreatsView: Bool = false
     
-    init(_ title : String, _ imageName : String, _ type: XGThreatsType,  _ firstNib : String,  _  secondNib : String, _ desc : String ) {
+    init(title : String, imageName : String, type: XGThreatsType, firstNib : String, secondNib : String,desc : String ) {
         self.title = title
         self.imageName = imageName
         self.type = type
@@ -39,13 +39,37 @@ class XGSideBarItem : NSObject {
 
 // side bar item dictionary
 private let staticFirstEmpty = "     "
-private let staticTopArray =  [NSString(string:staticFirstEmpty), NSString(string:"Flaws"), NSString(string:"Information")]
+private let staticFlaws=NSString(string:"Flaws")
+private let staticTopArray =  [NSString(string:staticFirstEmpty), staticFlaws, NSString(string:"Information")]
 
 private let staticChildrenDictionary = [
-    staticTopArray[0] : [XGSideBarItem("All Scan",          "AllscanIcon",      XGThreatsType.ALL ,             "ScanView", "ThreatsView", "Scan all vulnerability attack")] ,
-    staticTopArray[1] : [XGSideBarItem("Keychain Hijack",   "KeychainIcon",     XGThreatsType.keychainHijack ,  "ScanView", "ThreatsView", "Keychain Hijack: Attack App can hijack keychain item through by delete keychain item first, then create the new one."),
-        XGSideBarItem("BundleID Hijack",    "BudleIDIcon",     XGThreatsType.BundleIDHijack ,   "ScanView", "ThreatsView", "BundleIDHijack")],
-    staticTopArray[2] : [XGSideBarItem("Keychain List",     "UrlschemlIcon",    XGThreatsType.None,             "KeychainView"," ", " ")]
+    staticTopArray[0] : [XGSideBarItem( title:      "All Scan",
+                                        imageName:  "AllscanIcon",
+                                        type:       XGThreatsType.ALL ,
+                                        firstNib:   "ScanView",
+                                        secondNib:  "ThreatsView",
+                                        desc:        "Scan all vulnerability attack")] ,
+    
+    staticTopArray[1] : [XGSideBarItem( title:      "Keychain Hijack",
+                                        imageName:  "KeychainIcon",
+                                        type:       XGThreatsType.keychainHijack ,
+                                        firstNib:   "ScanView",
+                                        secondNib:  "ThreatsView",
+                                        desc:       "Attack App can hijack keychain item through by delete keychain item first, then create the new one."),
+        
+                        XGSideBarItem(  title:      "BundleID Hijack",
+                                        imageName:  "BudleIDIcon",
+                                        type:       XGThreatsType.BundleIDHijack ,
+                                        firstNib:   "ScanView",
+                                        secondNib:  "ThreatsView",
+                                        desc: "Attack Application fully access the target application's container by hijiack bundleID through sub-application")],
+    
+    staticTopArray[2] : [XGSideBarItem( title:      "Keychain List",
+                                        imageName:  "UrlschemlIcon",
+                                        type:       XGThreatsType.None,
+                                        firstNib:   "KeychainView",
+                                        secondNib:  "",
+                                        desc:       "")]
 ];
 
 
@@ -64,7 +88,6 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
     
     var currentContentViewController: NSViewController?
     var contentViewControllerDict  = [String:NSViewController]()
-    var viewControllerArray =  [NSViewController]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -176,9 +199,9 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
                     result.textField?.objectValue = barItem.title
                     result.imageView?.objectValue = NSImage(named:barItem.imageName)
                     if barItem.isThreatsView {
-                        if let threatsView = self.currentContentViewController as? XGThreatsViewController {
+                        if let threatsViewController = self.contentViewControllerDict[barItem.title] as? XGThreatsViewController {
                             result.indicatorButton.hidden = false
-                            result.indicatorButton.title = threatsView.getThreatsNum().description
+                            result.indicatorButton.title = threatsViewController.getThreatsNum().description
                             result.indicatorButton.sizeToFit()
                             let cell = result.indicatorButton.cell()  as! NSButtonCell
                             cell.highlightsBy = NSCellStyleMask.allZeros
@@ -199,7 +222,8 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
         return false
     }
     
-    //
+//MARK: -
+    
     private func getViewController(name: String, barItem: XGSideBarItem) -> NSViewController? {
         if "ThreatsView" == name {
             let threatsViewController = XGThreatsViewController(nibName: name, bundle: nil)
@@ -215,7 +239,6 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
         return NSViewController(nibName: name, bundle: nil)
     }
     
-    //TODO:
     private func setCurrentView(nibName: String, _ barItem: XGSideBarItem, _ forceSwitch: Bool) {
         
         let currentViewController = self.currentContentViewController
@@ -237,6 +260,19 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
         }
     }
     
+    //set backend view, not show on frontend
+    private func setBackendView(nibName: String, _ barItem: XGSideBarItem) {
+        
+        let contentViewController = self.getViewController(nibName, barItem: barItem)
+        self.contentViewControllerDict[barItem.title] = contentViewController
+        
+//        if let view = contentViewController?.view {
+//            self.mainContentView.addSubview(view, positioned: NSWindowOrderingMode.Out, relativeTo: nil)
+//        }
+        
+    }
+    
+    //
     func outlineViewSelectionDidChange(notification: NSNotification) {
         let row = self.nagivationView.selectedRow;
         if(row != -1 ) {
@@ -247,23 +283,32 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
                 }
             }
         }
+        
     }
-    
-    //MARK: -
-    
+
     func scanDidFinished(notification: NSNotification) {
         if let bar = notification.object as? XGSideBarItem {
+            if(bar.type == XGThreatsType.ALL) {
+                for sub_bar in staticChildrenDictionary[staticFlaws]! {
+                    if !sub_bar.isThreatsView {
+                        self.setBackendView(sub_bar.secondNib, sub_bar)
+                        sub_bar.isThreatsView = true
+                    }
+                }
+            }
             self.setCurrentView(bar.secondNib, bar, true)
             bar.isThreatsView = true
             self.nagivationView.reloadData()
+            
             //self.nagivationView.reloadItem(bar)
         }
-        return;
+        return
+        
     }
     
     
     func shouldRescan(notification: NSNotification) {
-        println("shouldRescan notification: \(notification)")
+        //println("shouldRescan notification: \(notification)")
         if let bar = notification.object as? XGSideBarItem {
             self.nagivationView.reloadData()
         }

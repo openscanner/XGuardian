@@ -7,8 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		190B59A11B5BD456007ECBEF /* XGFileEventsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 190B59A01B5BD456007ECBEF /* XGFileEventsHelper.m */; };
+		193351711B5602770075F32C /* XGFileSecurityHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1933516F1B5602770075F32C /* XGFileSecurityHelper.m */; };
+		193351761B573D820075F32C /* XGThirdMacApplicationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193351751B573D820075F32C /* XGThirdMacApplicationInfo.swift */; };
+		193351791B5740380075F32C /* XGUtilize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193351781B5740380075F32C /* XGUtilize.swift */; };
+		1933517B1B578D620075F32C /* XGContainerApplicationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1933517A1B578D620075F32C /* XGContainerApplicationManager.swift */; };
 		1934F43D1B443EAA00B0F3D7 /* UpdateWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1934F43C1B443EAA00B0F3D7 /* UpdateWindow.xib */; };
 		1934F4431B44427400B0F3D7 /* XGUpdatePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1934F4421B44427400B0F3D7 /* XGUpdatePanel.swift */; };
+		1945F7C31B58AB6A00201FD6 /* XGBundleDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1945F7C21B58AB6A00201FD6 /* XGBundleDetailsView.xib */; };
+		1945F7C51B58B47B00201FD6 /* XGBundleDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1945F7C41B58B47B00201FD6 /* XGBundleDetailsView.swift */; };
 		195625561B4BBF25009EAD8E /* XGKeychainHijackDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195625551B4BBF25009EAD8E /* XGKeychainHijackDetailsCell.swift */; };
 		195625591B4CB633009EAD8E /* ScanView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 195625581B4CB633009EAD8E /* ScanView.xib */; };
 		1956255B1B4CB6BD009EAD8E /* XGScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1956255A1B4CB6BD009EAD8E /* XGScanView.swift */; };
@@ -48,8 +55,17 @@
 
 /* Begin PBXFileReference section */
 		1583F91FBE70D81D96260E9C /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		190B599F1B5BD456007ECBEF /* XGFileEventsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XGFileEventsHelper.h; path = XGuardian/XGFileEventsHelper.h; sourceTree = "<group>"; };
+		190B59A01B5BD456007ECBEF /* XGFileEventsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XGFileEventsHelper.m; path = XGuardian/XGFileEventsHelper.m; sourceTree = "<group>"; };
+		1933516E1B5602770075F32C /* XGFileSecurityHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XGFileSecurityHelper.h; path = XGuardian/XGFileSecurityHelper.h; sourceTree = "<group>"; };
+		1933516F1B5602770075F32C /* XGFileSecurityHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XGFileSecurityHelper.m; path = XGuardian/XGFileSecurityHelper.m; sourceTree = "<group>"; };
+		193351751B573D820075F32C /* XGThirdMacApplicationInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XGThirdMacApplicationInfo.swift; path = XGuardian/XGThirdMacApplicationInfo.swift; sourceTree = "<group>"; };
+		193351781B5740380075F32C /* XGUtilize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XGUtilize.swift; path = XGuardian/XGUtilize.swift; sourceTree = "<group>"; };
+		1933517A1B578D620075F32C /* XGContainerApplicationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XGContainerApplicationManager.swift; path = XGuardian/XGContainerApplicationManager.swift; sourceTree = "<group>"; };
 		1934F43C1B443EAA00B0F3D7 /* UpdateWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpdateWindow.xib; sourceTree = "<group>"; };
 		1934F4421B44427400B0F3D7 /* XGUpdatePanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGUpdatePanel.swift; sourceTree = "<group>"; };
+		1945F7C21B58AB6A00201FD6 /* XGBundleDetailsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = XGBundleDetailsView.xib; sourceTree = "<group>"; };
+		1945F7C41B58B47B00201FD6 /* XGBundleDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGBundleDetailsView.swift; sourceTree = "<group>"; };
 		195625551B4BBF25009EAD8E /* XGKeychainHijackDetailsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGKeychainHijackDetailsCell.swift; sourceTree = "<group>"; };
 		195625581B4CB633009EAD8E /* ScanView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScanView.xib; sourceTree = "<group>"; };
 		1956255A1B4CB6BD009EAD8E /* XGScanView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XGScanView.swift; sourceTree = "<group>"; };
@@ -104,6 +120,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		193351771B573FCE0075F32C /* Utilize */ = {
+			isa = PBXGroup;
+			children = (
+				193351781B5740380075F32C /* XGUtilize.swift */,
+			);
+			name = Utilize;
+			sourceTree = "<group>";
+		};
 		1934F4461B444AAE00B0F3D7 /* update */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,17 +137,11 @@
 			name = update;
 			sourceTree = "<group>";
 		};
-		195625571B4CB559009EAD8E /* bak */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = bak;
-			sourceTree = "<group>";
-		};
 		198EE6811B40F728001A7BF2 = {
 			isa = PBXGroup;
 			children = (
-				195625571B4CB559009EAD8E /* bak */,
+				193351771B573FCE0075F32C /* Utilize */,
+				19F838C21B54A9CA00CE7902 /* BundleID */,
 				198EE6AE1B40F7AE001A7BF2 /* KeychainAPI */,
 				198EE68C1B40F728001A7BF2 /* XGuardian */,
 				19927C771B4B6A6300FF0619 /* Views */,
@@ -203,6 +221,7 @@
 				198EE6931B40F728001A7BF2 /* MainMenu.xib */,
 				19FC85261B4ACC1A00D3AC9D /* ThreatsView.xib */,
 				19927C781B4B6DA100FF0619 /* KeychainHijackDetailsView.xib */,
+				1945F7C21B58AB6A00201FD6 /* XGBundleDetailsView.xib */,
 				198EE6FE1B412D63001A7BF2 /* KeychainView.xib */,
 				1934F43C1B443EAA00B0F3D7 /* UpdateWindow.xib */,
 				198EE6911B40F728001A7BF2 /* Images.xcassets */,
@@ -217,14 +236,28 @@
 				19F821581B4D7FC6007B5285 /* XGSideBarCellView.swift */,
 				1956255A1B4CB6BD009EAD8E /* XGScanView.swift */,
 				1956255C1B4CB9AD009EAD8E /* XGScanViewController.swift */,
+				19927C751B4B6A5500FF0619 /* XGThreatsView.swift */,
+				19927C7C1B4B760700FF0619 /* XGThreatsViewController.swift */,
 				198EE7011B413059001A7BF2 /* XGKeychainView.swift */,
 				195625551B4BBF25009EAD8E /* XGKeychainHijackDetailsCell.swift */,
 				19927C7A1B4B735A00FF0619 /* XGKeychainHijackDetailsView.swift */,
-				19927C751B4B6A5500FF0619 /* XGThreatsView.swift */,
-				19927C7C1B4B760700FF0619 /* XGThreatsViewController.swift */,
+				1945F7C41B58B47B00201FD6 /* XGBundleDetailsView.swift */,
 			);
 			name = Views;
 			path = XGuardian;
+			sourceTree = "<group>";
+		};
+		19F838C21B54A9CA00CE7902 /* BundleID */ = {
+			isa = PBXGroup;
+			children = (
+				1933516E1B5602770075F32C /* XGFileSecurityHelper.h */,
+				1933516F1B5602770075F32C /* XGFileSecurityHelper.m */,
+				193351751B573D820075F32C /* XGThirdMacApplicationInfo.swift */,
+				1933517A1B578D620075F32C /* XGContainerApplicationManager.swift */,
+				190B599F1B5BD456007ECBEF /* XGFileEventsHelper.h */,
+				190B59A01B5BD456007ECBEF /* XGFileEventsHelper.m */,
+			);
+			name = BundleID;
 			sourceTree = "<group>";
 		};
 		8D3765460586C53AA94FC9D9 /* Pods */ = {
@@ -329,6 +362,7 @@
 			files = (
 				198EE6FF1B412D63001A7BF2 /* KeychainView.xib in Resources */,
 				198EE6921B40F728001A7BF2 /* Images.xcassets in Resources */,
+				1945F7C31B58AB6A00201FD6 /* XGBundleDetailsView.xib in Resources */,
 				198EE6951B40F728001A7BF2 /* MainMenu.xib in Resources */,
 				19FC85271B4ACC1A00D3AC9D /* ThreatsView.xib in Resources */,
 				195625591B4CB633009EAD8E /* ScanView.xib in Resources */,
@@ -400,23 +434,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				198EE6F91B40FB09001A7BF2 /* XGSecurityItemSet.swift in Sources */,
+				1933517B1B578D620075F32C /* XGContainerApplicationManager.swift in Sources */,
 				19BC414C1B4409D5009AF853 /* XGBackend.swift in Sources */,
 				19927C7B1B4B735A00FF0619 /* XGKeychainHijackDetailsView.swift in Sources */,
 				19750DA01B4A7EED0089F467 /* XGMainViewController.swift in Sources */,
+				1945F7C51B58B47B00201FD6 /* XGBundleDetailsView.swift in Sources */,
 				19927C761B4B6A5500FF0619 /* XGThreatsView.swift in Sources */,
 				1934F4431B44427400B0F3D7 /* XGUpdatePanel.swift in Sources */,
+				193351791B5740380075F32C /* XGUtilize.swift in Sources */,
 				198EE6F71B40FB01001A7BF2 /* XGKeyChain.swift in Sources */,
 				195625561B4BBF25009EAD8E /* XGKeychainHijackDetailsCell.swift in Sources */,
 				1956255D1B4CB9AD009EAD8E /* XGScanViewController.swift in Sources */,
 				1956255B1B4CB6BD009EAD8E /* XGScanView.swift in Sources */,
 				198EE6C01B40F9D3001A7BF2 /* CXKeychainHelper.m in Sources */,
+				193351761B573D820075F32C /* XGThirdMacApplicationInfo.swift in Sources */,
 				198EE7021B413059001A7BF2 /* XGKeychainView.swift in Sources */,
 				19927C7D1B4B760700FF0619 /* XGThreatsViewController.swift in Sources */,
 				19F821591B4D7FC6007B5285 /* XGSideBarCellView.swift in Sources */,
 				198EE6C41B40F9E4001A7BF2 /* KeychainSwiftAPI.swift in Sources */,
+				190B59A11B5BD456007ECBEF /* XGFileEventsHelper.m in Sources */,
 				198EE6C51B40F9E4001A7BF2 /* XGKeychainObserver.m in Sources */,
 				198EE6F51B40FADA001A7BF2 /* XGSecurityItem.swift in Sources */,
 				198EE6901B40F728001A7BF2 /* AppDelegate.swift in Sources */,
+				193351711B5602770075F32C /* XGFileSecurityHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

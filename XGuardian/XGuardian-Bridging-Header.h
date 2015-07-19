@@ -3,4 +3,6 @@
 //
 
 #import "CXKeychainHelper.h"
-#include "XGKeychainObserver.h"
+#import "XGKeychainObserver.h"
+#import "XGFileSecurityHelper.h"
+#import "XGFileEventsHelper.h"

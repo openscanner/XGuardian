@@ -29,6 +29,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate{
     
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         
+//        XGFileSecurityHelper.printApplicationsList()
+//        XGFileSecurityHelper.getACLfromPath("/Users/wyd/Library/Containers/com.tencent.qq")
+        let applicationMgr = XGContainerApplicationManager.sharedInstance
+        applicationMgr.scan()
+        applicationMgr.startMoniter()
+        
         //start observe thread
         XGKeychainObserver.startObserve()
         self.loadViews()

@@ -183,7 +183,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="548" y="201" width="999" height="666"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="999" height="666"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -250,12 +250,12 @@
                                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="cCW-Lx-07g"/>
                                                                         </imageView>
                                                                         <button translatesAutoresizingMaskIntoConstraints="NO" id="H8f-q2-yrC">
-                                                                            <rect key="frame" x="173" y="8" width="32" height="21"/>
+                                                                            <rect key="frame" x="166" y="8" width="39" height="21"/>
                                                                             <constraints>
-                                                                                <constraint firstAttribute="width" constant="28" id="Y59-e4-swM"/>
+                                                                                <constraint firstAttribute="width" constant="35" id="Y59-e4-swM"/>
                                                                                 <constraint firstAttribute="height" constant="16" id="rV0-x6-wId"/>
                                                                             </constraints>
-                                                                            <buttonCell key="cell" type="bevel" title="indicator" bezelStyle="regularSquare" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9Gx-NK-cNj">
+                                                                            <buttonCell key="cell" type="bevel" title="indicator" bezelStyle="regularSquare" imagePosition="overlaps" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9Gx-NK-cNj">
                                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                 <font key="font" metaFont="smallSystem"/>
                                                                             </buttonCell>
@@ -275,7 +275,7 @@
                                                                         <constraint firstItem="KgO-BP-Unz" firstAttribute="top" secondItem="exr-d6-ktS" secondAttribute="top" constant="2" id="HkI-eu-zKM"/>
                                                                         <constraint firstAttribute="trailing" secondItem="H8f-q2-yrC" secondAttribute="trailing" constant="5" id="LEh-2K-bnE"/>
                                                                         <constraint firstItem="KgO-BP-Unz" firstAttribute="top" secondItem="txS-Ws-Nm0" secondAttribute="top" constant="1" id="iel-eV-wex"/>
-                                                                        <constraint firstItem="H8f-q2-yrC" firstAttribute="leading" secondItem="exr-d6-ktS" secondAttribute="trailing" constant="2" id="u5i-oO-aDc"/>
+                                                                        <constraint firstItem="H8f-q2-yrC" firstAttribute="leading" secondItem="exr-d6-ktS" secondAttribute="trailing" constant="-5" id="u5i-oO-aDc"/>
                                                                         <constraint firstItem="KgO-BP-Unz" firstAttribute="leading" secondItem="txS-Ws-Nm0" secondAttribute="leading" constant="3" id="ubd-Cf-G3C"/>
                                                                         <constraint firstItem="KgO-BP-Unz" firstAttribute="bottom" secondItem="exr-d6-ktS" secondAttribute="bottom" constant="2" id="wmZ-cy-433"/>
                                                                         <constraint firstItem="H8f-q2-yrC" firstAttribute="top" secondItem="txS-Ws-Nm0" secondAttribute="top" constant="3" id="ygD-3t-h3Z"/>
