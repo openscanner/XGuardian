@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="NSViewController">
+            <connections>
+                <outlet property="view" destination="c22-O7-iKe" id="sVR-Ew-7YJ"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe" customClass="XGURLSchemeDetailsView" customModule="XGuardian">
+            <rect key="frame" x="0.0" y="0.0" width="490" height="602"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="b4S-fj-1zJ">
+                    <rect key="frame" x="80" y="399" width="214" height="18"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="210" id="adQ-Y4-lh1"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Change Default Application" id="ghT-xF-qCT">
+                        <font key="font" metaFont="system" size="15"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autorecalculatesCellSize="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uqg-dT-WO4">
+                    <rect key="frame" x="82" y="373" width="360" height="18"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="360" id="v3M-e8-3qc"/>
+                    </constraints>
+                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    <size key="cellSize" width="360" height="18"/>
+                    <size key="intercellSpacing" width="4" height="2"/>
+                    <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="YfP-eT-iwk">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <cells>
+                        <column>
+                            <buttonCell type="radio" title="Radio" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="KgN-tp-yuF">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </column>
+                    </cells>
+                    <connections>
+                        <action selector="matrixAction:" target="c22-O7-iKe" id="di2-QZ-wK0"/>
+                    </connections>
+                </matrix>
+            </subviews>
+            <constraints>
+                <constraint firstItem="uqg-dT-WO4" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="82" id="1hS-ZC-f63"/>
+                <constraint firstItem="b4S-fj-1zJ" firstAttribute="leading" secondItem="uqg-dT-WO4" secondAttribute="leading" id="g7V-qj-dJe"/>
+                <constraint firstItem="uqg-dT-WO4" firstAttribute="top" secondItem="b4S-fj-1zJ" secondAttribute="bottom" constant="8" id="tRQ-Py-CrF"/>
+                <constraint firstItem="b4S-fj-1zJ" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="185" id="vyJ-pz-7LV"/>
+            </constraints>
+            <connections>
+                <outlet property="SchemeApplicationsMatrix" destination="uqg-dT-WO4" id="7CK-jM-aw2"/>
+            </connections>
+        </customView>
+    </objects>
+</document>

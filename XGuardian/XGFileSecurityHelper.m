@@ -103,6 +103,7 @@ errout:
 //        fprintf(stderr, "Unable to translate qualifier on ACL\n");
 //        strcpy(name, "<UNKNOWN>");
 //    }
+    free(name);
     return NULL;
 }
 

@@ -20,27 +20,32 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
     switch (keychainEvent) {
         case kSecLockEvent:
         case kSecUnlockEvent:
-        case kSecKeychainListChangedEvent:
+        //case kSecPasswordChangedEvent:
+        //case kSecDataAccessEvent:
             /*no need */
             return errSecSuccess;
             break;
-        /*case kSecAddEvent:
+        /*case kSecKeychainListChangedEvent:
+            break;
+        case kSecAddEvent:
             break;
         case kSecDeleteEvent:
             break;
         case kSecUpdateEvent:
             break;
-        case kSecPasswordChangedEvent:
-            break;
+        
         case kSecDefaultChangedEvent:
             break;
-        case kSecDataAccessEvent:
-            break;
+        
         case kSecTrustSettingsChangedEvent:
             break;
         default:
             NSLog(@"Unknown keychain event");
             break;*/
+    }
+    
+    if ( keychainEvent > kSecTrustSettingsChangedEvent ){
+        return errSecSuccess;
     }
     [staticSharedObserver processKeychainEvent:keychainEvent CBInfo:info];
     return errSecSuccess;
@@ -56,7 +61,7 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
 @implementation XGKeychainObserverCallbackManager
 
 +(OSStatus) secKeychainAddCallback{
-     SecKeychainEventMask wathEventMask = kSecAddEventMask|kSecDeleteEventMask|kSecUpdateEventMask|kSecPasswordChangedEventMask|kSecDefaultChangedEventMask|kSecDataAccessEventMask|kSecTrustSettingsChangedEventMask;
+    SecKeychainEventMask wathEventMask = kSecEveryEventMask;//kSecKeychainListChangedEvent|kSecAddEventMask|kSecDeleteEventMask|kSecUpdateEventMask|kSecPasswordChangedEventMask|kSecDefaultChangedEventMask|kSecDataAccessEventMask|kSecTrustSettingsChangedEventMask;
     OSStatus stat = SecKeychainAddCallback ( XGSecKeychainCBFun, wathEventMask, &CB_Context );
     return stat;
 }
@@ -81,12 +86,13 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
 @property (readonly, nonatomic        ) NSString           *bundleID;
 @property (readonly, nonatomic        ) NSURL              *bundleURL;
 @property (readonly, nonatomic        ) XGSecurityItem     *securityItem;
+@property (readonly, nonatomic) SecKeychainItemRef         secKeychainItemRef;
 @end
 
 @implementation XGKeychainCallbackInfo
 
 - (instancetype)init:(SecKeychainEvent)event CBInfo:(SecKeychainCallbackInfo *)cbinfo
-             AppInfo:(NSRunningApplication*)appInfo SecurityItem:(XGSecurityItem *)securityItem{
+             AppInfo:(NSRunningApplication*)appInfo SecurityItem:(XGSecurityItem *)securityItem secKeychainItemRef: (SecKeychainItemRef) itemRef {
     self = [super  init];
     if (self) {
         _event = event;
@@ -100,6 +106,7 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
         _bundleURL = [appInfo bundleURL];
         
         _securityItem = securityItem;
+        _secKeychainItemRef = itemRef;
  
     }
     return self;
@@ -190,21 +197,18 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
     XGSecurityItem *securityItem = nil;
     if( nil != itemRef) {
         NSDictionary* attrDict = [XGKeyChain secKeychainItemGetAttr:itemRef];
-        if(nil == attrDict) {
-            return;
+        //NSLog(@"!!!SecKeychainItemRef:%p !!!!", itemRef);
+        if(nil != attrDict) {
+            if (nil ==  [attrDict objectForKey:@"v_Ref"] ) {
+                [attrDict setValue:(__bridge id)(itemRef) forKey:@"v_Ref"];
+            }
+            securityItem = [[XGSecurityItem alloc]init:attrDict];
         }
-        //NSLog(@"item%@", attrDict);
-        
-        if (nil ==  [attrDict objectForKey:@"v_Ref"] ) {
-            [attrDict setValue:(__bridge id)(itemRef) forKey:@"v_Ref"];
-        }
-        securityItem = [[XGSecurityItem alloc]init:attrDict];
-        
     }
     
     NSRunningApplication *appInfo = [NSRunningApplication runningApplicationWithProcessIdentifier:cbinfo->pid];
 
-    XGKeychainCallbackInfo* info = [[XGKeychainCallbackInfo alloc] init:event CBInfo:cbinfo AppInfo:appInfo SecurityItem:securityItem];
+    XGKeychainCallbackInfo* info = [[XGKeychainCallbackInfo alloc] init:event CBInfo:cbinfo AppInfo:appInfo SecurityItem:securityItem secKeychainItemRef:itemRef];
     
     [self performSelector:@selector(keychainEventProcessor:) onThread:[self thread] withObject:info waitUntilDone:NO];
 }
@@ -224,40 +228,63 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
     return;
 }
 
+- (void) keychainChangeUserNotify:(NSString*) noteText  : (NSString*) noteContext{
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"XGKeychainThreadsChangeNotification" object:noteContext];
+    
+    //user notify
+    NSUserNotification *notification  = [[NSUserNotification alloc]init];
+    NSUserNotificationCenter* ntfCecenter = [NSUserNotificationCenter defaultUserNotificationCenter];
+    [notification setTitle: @"Notice"];
+    [notification setInformativeText:noteText];
+    [ntfCecenter deliverNotification:notification];
+    
+}
+
 - (void) keychainEventProcessor:(XGKeychainCallbackInfo *)info {
     
     //NSLog(@"SecKeychainCallbackInfo:\nevent:%d version:%d pid:%d \nApp Name:%@\nbundle ID:%@\nbudle URL:%@\n item:%@", [info event], [info version], [info pid], info.appName, info.bundleID, info.bundleURL, info.securityItem);
     
-    //find same key info in the dictionary
+     //find same key info in the dictionary
     XGSecurityItemSet *itemSet = [XGKeyChain getItemSet];
-    XGSecurityItem *oldItem = [itemSet findItem:[info securityItem]];
-    if(nil == oldItem) {
-        return;
+    XGSecurityItem *oldItem = nil;
+    if (nil != info.securityItem ) {
+        oldItem = [itemSet findItem:[info securityItem]];
     }
-    
-    //check the application list change
-    BOOL isSame = [oldItem isSameWith:info.securityItem];
-    if (isSame) {
-        return;
-    }
-    
-    // notification rescan?
-    [itemSet addItem:info.securityItem];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"XGThreadsChangeNotification" object:nil];
-    
-    //notify
-    NSUserNotification *notification  = [[NSUserNotification alloc]init];
-    NSUserNotificationCenter* ntfCecenter = [NSUserNotificationCenter defaultUserNotificationCenter];
-    [notification setTitle: @"HiJack"];
-    //[notification setContentImage:[NSImage imageNamed:@"NSApplicationIcon"]];
-    //notification.activationType = NSUserNotificationActivationTypeContentsClicked;
-    [notification setInformativeText:[[NSString  alloc] initWithFormat:@"%@(%@) may have been hijack! Please check it.", info.securityItem.name, info.securityItem.account]];
-    [ntfCecenter deliverNotification:notification];
-    
     
 
-    
+    if (info.event == kSecDeleteEvent /*|| info.event > kSecTrustSettingsChangedEvent *TODO: I don't known what's that*/) {
+        if ( nil != info.securityItem) {
+            [itemSet removeItem:info.securityItem];
+        }
+        [self keychainChangeUserNotify:@"Some keychain items has been changed. Plese rescan!" :@"rescan"];
+        
+    } else {
+        if(nil == oldItem) {
+            [itemSet addItem:info.securityItem];
+            return;
+        }
+       
+        //check the application list change
+        BOOL isSame = [oldItem isSameWith:info.securityItem];
+        if (isSame) {
+            return;
+        }
+        
+        [itemSet addItem:info.securityItem];
+        if (info.securityItem.applicationNum <= 1 ){
+            return;
+        }
+        
+        // notification rescan?
+        
+        
+        //notify
+        [self keychainChangeUserNotify:[[NSString  alloc] initWithFormat:@"%@(%@) may have been hijack! Please check it.", info.securityItem.name, info.securityItem.account] :nil];
+        
+    }
 }
+
 
 
 @end

@@ -19,12 +19,18 @@ class XGSecurityItemSet: NSObject {
         return self.itemDict.isEmpty
     } }
     
-    func addItem( item : XGSecurityItem) {
-        self.itemDict[item.key()] = item
+    func addItem( item: XGSecurityItem?) {
+        if let realItem = item {
+            self.itemDict[realItem.key()] = realItem
+        }
     }
     
     func removeItem(item : XGSecurityItem) {
         self.itemDict.removeValueForKey(item.key())
+    }
+    
+    func removeAll() {
+        self.itemDict.removeAll(keepCapacity: true)
     }
     
     @objc(findItem:)

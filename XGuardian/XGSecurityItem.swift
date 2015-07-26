@@ -111,13 +111,7 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
     
  //*MARK: -
     
-    enum XGSecurityAppType: Int {
-        case Unknown = 0
-        case WhiteList = 1
-        case Sining = 2
-        case Group = 3
-        case Apple = 4
-    }
+
     
     class XGSecurityItemApp: NSObject {
         var type : XGSecurityAppType = XGSecurityAppType.Unknown
@@ -143,6 +137,7 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
     var applicationNum: Int = 0
     var itemRef : SecKeychainItemRef?
     var keychain : String?
+    var applicationTypeList : [XGSecurityAppType]?
 
 //*MARK: -
     
@@ -247,29 +242,7 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
     
 
     
-    private func checkApple(appFullPath: String) -> XGSecurityAppType {
-        
-        if appFullPath.hasPrefix("group:") {
-            return XGSecurityAppType.Group
-        }
-        
-        //TODO : change String compare
-        let ia = "InternetAccounts"
-        if appFullPath.hasPrefix(ia) {
-            return XGSecurityAppType.Apple
-        }
-        
-        
-        if let identifier = XGUtilize.getBundleIDFromPath(appFullPath){
-            if identifier.hasPrefix("com.apple") {
-                return XGSecurityAppType.Apple
-            } else {
-                return XGSecurityAppType.Sining     
-            }
-        }
-        
-        return XGSecurityAppType.Unknown
-    }
+
     
     func isLikely() -> Bool {
         
@@ -290,10 +263,12 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         var applicationTypeList = [XGSecurityAppType](count: leftAppNum, repeatedValue: XGSecurityAppType.Unknown )
         
         //check is apple
+        var OK_nubmer = 0
         for ( var i = 0; i <  appList.count ; i++ ){
-            let type = self.checkApple(appList[i])
+            let type = XGUtilize.checkApple(appList[i])
             applicationTypeList[i] = type
-            if (XGSecurityAppType.Group == type || XGSecurityAppType.Apple == type){
+            if (XGSecurityAppType.Group == type || XGSecurityAppType.Apple == type || XGSecurityAppType.WhiteList == type ){
+                OK_nubmer = 1
                 leftAppNum -= 1
                 if appList[i].lastPathComponent.hasPrefix("Keychain Access.app") {
                     leftAppNum -= 1
@@ -311,21 +286,21 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         //check is same
         while leftApps.count > 1 {
             let appLast = leftApps.removeLast()
-
+            
             for appOther in leftApps {
                 if(appOther.hasPrefix(appLast) || appLast.hasPrefix(appOther)) {
                     leftAppNum--
                 }
             }
-            
         }
         
-        if leftAppNum <= 0 {
+        if (leftAppNum + OK_nubmer) <= 1 {
             return false
         }
         
-        //check white list
-        
+        //TODO: check same sining
+
+        self.applicationTypeList = applicationTypeList
         return true
 
     }

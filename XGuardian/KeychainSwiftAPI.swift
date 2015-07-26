@@ -1073,8 +1073,11 @@ public class Keychain
         let statusRaw = SecKeychainItemCopyAccess(itemRef, &accessRaw);
         
         let status = ResultCode.fromRaw(statusRaw)
-        let access = accessRaw!.takeRetainedValue() as SecAccess
-        return (status:status,access: access)
+        if  nil != accessRaw {
+            let access = accessRaw!.takeRetainedValue() as SecAccess
+            return (status:status,access: access)
+        }
+        return (status:status,access: nil)
     }
     
     // not warpper
@@ -1159,17 +1162,17 @@ public class Keychain
         if let appListArray = alcContent.applicationList {
             for appRefData in appListArray {
                 let appRef = appRefData as! SecTrustedApplicationRef
-                let res3 = secTrustedApplicationCopyData(appRef: appRef)
+                let dataResult = secTrustedApplicationCopyData(appRef: appRef)
                 
-                if res3.status != ResultCode.errSecSuccess {
+                if dataResult.status != ResultCode.errSecSuccess {
                     NSLog("secTrustedApplicationCopyData error")
+                    continue
                 }
                 
-                let appPathData = res3.data;
-                
-                let appString = NSString(data:appPathData, encoding:NSUTF8StringEncoding) as! String
-                //println("appRefData \(appRefData) \(appString)")
-                appList.append(appString)
+                let appString = NSString(data:dataResult.data, encoding:NSUTF8StringEncoding)
+                if let appPath = appString?.substringToIndex(appString!.length-1) {
+                    appList.append(appPath)
+                }
             }
         }else {     
             appList.append(Keychain.secAuthorizeAllApp)

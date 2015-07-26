@@ -10,6 +10,7 @@ import Cocoa
 
 private let kechainHijackString = "keychain Hijack"
 private let bundleIDHijackString = "BundleID Hijack"
+private let URLSchemeString = "URL Scheme"
 
 
 class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlineViewDataSource, NSSplitViewDelegate {
@@ -24,10 +25,11 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     //for current selected threat detail informations view controlller
     var currentdetailViewController: NSViewController?
     
-    private let topArray = [NSString(string: kechainHijackString ), NSString(string: bundleIDHijackString)]
+    private let topArray = [NSString(string: kechainHijackString ), NSString(string: bundleIDHijackString), NSString(string: URLSchemeString)]
     
     private var kechainItemArray : [XGSecurityItem]?
     private var bundleItemArray : [XGBundleHijackItem]?
+    private weak var URLSchemeDict : XGURLSchemeDict?
     
     var threatsType = XGThreatsType.None
     
@@ -43,9 +45,11 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
         case XGThreatsType.ALL:
             self.titleButton?.title = "All Scan"
         case XGThreatsType.keychainHijack:
-            self.titleButton.title = "Keychain Hijack"
+            self.titleButton.title = kechainHijackString
         case XGThreatsType.BundleIDHijack:
-            self.titleButton.title = "BundleID Hijack"
+            self.titleButton.title = bundleIDHijackString
+        case XGThreatsType.URLScheme:
+            self.titleButton.title = URLSchemeString
         default:
             break
         }
@@ -57,22 +61,67 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
         self.threatsListView.expandItem(nil, expandChildren: true)
         NSAnimationContext.endGrouping()
         
-   }
+        self.addNotificationObserver()
+    }
+    
+     deinit {
+        self.removeNotificationObserver()
+    }
     
     override func viewDidAppear() {
         super.viewDidAppear()
-        
-        //add notification observer for threats change
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("threatsDidChanged:"), name: "XGThreadsChangeNotification", object: nil)
-        
         self.refreshThreatsListView()
     }
     
-    override func viewDidDisappear() {
-        super.viewDidDisappear()
+    private func addNotificationObserver() {
         
+        //add notification observer for threats change
+        
+        switch self.threatsType {
+        case XGThreatsType.ALL:
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("threatsDidChanged:"), name: "XGKeychainThreadsChangeNotification", object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("threatsDidChanged:"), name: "XGBundleIDThreadsChangeNotification", object: nil)
+            
+        case XGThreatsType.keychainHijack:
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("threatsDidChanged:"), name: "XGKeychainThreadsChangeNotification", object: nil)
+            
+        case XGThreatsType.BundleIDHijack:
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("threatsDidChanged:"), name: "XGBundleIDThreadsChangeNotification", object: nil)
+        
+        case XGThreatsType.URLScheme:
+            // do nothing
+            break
+            //NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("threatsDidChanged:"), name: "XGBundleIDThreadsChangeNotification", object: nil)
+            
+        default:
+            break
+        }
+    }
+    
+    private func removeNotificationObserver() {
+        
+        switch self.threatsType {
+        case XGThreatsType.ALL:
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: "XGKeychainThreadsChangeNotification", object: nil)
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: "XGBundleIDThreadsChangeNotification", object: nil)
+
+            
+        case XGThreatsType.keychainHijack:
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: "XGKeychainThreadsChangeNotification", object: nil)
+            
+        case XGThreatsType.BundleIDHijack:
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: "XGBundleIDThreadsChangeNotification", object: nil)
+        
+        case XGThreatsType.URLScheme:
+            // do nothing
+            break
+            //NSNotificationCenter.defaultCenter().removeObserver(self, name: "XGBundleIDThreadsChangeNotification", object: nil)
+
+        default:
+            break
+        }
         //remove notification observer for threats change
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "XGThreadsChangeNotification", object: nil)
+       
         
     }
     
@@ -82,13 +131,16 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
         case XGThreatsType.ALL:
             self.reloadKeychainHijack()
             self.reloadBundleHijiack()
+            self.reloadURLScheme()
             
         case XGThreatsType.keychainHijack:
             self.reloadKeychainHijack()
             
         case XGThreatsType.BundleIDHijack:
             self.reloadBundleHijiack()
-            
+        
+        case XGThreatsType.URLScheme:
+            self.reloadURLScheme()
         default:
             break
         }
@@ -136,6 +188,15 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
         return self.kechainItemArray!.count
     }
     
+    private func reloadURLScheme() -> Int {
+        self.URLSchemeDict = XGURLSchemeManager.sharedInstance.urlSchemeMultiDict
+        
+        if let count = self.URLSchemeDict?.dataDict.count {
+            return count
+        }
+        return 0
+    }
+    
     
     private func childrenForItem(item: AnyObject?) ->  [AnyObject]? {
         switch self.threatsType {
@@ -145,7 +206,16 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
                     return self.kechainItemArray
                 } else if  key.isEqualToString(bundleIDHijackString) {
                     return self.bundleItemArray
-                } else {
+                } else if key.isEqualToString(URLSchemeString) {
+                    if let schemeStringArray = self.URLSchemeDict?.dataDict.keys.array {
+                        var schemeNSStringArray = [NSString]()
+                        for schemeString in schemeStringArray {
+                            schemeNSStringArray.append(schemeString as NSString)
+                        }
+                        return schemeNSStringArray
+                    }
+                }
+                else {
                     return nil
                 }
             }
@@ -156,6 +226,16 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
             
         case XGThreatsType.BundleIDHijack:
             return self.bundleItemArray
+        
+        case XGThreatsType.URLScheme:
+            if let schemeStringArray = self.URLSchemeDict?.dataDict.keys.array {
+                var schemeNSStringArray = [NSString]()
+                for schemeString in schemeStringArray {
+                    schemeNSStringArray.append(schemeString as NSString)
+                }
+                return schemeNSStringArray
+            }
+            
             
         default:
             break
@@ -177,6 +257,13 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
         return 0
     }
     
+    private func URLSchmeThreatsNum()  -> Int {
+        if let count = self.URLSchemeDict?.dataDict.count {
+            return count
+        }
+        return 0
+    }
+    
     func getThreatsNum() -> Int {
 
         self.reloadThreatsData()
@@ -184,13 +271,16 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
         switch self.threatsType {
         case XGThreatsType.ALL:
             //TODO: now only have keychain
-            return  self.keychainThreatsNum() + self.bundleIDThreatsNum()
+            return  self.keychainThreatsNum() + self.bundleIDThreatsNum() + self.URLSchmeThreatsNum()
             
         case XGThreatsType.keychainHijack:
             return self.keychainThreatsNum()
         
         case XGThreatsType.BundleIDHijack:
             return self.bundleIDThreatsNum()
+        
+        case XGThreatsType.URLScheme:
+            return self.URLSchmeThreatsNum()
             
         default:
             break
@@ -271,7 +361,10 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
                         itemType = XGThreatsType.keychainHijack
                     } else if  key.isEqualToString(bundleIDHijackString) {
                         itemType = XGThreatsType.BundleIDHijack
+                    }  else if  key.isEqualToString(URLSchemeString) {
+                        itemType = XGThreatsType.URLScheme
                     }
+
                     
                 default:
                     itemType = self.threatsType
@@ -281,13 +374,22 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
                 case XGThreatsType.keychainHijack:
                     let secItem = item as! XGSecurityItem
                     result.textField?.objectValue = secItem.name
-                    result.imageView?.objectValue = NSImage(named:NSImageNameQuickLookTemplate)
+                    if secItem.classType == XGSecurityItem.ClassType.InternetPassword {
+                        result.imageView?.objectValue = NSImage(named: NSImageNameUserAccounts)
+                    } else {
+                        result.imageView?.objectValue = NSImage(named:NSImageNameUser)
+                    }
                     
                     
                 case XGThreatsType.BundleIDHijack:
                     let bundleItem = item  as! XGBundleHijackItem
                     result.textField?.objectValue = bundleItem.application.bundleID
                     result.imageView?.objectValue = NSWorkspace.sharedWorkspace().iconForFile(bundleItem.application.fullPath)
+                    
+                case XGThreatsType.URLScheme:
+                    let scheme = item  as! String
+                    result.textField?.objectValue = scheme + "://"
+                    result.imageView?.hidden = true
                     
                 default:
                     break
@@ -340,6 +442,23 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
         return
     }
     
+    private func setURLSchemeDetailView( #scheme : NSString) {
+        if let currentViewController = self.currentdetailViewController {
+            currentViewController.view.removeFromSuperview()
+        }
+        
+        
+        self.currentdetailViewController = NSViewController(nibName: "XGURLSchemeHijackDetailsView", bundle: nil)
+        
+        if let view = self.currentdetailViewController?.view as? XGURLSchemeDetailsView {
+            view.scheme = scheme as String
+            view.appFullPaths = self.URLSchemeDict?.dataDict[scheme as String]
+            view.upperViewController = self
+            self.detailView.addSubview(view)
+        }
+        return
+    }
+    
     func outlineViewSelectionDidChange(notification: NSNotification) {
         let row = self.threatsListView.selectedRow;
         if(row < 0 ) {
@@ -362,6 +481,8 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
                     itemType = XGThreatsType.keychainHijack
                 case bundleIDHijackString:
                     itemType = XGThreatsType.BundleIDHijack
+                case URLSchemeString:
+                    itemType = XGThreatsType.URLScheme
                 default:
                     break
                 }
@@ -383,6 +504,12 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
                 self.setBundleDetailView(bundleItem: item )
                 
             }
+        
+        case XGThreatsType.URLScheme:
+            if  let item = self.threatsListView.itemAtRow(row) as? NSString {
+                self.setURLSchemeDetailView(scheme: item )
+                
+            }
         default:
             break
         }
@@ -391,19 +518,44 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     }
     
     
-    func KeychainHijackViewChanged() {
-        //println("KeychainHijackViewChanged ")
+    private func refreshThreatsListViewAndSideBar() {
+        
         self.refreshThreatsListView()
-        NSNotificationCenter.defaultCenter().postNotificationName(NotificationRescan, object: self.barItem)
+        NSNotificationCenter.defaultCenter().postNotificationName(NotificationRefresh, object: self.barItem)
+    }
+    
+    func KeychainHijackViewChanged(rescan : Bool) {
+        //println("KeychainHijackViewChanged ")
+        if rescan {
+            NSNotificationCenter.defaultCenter().postNotificationName(NotificationRescan, object: self.barItem)
+        } else {
+            self.refreshThreatsListViewAndSideBar()
+        }
+    }
+    
+    func bundleIDHijackViewChanged() {
+        //println("bundleIDHijackViewChanged ")
+
+        self.refreshThreatsListViewAndSideBar()
     }
     
     func threatsDidChanged(notification: NSNotification) {
         //println("threatsDidChanged")
-        dispatch_async(dispatch_get_main_queue(), {
-            
-            // DO SOMETHING ON THE MAINTHREAD
-            self.KeychainHijackViewChanged()
-        })
+        let rescan =  (notification.object != nil)
+        
+        if notification.name == "XGKeychainThreadsChangeNotification" {
+            dispatch_async(dispatch_get_main_queue(), {
+                
+                // DO SOMETHING ON THE MAINTHREAD
+                self.KeychainHijackViewChanged(rescan)
+            })
+        } else {
+            dispatch_async(dispatch_get_main_queue(), {
+                
+                // DO SOMETHING ON THE MAINTHREAD
+                self.bundleIDHijackViewChanged()
+            })
+        }
         
     }
 

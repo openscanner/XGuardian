@@ -26,45 +26,13 @@ class XGBundleHijackItem : NSObject {
 @objc(XGContainerApplicationManager)
 class XGContainerApplicationManager: NSObject {
     
+    //single
     @objc(sharedInstance)
     static let sharedInstance = XGContainerApplicationManager()
-    
-    let fileManager = NSFileManager.defaultManager()
-    var applications = [XGThirdMacApplicationInfo]()
-    
-    var hijackedApplicationArray = [XGBundleHijackItem]()
-    
-    private func getSubApplications(url : NSURL ) -> [NSURL] {
-        
-        var subAppURL = [NSURL]()
 
-    
-        var filesURL =  [url]
-        while ( filesURL.count > 0) {
-            let url = filesURL.removeLast()
-            
-            var subFiles = fileManager.contentsOfDirectoryAtURL(url,
-                includingPropertiesForKeys: [NSURLIsDirectoryKey],
-                options: NSDirectoryEnumerationOptions.SkipsHiddenFiles,
-                error: nil)
-            
-            if(nil == subFiles || subFiles?.count == 0) {
-                continue
-            }
-            var subFilesURL =  subFiles as! [NSURL]
-            for subFile in subFilesURL {
-                if let pathExtension = subFile.pathExtension {
-                    if (pathExtension == "app" || pathExtension == "xpc"){
-                        subAppURL.append(subFile)
-                    } else {
-                        filesURL.append(subFile)
-                    }
-                }
-            }
-        }
-        
-        return subAppURL
-    }
+    var applications = [XGThirdMacApplicationInfo]()
+    var hijackedApplicationArray = [XGBundleHijackItem]()
+    private var scanProcess = 0.0
     
     private func savApplication( url : NSURL, subApps : [NSURL]?) {
         if let app = XGThirdMacApplicationInfo(fullPath: url.path!) {
@@ -85,7 +53,7 @@ class XGContainerApplicationManager: NSObject {
     }
     
     private func isApple(url : NSURL ) -> Bool {
-        if let bundleID = XGUtilize.getBundleIDFromPath(url.path!) {
+        if let bundleID = XGUtilize.getBundleIDFromURL(url) {
             if bundleID.hasPrefix("com.apple") {
                 return true
             }
@@ -93,26 +61,12 @@ class XGContainerApplicationManager: NSObject {
         return false
     }
     
-    private func getApplicationsURL() -> NSURL {
-        let urls = fileManager.URLsForDirectory(NSSearchPathDirectory.ApplicationDirectory,
-            inDomains:NSSearchPathDomainMask.SystemDomainMask) as! [NSURL]
-        let url = urls[0]
-        return url
-    }
+    
     
     private func getAllThirdApplications() {
+        
         //find all applications in the /Appplication
-
-        //println("urls \(urls)")
-        let url = self.getApplicationsURL()
-        var applicationsURLAarry = [NSURL]()
-
-        let applicationArray = self.getSubApplications(url)
-        if(0 != applicationArray.count) {
-            applicationsURLAarry += applicationArray
-        } else {
-            return
-        }
+        let applicationsURLAarry = XGUtilize.getApplications(NSSearchPathDomainMask.SystemDomainMask)
         
         
         //find sub application
@@ -122,7 +76,7 @@ class XGContainerApplicationManager: NSObject {
             if self.isApple(appURL) {
                 continue
             }
-            let subAppURLArray = self.getSubApplications(appURL)
+            let subAppURLArray = XGUtilize.getSubApplications(appURL)
             self.savApplication(appURL , subApps : subAppURLArray)
         }
     }
@@ -159,30 +113,48 @@ class XGContainerApplicationManager: NSObject {
         println("\(self.hijackedApplicationArray)")
     }
     
-    func scan() {
+    private func backendScan() {
         //clean
+        self.scanProcess = 0.0
         self.cleanApplications()
         self.hijackedApplicationArray.removeAll(keepCapacity: false)
+        self.scanProcess = 5.0
         
+        //
         self.getAllThirdApplications()
+        self.scanProcess = 40.0
         
         //check bundle ID hijack
         self.checkBundleIDHijcak()
- 
+        
+        //self.testAddHijack()
+        self.scanProcess = 100.0
+    }
+    
+    func scan() {
+        self.scanProcess = 0.0
+        let queue = dispatch_get_global_queue(QOS_CLASS_BACKGROUND , 0)
+        dispatch_async(queue, {
+            
+            // DO SOMETHING ON THE MAINTHREAD
+            self.backendScan()
+        })
+    }
+    
+    func getScanProcess() -> Double {
+        return self.scanProcess
     }
     
     @objc
     func applicationChanged() {
         self.scan()
-        //self.testAddHijack()
-        //NSNotificationCenter.defaultCenter().postNotificationName("XGThreadsChangeNotification",object:nil);
     }
     
     func startMoniter() {
         /* Define variables and create a CFArray object containing
         CFString objects containing paths to watch.
         */
-        let url = self.getApplicationsURL()
+        let url = XGUtilize.getSystemApplicationsURL()
         let path = url.path!
         let appsPathRef = path as CFStringRef
         XGFileEventsHelper.startWatch(appsPathRef)

@@ -10,10 +10,19 @@ import Cocoa
 
 class XGKeychainHijackDetailsCell: NSTableCellView {
 
+    @IBOutlet var removeBtn: NSButton!
+    
+    var backgroundColor : NSColor?
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
 
         // Drawing code here.
+        if let bc = self.backgroundColor {
+            let bezierPath = NSBezierPath(roundedRect: self.bounds, xRadius: 0, yRadius: 0)
+            //bezierPath.lineWidth = 1.0
+            bc.set()
+            bezierPath.fill()
+        }
     }
     
     weak var upperView: XGKeychainHijackDetailsView?

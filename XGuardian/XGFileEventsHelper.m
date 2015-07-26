@@ -19,7 +19,6 @@
 @end
 
 
-
 void XGFileEventCallBack(
                 ConstFSEventStreamRef streamRef,
                 void *clientCallBackInfo,
@@ -28,14 +27,15 @@ void XGFileEventCallBack(
                 const FSEventStreamEventFlags eventFlags[],
                 const FSEventStreamEventId eventIds[])
 {
-    char **paths = eventPaths;
+    
     static const FSEventStreamEventFlags dirChangedEvent = kFSEventStreamEventFlagItemCreated| kFSEventStreamEventFlagItemRemoved | kFSEventStreamEventFlagItemIsDir;
     
+    //char **paths = eventPaths;
     BOOL dirChangedFlag = false;
     for (int i=0; i < numEvents; i++) {
         
         /* flags are unsigned long, IDs are uint64_t */
-        printf("Change %llu in %s, flags 0x%x\n", eventIds[i], paths[i], (unsigned int)eventFlags[i]);
+        //printf("Change %llu in %s, flags 0x%x\n", eventIds[i], paths[i], (unsigned int)eventFlags[i]);
         
         // dir
         if (eventIds[i] & (dirChangedEvent)) {
@@ -52,22 +52,18 @@ void XGFileEventCallBack(
 }
 
 
-
-
-
-
 @implementation XGFileEventsHelper
 
 //TODO: add delegate to deal the call back should be better
 + (void) callBackEvent {
     [[XGContainerApplicationManager sharedInstance] applicationChanged];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"XGThreadsChangeNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"XGBundleIDThreadsChangeNotification" object:nil];
 }
 
 
 + (void) startWatch:(CFStringRef) path {
 
-    CFArrayRef pathsToWatch = CFArrayCreate(NULL, (const void **)&path, 1, NULL);
+    CFArrayRef pathsToWatch = CFArrayCreate(kCFAllocatorDefault, (const void **)&path, 1, NULL);
     void *callbackInfo = NULL; // could put stream-specific data here.
     FSEventStreamRef stream;
     CFAbsoluteTime latency = 1.0; /* Latency in seconds */
@@ -83,6 +79,7 @@ void XGFileEventCallBack(
     
     FSEventStreamScheduleWithRunLoop(stream, CFRunLoopGetCurrent(),kCFRunLoopDefaultMode);
     FSEventStreamStart(stream);
+    CFRelease(pathsToWatch);
     
 }
 

@@ -31,8 +31,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate{
         
 //        XGFileSecurityHelper.printApplicationsList()
 //        XGFileSecurityHelper.getACLfromPath("/Users/wyd/Library/Containers/com.tencent.qq")
+        
+        XGURLSchemeManager.sharedInstance.scan()
+        
+        //bundle ID hijack check
         let applicationMgr = XGContainerApplicationManager.sharedInstance
-        applicationMgr.scan()
         applicationMgr.startMoniter()
         
         //start observe thread

@@ -48,10 +48,13 @@ class XGKeychainHijackDetailsView: NSView, NSTableViewDelegate, NSTableViewDataS
             self.createLabel.objectValue = item.createTime?.description
             self.modifyLabel.objectValue = item.modifyTime?.description
             if item.classType == XGSecurityItem.ClassType.InternetPassword {
-                self.imageLabel!.objectValue = NSImage(named: NSImageNameUserAccounts)
+                self.imageLabel?.objectValue = NSImage(named: NSImageNameUserAccounts)
             }
+            else {
+                self.imageLabel?.objectValue = NSImage(named:NSImageNameUser)
+            }
+            
         }
-        
 
         self.hijackAppTableView.setDelegate(self)
         self.hijackAppTableView.setDataSource(self)
@@ -85,6 +88,33 @@ class XGKeychainHijackDetailsView: NSView, NSTableViewDelegate, NSTableViewDataS
                 result.appFullPath = appPath
                 result.textField?.objectValue = appPath.lastPathComponent
                 result.imageView?.objectValue = NSWorkspace.sharedWorkspace().iconForFile(appPath)
+                
+                if let appType = self.secItem?.applicationTypeList?[row] {
+                    
+                    switch appType {
+                    case XGSecurityAppType.Apple:
+                        result.backgroundColor = NSColor(calibratedRed:0.400, green:1.000, blue:0.400, alpha:1.000)
+                        result.removeBtn.hidden = true
+                    case XGSecurityAppType.Group:
+                        result.backgroundColor = NSColor(calibratedRed:0.400, green:1.000, blue:0.400, alpha:1.000)
+                        result.removeBtn.hidden = true
+                        
+                    case XGSecurityAppType.WhiteList:
+                        result.backgroundColor = NSColor(calibratedRed:0.400, green:1.000, blue:0.400, alpha:1.000)
+                        
+                    case XGSecurityAppType.Sining:
+                        result.backgroundColor = NSColor(calibratedRed: 0.400, green:1.000, blue:1.000, alpha:1.000)
+                        
+                    case XGSecurityAppType.Unknown:
+                        result.backgroundColor = NSColor(calibratedRed: 1.000, green:0.4, blue:1.0, alpha:1.000)
+
+                    default:
+                        break
+                    }
+                    
+                    
+                }
+                
                 result.appFullPath = appPath
                 result.secItem = self.secItem
                 
@@ -96,10 +126,20 @@ class XGKeychainHijackDetailsView: NSView, NSTableViewDelegate, NSTableViewDataS
         return nil;
     }
     
+    func tableView(aTableView: NSTableView, toolTipForCell aCell: NSCell, rect: NSRectPointer,tableColumn aTableColumn: NSTableColumn?,row: Int, mouseLocation: NSPoint) -> String {
+        if nil == self.secItem {
+            return ""
+        }
+        let appList = self.secItem?.applicationList
+        let appPath = appList![row]
+        
+        return appPath
+    }
+    
     
     
     func tableViewCellChanged() {
-        self.upperViewController?.KeychainHijackViewChanged()
+        self.upperViewController?.KeychainHijackViewChanged(false)
     }
 
     

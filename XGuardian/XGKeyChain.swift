@@ -53,6 +53,7 @@ class XGKeyChain  {
     
     class func scanAllItem() {
         
+        globalItemSet.removeAll()
         var itemSet = globalItemSet
         
         //scan internet password

@@ -9,11 +9,22 @@
 import Cocoa
 
 
-enum XGThreatsType {
-    case None
-    case ALL
-    case keychainHijack
-    case BundleIDHijack
+enum XGThreatsType : Int {
+    case None = 0
+    case keychainHijack = 1
+    case BundleIDHijack = 2
+    case URLScheme      = 4
+    case ALL = 0xFFFFFFFF
+    
+    var raw : Int { get {
+        switch self {
+        case None: return 0
+        case keychainHijack: return 1
+        case BundleIDHijack: return 2
+        case URLScheme:      return 4
+        case ALL:            return 0xFFFFFFFF
+        }
+    } }
 }
 
 class XGSideBarItem : NSObject {
@@ -55,17 +66,24 @@ private let staticChildrenDictionary = [
                                         type:       XGThreatsType.keychainHijack ,
                                         firstNib:   "ScanView",
                                         secondNib:  "ThreatsView",
-                                        desc:       "Attack App can hijack keychain item through by delete keychain item first, then create the new one."),
+                                        desc:       "Keychain item can be hijacked by attack application through by delete keychain item first, then create the new one."),
         
                         XGSideBarItem(  title:      "BundleID Hijack",
                                         imageName:  "BudleIDIcon",
                                         type:       XGThreatsType.BundleIDHijack ,
                                         firstNib:   "ScanView",
                                         secondNib:  "ThreatsView",
-                                        desc: "Attack Application fully access the target application's container by hijiack bundleID through sub-application")],
+                                        desc: "Attack Application fully access the target application's container by hijiack bundleID through sub-application"),
     
-    staticTopArray[2] : [XGSideBarItem( title:      "Keychain List",
+                        XGSideBarItem(  title:      "URL Scheme Check",
                                         imageName:  "UrlschemlIcon",
+                                        type:       XGThreatsType.URLScheme ,
+                                        firstNib:   "ScanView",
+                                        secondNib:  "ThreatsView",
+                                        desc: "Attack application can register an URL scheme what is used for transfor sensitive information.")],
+
+    staticTopArray[2] : [XGSideBarItem( title:      "Keychain List",
+                                        imageName:  "KeychainIcon",
                                         type:       XGThreatsType.None,
                                         firstNib:   "KeychainView",
                                         secondNib:  "",
@@ -76,9 +94,11 @@ private let staticChildrenDictionary = [
 
 // notification observer
 let NotificationScanFinish = "scanFinishNotification"
+let NotificationRefresh = "RefreshNotification"
 let NotificationRescan = "RescanNotification"
 
 let XGNotificationDictArray = [ ["Name" : NotificationScanFinish, "Selector" : "scanDidFinished:"],
+    ["Name" : NotificationRefresh,    "Selector" : "shouldRefresh:"],
     ["Name" : NotificationRescan,     "Selector" : "shouldRescan:"]]
 
 class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineViewDataSource, NSSplitViewDelegate{
@@ -300,17 +320,35 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
             bar.isThreatsView = true
             self.nagivationView.reloadData()
             
-            //self.nagivationView.reloadItem(bar)
         }
         return
         
     }
     
     
-    func shouldRescan(notification: NSNotification) {
-        //println("shouldRescan notification: \(notification)")
+    func shouldRefresh(notification: NSNotification) {
+        //println("shouldRefresh notification: \(notification)")
         if let bar = notification.object as? XGSideBarItem {
             self.nagivationView.reloadData()
+        }
+    }
+    
+    func shouldRescan(notification: NSNotification) {
+        println("shouldRescan notification: \(notification)")
+        if let bar = notification.object as? XGSideBarItem {
+            if(bar.type == XGThreatsType.ALL) {
+                for sub_bar in staticChildrenDictionary[staticFlaws]! {
+                    if sub_bar.isThreatsView {
+                        self.setBackendView(sub_bar.firstNib, sub_bar)
+                        sub_bar.isThreatsView = false
+                    }
+                }
+            } 
+            self.setCurrentView(bar.firstNib, bar, true)
+            bar.isThreatsView = false
+            self.nagivationView.reloadData()
+            
+            //self.nagivationView.reloadItem(bar)
         }
     }
     

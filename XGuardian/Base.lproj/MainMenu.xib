@@ -255,7 +255,7 @@
                                                                                 <constraint firstAttribute="width" constant="35" id="Y59-e4-swM"/>
                                                                                 <constraint firstAttribute="height" constant="16" id="rV0-x6-wId"/>
                                                                             </constraints>
-                                                                            <buttonCell key="cell" type="bevel" title="indicator" bezelStyle="regularSquare" imagePosition="overlaps" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9Gx-NK-cNj">
+                                                                            <buttonCell key="cell" type="bevel" title="indicator" bezelStyle="regularSquare" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9Gx-NK-cNj">
                                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                 <font key="font" metaFont="smallSystem"/>
                                                                             </buttonCell>

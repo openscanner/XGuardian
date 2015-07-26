@@ -31,8 +31,7 @@ class XGScanViewController: NSViewController, NSUserNotificationCenterDelegate {
             
             self.startScan()
             NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("processFireMethod:"), userInfo: nil, repeats: true)
-            //scan
-            XGKeyChain.scanAllItem()
+
             break;
         case ScanSate.RUNNING:
             break;
@@ -56,17 +55,23 @@ class XGScanViewController: NSViewController, NSUserNotificationCenterDelegate {
 
     func processFireMethod(timer : NSTimer ){
         let processValue = self.getScanProcessValue()
-            if ( processValue >= 89.9){
-                self.scanState =  ScanSate.END
-            } else {
-                self.setScanProcessValue(processValue + 15.0)
+        if ( processValue >= 89.9){
+            if let type = barItem?.type   {
+                if type  == XGThreatsType.BundleIDHijack {
+                   let process = XGContainerApplicationManager.sharedInstance.getScanProcess()
+                    if process < 100.0 {
+                        return
+                    }
+                }
             }
+            self.scanState =  ScanSate.END
+        } else {
+            self.setScanProcessValue(processValue + 15.0)
+        }
         
         if(self.scanState == ScanSate.END) {
             timer.invalidate();
             self.stopScan()
-            
-            
             
         }
         return;
@@ -85,6 +90,21 @@ class XGScanViewController: NSViewController, NSUserNotificationCenterDelegate {
         //self.scanProcess.hidden = false;
         self.scanProcess.startAnimation(self)
         self.scanProcess.doubleValue = 0.0
+        
+        //scan
+        if let type = barItem?.type {
+            switch  type{
+            case XGThreatsType.ALL:
+                XGKeyChain.scanAllItem()
+                XGContainerApplicationManager.sharedInstance.scan()
+            case XGThreatsType.keychainHijack:
+                XGKeyChain.scanAllItem()
+            case XGThreatsType.BundleIDHijack:
+                XGContainerApplicationManager.sharedInstance.scan()
+            default:
+                break;
+            }
+        }
     }
     
     func setScanProcessValue(process: Double) {
