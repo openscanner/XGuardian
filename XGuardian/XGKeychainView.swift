@@ -39,9 +39,8 @@ class XGKeychainView: NSView, NSTableViewDelegate, NSTableViewDataSource {
         super.viewDidMoveToWindow()
         
         //
-        if  let itemSet = XGKeyChain.getItemSet() {
-            self.itemArray = itemSet.toArray();
-        }
+        let itemSet = XGKeychainInstance.getItemSet()
+        self.itemArray = itemSet.toArray();
         self.keychainTable.setDelegate(self)
         self.keychainTable.setDataSource(self)
         self.keychainTable.doubleAction = Selector("openAppFinder:")

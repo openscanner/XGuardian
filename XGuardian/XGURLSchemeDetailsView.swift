@@ -30,7 +30,6 @@ class XGURLSchemeDetailsView: NSView , NSMatrixDelegate {
         super.drawRect(dirtyRect)
 
         // Drawing code here.
-        // Drawing code here.
         let bezierPath = NSBezierPath(roundedRect: self.bounds, xRadius: 0, yRadius: 0)
         bezierPath.lineWidth = 1.0
         NSColor.whiteColor().set()
@@ -42,7 +41,6 @@ class XGURLSchemeDetailsView: NSView , NSMatrixDelegate {
         
         
         self.SchemeApplicationsMatrix.delegate = self
-        self.SchemeApplicationsMatrix.tabKeyTraversesCells = false
         self.SchemeApplicationsMatrix.tabKeyTraversesCells = false
         
         self.setAppRaido()
@@ -66,6 +64,7 @@ class XGURLSchemeDetailsView: NSView , NSMatrixDelegate {
 
     
     private func setAppRaido() {
+        
         if let appFullPaths = self.appFullPaths {
             for (var i = 1; i < appFullPaths.count; i++) {
                 self.SchemeApplicationsMatrix.addRow()

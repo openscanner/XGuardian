@@ -32,7 +32,7 @@
                         <constraint firstAttribute="width" constant="360" id="v3M-e8-3qc"/>
                     </constraints>
                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    <size key="cellSize" width="360" height="18"/>
+                    <size key="cellSize" width="58" height="18"/>
                     <size key="intercellSpacing" width="4" height="2"/>
                     <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="YfP-eT-iwk">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>

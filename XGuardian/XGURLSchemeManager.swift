@@ -72,7 +72,7 @@ class XGURLSchemeManager: NSObject {
             }
         }
         
-        print(self.urlSchemeApplications)
+        //print(self.urlSchemeApplications)
         
         //scan same URL scheme hijack
         for (scheme, apps) in urlSchemeApplications {
@@ -88,8 +88,7 @@ class XGURLSchemeManager: NSObject {
             }
             self.urlSchemeMultiDict.dataDict[scheme] = apps
         }
-        
-        print("urlSchemeHijacks: \(self.urlSchemeMultiDict.dataDict)")
+
     }
     
     func getDefaultApplication(scheme : String ) -> String? {

@@ -39,7 +39,7 @@ class XGKeychainHijackDetailsCell: NSTableCellView {
     
     @IBAction func btnDeleteAction(sender: AnyObject) {
         if let applicationPath = self.appFullPath {
-            println("\(secItem)")
+            //println("\(secItem)")
             if let secKeyItemRef = self.secItem?.itemRef {
                 Keychain.secRemoveApp(itemRef: secKeyItemRef, applicationFullPath: applicationPath)
                 //Notifiy cell change

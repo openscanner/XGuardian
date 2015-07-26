@@ -18,7 +18,7 @@ public func != (left:Keychain.ResultCode, right:Keychain.ResultCode) -> Bool {
     return !(left == right)
 }
 
-
+@objc(Keychain)
 public class Keychain
 {
     /**
@@ -1209,18 +1209,21 @@ public class Keychain
                 
                 if res3.status != ResultCode.errSecSuccess {
                     //println("secTrustedApplicationCopyData error")
+                    continue
                 }
                 
                 let appPathData = res3.data;
                 
-                let appString = NSString(data:appPathData, encoding:NSUTF8StringEncoding) as! String
-                if(appString == applicationFullPath){
-                    appMutableArray.removeObject(appRefData)
-                    resultCode = secACLSetContents(alc: alc!, applicationList: appMutableArray, description: alcContent.description, promptSelector: alcContent.promptSelector);
-                    var statusRaw = SecKeychainItemSetAccess (itemRef, accessRes.access);
-                    resultCode = ResultCode.fromRaw(statusRaw)
-
-                    break;
+                let appString = NSString(data:appPathData, encoding:NSUTF8StringEncoding)
+                if let appPath = appString?.substringToIndex(appString!.length-1) {
+                    if(appPath == applicationFullPath){
+                        appMutableArray.removeObject(appRefData)
+                        resultCode = secACLSetContents(alc: alc!, applicationList: appMutableArray, description: alcContent.description, promptSelector: alcContent.promptSelector);
+                        var statusRaw = SecKeychainItemSetAccess (itemRef, accessRes.access);
+                        resultCode = ResultCode.fromRaw(statusRaw)
+                        
+                        break;
+                    }
                 }
             }
         }
@@ -1228,4 +1231,41 @@ public class Keychain
         return resultCode
     }
     
+    @objc(secKeychainItemGetAttr:)
+    class func secKeychainItemGetAttr(itemRef :SecKeychainItemRef!) -> NSDictionary? {
+        
+        let query = Keychain.Query()
+        //kSecMatchSearchList
+        query.kSecClass = Keychain.Query.KSecClassValue.kSecClassInternetPassword
+        query.kSecMatchItemList = NSArray(array: [itemRef])
+        query.kSecReturnAttributes = true
+        query.kSecReturnRef = true
+        query.kSecReturnPersistentRef = true
+        query.kSecMatchLimit = Keychain.Query.KSecMatchLimitValue.kSecMatchLimitOne
+        
+        let res = Keychain.secItemCopyMatching(query:query)
+        let r = res.result
+        if (r != nil) {
+            let resultArray = r as? NSDictionary
+            if ( resultArray == nil) {
+                return nil
+            }
+            //println("ressult Description: \(resultArray)")
+            return resultArray;
+        }
+        
+        query.kSecClass = Keychain.Query.KSecClassValue.kSecClassGenericPassword
+        let res_gen = Keychain.secItemCopyMatching(query:query)
+        let r_gen  = res_gen.result
+        if (r_gen != nil) {
+            let resultArray = r_gen as? NSDictionary
+            if ( resultArray == nil) {
+                return nil
+            }
+            
+            return resultArray;
+        }
+        
+        return nil;
+    }
 }

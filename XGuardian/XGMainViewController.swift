@@ -33,15 +33,17 @@ class XGSideBarItem : NSObject {
     let type : XGThreatsType
     let firstNib: String
     let secondNib: String
+    let threatsDelegate : XGThreatsViewDelegate?
     let desc : String
     var isThreatsView: Bool = false
     
-    init(title : String, imageName : String, type: XGThreatsType, firstNib : String, secondNib : String,desc : String ) {
+    init(title : String, imageName : String, type: XGThreatsType, firstNib : String, secondNib : String, threatsDelegate : XGThreatsViewDelegate?, desc : String ) {
         self.title = title
         self.imageName = imageName
         self.type = type
         self.firstNib = firstNib
         self.secondNib = secondNib
+        self.threatsDelegate = threatsDelegate
         self.desc = desc
     }
 }
@@ -59,6 +61,7 @@ private let staticChildrenDictionary = [
                                         type:       XGThreatsType.ALL ,
                                         firstNib:   "ScanView",
                                         secondNib:  "ThreatsView",
+                                        threatsDelegate: XGAllThreatsDelegate.getInstance(),
                                         desc:        "Scan all vulnerability attack")] ,
     
     staticTopArray[1] : [XGSideBarItem( title:      "Keychain Hijack",
@@ -66,6 +69,7 @@ private let staticChildrenDictionary = [
                                         type:       XGThreatsType.keychainHijack ,
                                         firstNib:   "ScanView",
                                         secondNib:  "ThreatsView",
+                                        threatsDelegate: XGKeychainThreatsDelegate.getInstance(),
                                         desc:       "Keychain item can be hijacked by attack application through by delete keychain item first, then create the new one."),
         
                         XGSideBarItem(  title:      "BundleID Hijack",
@@ -73,6 +77,7 @@ private let staticChildrenDictionary = [
                                         type:       XGThreatsType.BundleIDHijack ,
                                         firstNib:   "ScanView",
                                         secondNib:  "ThreatsView",
+                                        threatsDelegate: XGBundleIDThreatsDelegate.getInstance(),
                                         desc: "Attack Application fully access the target application's container by hijiack bundleID through sub-application"),
     
                         XGSideBarItem(  title:      "URL Scheme Check",
@@ -80,6 +85,7 @@ private let staticChildrenDictionary = [
                                         type:       XGThreatsType.URLScheme ,
                                         firstNib:   "ScanView",
                                         secondNib:  "ThreatsView",
+                                        threatsDelegate: XGURLSchemeThreatsDelegate.getInstance(),
                                         desc: "Attack application can register an URL scheme what is used for transfor sensitive information.")],
 
     staticTopArray[2] : [XGSideBarItem( title:      "Keychain List",
@@ -87,6 +93,7 @@ private let staticChildrenDictionary = [
                                         type:       XGThreatsType.None,
                                         firstNib:   "KeychainView",
                                         secondNib:  "",
+                                        threatsDelegate: nil,
                                         desc:       "")]
 ];
 
@@ -249,6 +256,7 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
             let threatsViewController = XGThreatsViewController(nibName: name, bundle: nil)
             threatsViewController?.threatsType = barItem.type
             threatsViewController?.barItem = barItem
+            threatsViewController?.threatsDelegate = barItem.threatsDelegate
             return threatsViewController
         } else if "ScanView" == name {
             let scanViewController = XGScanViewController(nibName: name, bundle: nil)

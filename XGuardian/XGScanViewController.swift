@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class XGScanViewController: NSViewController, NSUserNotificationCenterDelegate {
+class XGScanViewController: NSViewController {
     
     @IBOutlet weak var scanButton: NSButton!
     @IBOutlet weak var functionalLabel: NSTextField!
@@ -45,8 +45,6 @@ class XGScanViewController: NSViewController, NSUserNotificationCenterDelegate {
         super.viewDidLoad()
         
         // Do view setup here.
-        //NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
-        //self.scanView = self.view as? XGScanView
         self.titleButton.title = self.barItem!.title
         self.functionalLabel.objectValue = self.barItem?.title
         self.functionalDescrption.objectValue = self.barItem?.desc
@@ -95,10 +93,10 @@ class XGScanViewController: NSViewController, NSUserNotificationCenterDelegate {
         if let type = barItem?.type {
             switch  type{
             case XGThreatsType.ALL:
-                XGKeyChain.scanAllItem()
+                XGKeychainInstance.scanAllItem()
                 XGContainerApplicationManager.sharedInstance.scan()
             case XGThreatsType.keychainHijack:
-                XGKeyChain.scanAllItem()
+                XGKeychainInstance.scanAllItem()
             case XGThreatsType.BundleIDHijack:
                 XGContainerApplicationManager.sharedInstance.scan()
             default:
@@ -127,15 +125,4 @@ class XGScanViewController: NSViewController, NSUserNotificationCenterDelegate {
         self.scanProcess.stopAnimation(self)
     }
     
-    //reactive scan view
-    func userNotificationCenter(center: NSUserNotificationCenter, didDeliverNotification notification: NSUserNotification) {
-        //            self.scanState = ScanSate.INIT
-        //            self.scanButton.title = "SCAN"
-        //            self.owner.view = self
-        //            self.upperView?.addSubview(self)
-        //            self.upperView?.replaceSubview(self.hijackListView, with:self)
-        //self.owner.loadView()
-        
-    }
-
 }

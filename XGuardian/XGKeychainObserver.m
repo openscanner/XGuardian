@@ -196,7 +196,7 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
     SecKeychainItemRef itemRef = cbinfo->item;
     XGSecurityItem *securityItem = nil;
     if( nil != itemRef) {
-        NSDictionary* attrDict = [XGKeyChain secKeychainItemGetAttr:itemRef];
+        NSDictionary* attrDict = [Keychain secKeychainItemGetAttr:itemRef];
         //NSLog(@"!!!SecKeychainItemRef:%p !!!!", itemRef);
         if(nil != attrDict) {
             if (nil ==  [attrDict objectForKey:@"v_Ref"] ) {
@@ -246,7 +246,7 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
     //NSLog(@"SecKeychainCallbackInfo:\nevent:%d version:%d pid:%d \nApp Name:%@\nbundle ID:%@\nbudle URL:%@\n item:%@", [info event], [info version], [info pid], info.appName, info.bundleID, info.bundleURL, info.securityItem);
     
      //find same key info in the dictionary
-    XGSecurityItemSet *itemSet = [XGKeyChain getItemSet];
+    XGSecurityItemSet *itemSet = [[XGKeychainManager sharedInstance] getItemSet];
     XGSecurityItem *oldItem = nil;
     if (nil != info.securityItem ) {
         oldItem = [itemSet findItem:[info securityItem]];

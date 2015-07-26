@@ -1,5 +1,5 @@
 //
-//  XGKeyChain.swift
+//  XGKeychainManager.swift
 //  XGuardian
 //
 //  Created by  吴亚冬 on 15/6/23.
@@ -10,23 +10,31 @@ import Cocoa
 import CoreFoundation
 import Security
 
+let XGKeychainInstance = XGKeychainManager.sharedInstance
 
-private var globalItemSet: XGSecurityItemSet = XGSecurityItemSet()
-private var newItemSet: XGSecurityItemSet?
-
-@objc(XGKeyChain)
-class XGKeyChain  {
+@objc(XGKeychainManager)
+class XGKeychainManager  {
+    
+    static let sharedInstance : XGKeychainManager = XGKeychainManager()
+    
+    
+    var globalItemSet: XGSecurityItemSet = XGSecurityItemSet()
+    //private var hijackedItemArray : [XGSecurityItem]?
     
     @objc(getItemSet)
-    class func getItemSet() ->  XGSecurityItemSet? {
+    func getItemSet() ->  XGSecurityItemSet {
         if 0 == globalItemSet.count {
-            XGKeyChain.scanAllItem()
+            self.scanAllItem()
         }
         return globalItemSet
     }
     
+    func getHijackedItemArray() ->  [XGSecurityItem]? {
+        return self.getItemSet().getPotentialArray()
+    }
     
-    class func getClassAllKey(classValue:Keychain.Query.KSecClassValue ) -> NSArray? {
+   
+    func getClassAllKey(classValue:Keychain.Query.KSecClassValue ) -> NSArray? {
         
         // create qurey
         let query = Keychain.Query()
@@ -51,7 +59,7 @@ class XGKeyChain  {
     }
     
     
-    class func scanAllItem() {
+    func scanAllItem() {
         
         globalItemSet.removeAll()
         var itemSet = globalItemSet
@@ -79,47 +87,11 @@ class XGKeyChain  {
         }
         
     }
-    
-    @objc(secKeychainItemGetAttr:)
-    class func secKeychainItemGetAttr(itemRef :SecKeychainItemRef!) -> NSDictionary? {
-        
-        let query = Keychain.Query()
-        //kSecMatchSearchList
-        query.kSecClass = Keychain.Query.KSecClassValue.kSecClassInternetPassword
-        query.kSecMatchItemList = NSArray(array: [itemRef])
-        query.kSecReturnAttributes = true
-        query.kSecReturnRef = true
-        query.kSecReturnPersistentRef = true
-        query.kSecMatchLimit = Keychain.Query.KSecMatchLimitValue.kSecMatchLimitOne
-        
-        let res = Keychain.secItemCopyMatching(query:query)
-        let r = res.result
-        if (r != nil) {
-            let resultArray = r as? NSDictionary
-            if ( resultArray == nil) {
-                return nil
-            }
-            //println("ressult Description: \(resultArray)")
-            return resultArray;
-        }
-        
-        query.kSecClass = Keychain.Query.KSecClassValue.kSecClassGenericPassword
-        let res_gen = Keychain.secItemCopyMatching(query:query)
-        let r_gen  = res_gen.result
-        if (r_gen != nil) {
-            let resultArray = r_gen as? NSDictionary
-            if ( resultArray == nil) {
-                return nil
-            }
 
-            return resultArray;
-        }
-
-        return nil;
-    }
     
 }
 
+//Mark: -
 class XGKeychainTest {
     
     class func test1() -> Bool {
