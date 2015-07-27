@@ -23,8 +23,20 @@ class XGBundleIDThreatsDelegate: XGThreatsViewDelegate {
         return "BundleID Hijack"
         }}
     
-    // optional func addNotificationObserver()
-    // optional func removeNotificationObserver()
+    private var isObserving = false
+    func addNotificationObserver() {
+        if !self.isObserving {
+            self.isObserving = true
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("threatsDidChanged:"), name: "XGBundleIDThreadsChangeNotification", object: nil)
+        }
+    }
+    
+    func removeNotificationObserver() {
+        if self.isObserving {
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: "XGBundleIDThreadsChangeNotification", object: nil)
+            self.isObserving = false
+        }
+    }
     
     func refreshThreatsData() -> Int {
         self.bundleItemArray = XGContainerApplicationManager.sharedInstance.hijackedApplicationArray
@@ -67,6 +79,17 @@ class XGBundleIDThreatsDelegate: XGThreatsViewDelegate {
             return nil
         }
         return nil
+    }
+    
+    func threatsDidChanged(notification: NSNotification) {
+        //println("threatsDidChanged")
+        dispatch_async(dispatch_get_main_queue(), {
+            // DO SOMETHING ON THE MAINTHREAD
+            self.refreshThreatsData()
+            NSNotificationCenter.defaultCenter().postNotificationName("XGThreadsChangedNotification", object: notification.object)
+        })
+
+        
     }
 
 }

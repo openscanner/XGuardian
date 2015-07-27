@@ -92,52 +92,13 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     private func addNotificationObserver() {
         
         //add notification observer for threats change
-        
-        switch self.threatsType {
-        case XGThreatsType.ALL:
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("threatsDidChanged:"), name: "XGKeychainThreadsChangeNotification", object: nil)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("threatsDidChanged:"), name: "XGBundleIDThreadsChangeNotification", object: nil)
-            
-        case XGThreatsType.keychainHijack:
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("threatsDidChanged:"), name: "XGKeychainThreadsChangeNotification", object: nil)
-            
-        case XGThreatsType.BundleIDHijack:
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("threatsDidChanged:"), name: "XGBundleIDThreadsChangeNotification", object: nil)
-        
-        case XGThreatsType.URLScheme:
-            // do nothing
-            break
-            //NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("threatsDidChanged:"), name: "XGBundleIDThreadsChangeNotification", object: nil)
-            
-        default:
-            break
-        }
+        self.threatsDelegate?.addNotificationObserver?()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("threatsDidChanged:"), name: "XGThreadsChangedNotification", object: nil)
     }
     
     private func removeNotificationObserver() {
-        
-        switch self.threatsType {
-        case XGThreatsType.ALL:
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: "XGKeychainThreadsChangeNotification", object: nil)
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: "XGBundleIDThreadsChangeNotification", object: nil)
-
-            
-        case XGThreatsType.keychainHijack:
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: "XGKeychainThreadsChangeNotification", object: nil)
-            
-        case XGThreatsType.BundleIDHijack:
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: "XGBundleIDThreadsChangeNotification", object: nil)
-        
-        case XGThreatsType.URLScheme:
-            // do nothing
-            break
-            //NSNotificationCenter.defaultCenter().removeObserver(self, name: "XGBundleIDThreadsChangeNotification", object: nil)
-
-        default:
-            break
-        }
-        //remove notification observer for threats change
-    
+        self.threatsDelegate?.removeNotificationObserver?()
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "XGThreadsChangedNotification", object: nil)
     }
     
     
@@ -222,23 +183,20 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     //delegate for outline view
     func outlineView(outlineView: NSOutlineView, viewForTableColumn tableColumn: NSTableColumn?, item: AnyObject) -> NSView? {
         
-        println("> No crash: 1 \(item)")
         let parent: (AnyObject?) = outlineView.parentForItem(item)
-        println("> No crash: 2 \(item)")
+
         
         // For the groups, we just return a regular text view.
         if  (self.threatsType == XGThreatsType.ALL) && ( parent == nil ) {
             if let result =  outlineView.makeViewWithIdentifier("HeaderCell", owner: self) as? NSTableCellView {
-                println("> No crash: 30 \(item)")
+                
                 self.threatsDelegate?.setCellView(result, item: item, parent: parent)
-                println("> No crash: 31 \(item)")
                 return result
             }
         }  else {
             if let result =  outlineView.makeViewWithIdentifier("DataCell", owner: self) as? NSTableCellView {
-                println("> No crash: 40 \(item)")
+  
                 self.threatsDelegate?.setCellView(result, item: item, parent: parent)
-                println("> No crash: 41 \(item)")
                 return result
             }
         }
@@ -273,8 +231,6 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     //MARK: -
     private func refreshThreatsListViewAndSideBar() {
         
-        self.refreshThreatsData()
-        
         NSNotificationCenter.defaultCenter().postNotificationName(NotificationRefresh, object: self.barItem)
         self.refreshThreatsListView()
     }
@@ -288,29 +244,13 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
         }
     }
     
-    func bundleIDHijackViewChanged() {
-        //println("bundleIDHijackViewChanged ")
-
-        self.refreshThreatsListViewAndSideBar()
-    }
     
     func threatsDidChanged(notification: NSNotification) {
         //println("threatsDidChanged")
         let rescan =  (notification.object != nil)
-        
-        if notification.name == "XGKeychainThreadsChangeNotification" {
-            dispatch_async(dispatch_get_main_queue(), {
-                
-                // DO SOMETHING ON THE MAINTHREAD
-                self.KeychainHijackViewChanged(rescan)
-            })
-        } else {
-            dispatch_async(dispatch_get_main_queue(), {
-                
-                // DO SOMETHING ON THE MAINTHREAD
-                self.bundleIDHijackViewChanged()
-            })
-        }
+
+        // DO SOMETHING ON THE MAINTHREAD
+        self.KeychainHijackViewChanged(rescan)
         
     }
 

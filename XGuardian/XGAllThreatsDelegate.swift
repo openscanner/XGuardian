@@ -33,8 +33,17 @@ class XGAllThreatsDelegate: XGThreatsViewDelegate {
         return "All Scan"
         }}
     
-    // optional func addNotificationObserver()
-    // optional func removeNotificationObserver()
+    func addNotificationObserver() {
+        for delegate in self.delegateArray {
+            delegate.addNotificationObserver?()
+        }
+    }
+    
+    func removeNotificationObserver() {
+        for delegate in self.delegateArray {
+            delegate.removeNotificationObserver?()
+        }
+    }
     
     func refreshThreatsData() -> Int {
         var numberOfThreats = 0

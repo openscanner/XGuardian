@@ -23,8 +23,20 @@ class XGKeychainThreatsDelegate: XGThreatsViewDelegate {
         return "keychain Hijack"
         }}
     
-    // optional func addNotificationObserver()
-    // optional func removeNotificationObserver()
+    private var isObserving = false
+    func addNotificationObserver() {
+        if !self.isObserving {
+            self.isObserving = true
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("threatsDidChanged:"), name: "XGKeychainThreadsChangeNotification", object: nil)
+        }
+    }
+    
+    func removeNotificationObserver() {
+        if self.isObserving {
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: "XGKeychainThreadsChangeNotification", object: nil)
+            self.isObserving = false
+        }
+    }
     
     func refreshThreatsData() -> Int {
         XGKeychainInstance.scanAllItem()
@@ -74,4 +86,15 @@ class XGKeychainThreatsDelegate: XGThreatsViewDelegate {
         }
         return nil
     }
+    
+    func threatsDidChanged(notification: NSNotification) {
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            self.refreshThreatsData()
+            // DO SOMETHING ON THE MAINTHREAD
+            NSNotificationCenter.defaultCenter().postNotificationName("XGThreadsChangedNotification", object: notification.object)
+        })
+
+    }
+    
 }

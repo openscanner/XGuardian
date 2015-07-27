@@ -20,7 +20,7 @@ class XGURLSchemeDetailsView: NSView , NSMatrixDelegate {
     @IBAction func matrixAction(sender: AnyObject) {
         if self.isChangedRow() {
             if let app = appFullPaths?[self.preSelectedRow] {
-                println("set default app: \(app)")
+                //println("set default app: \(app)")
                 XGURLSchemeManager.sharedInstance.setDefaultApplication(scheme!, appFullPath: app)
             }
         }
