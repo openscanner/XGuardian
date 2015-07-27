@@ -10,7 +10,7 @@ import Cocoa
 
 
 @objc
-protocol XGThreatsViewDelegate {
+protocol XGThreatsViewDelegate: class { //class only
     
     static func getInstance() -> XGThreatsViewDelegate
     var title : String { get }
@@ -21,6 +21,8 @@ protocol XGThreatsViewDelegate {
     
 
     func childrenForItem(item: AnyObject?) ->  [AnyObject]?
+    func isExpandable(item: AnyObject?) -> Bool
+    optional func isSelectable(item: AnyObject?) -> Bool
     func setCellView(cellView : NSTableCellView, item: AnyObject, parent : AnyObject? )
     
     var threatsNumber : Int { get }
@@ -146,26 +148,15 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     
     //delegate for outline view; expandable
     func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
-        if self.threatsType != XGThreatsType.ALL {
-            return false
-        }
-        
-        if outlineView.parentForItem(item) == nil  {
-            return true
-        }
-        return false
+        return self.threatsDelegate!.isExpandable(item)
     }
     
     
     //delegate for outline view; isSelected?
     func outlineView(outlineView: NSOutlineView, shouldSelectItem item: AnyObject) -> Bool {
         
-        if self.threatsType != XGThreatsType.ALL {
-            return true
-        }
-        
-        if nil == outlineView.parentForItem(item) {
-            return false
+        if let isSelectable = self.threatsDelegate?.isSelectable?(item) {
+            return isSelectable
         }
         return true
     }
@@ -200,7 +191,6 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
                 return result
             }
         }
-        println("> No crash : 3")
         return nil
     }
     

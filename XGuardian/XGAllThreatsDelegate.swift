@@ -53,6 +53,24 @@ class XGAllThreatsDelegate: XGThreatsViewDelegate {
         return numberOfThreats
     }
     
+    func isExpandable(item: AnyObject?) -> Bool {
+        if let title = item as? NSString {
+            if contains(self.topArray, title) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func isSelectable(item: AnyObject?) -> Bool {
+        if let title = item as? NSString {
+            if contains(self.topArray, title) {
+                return false
+            }
+        }
+        return true
+    }
+    
     func childrenForItem(item: AnyObject?) ->  [AnyObject]? {
         
         if nil == item {

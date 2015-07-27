@@ -49,6 +49,10 @@ class XGKeychainThreatsDelegate: XGThreatsViewDelegate {
         }
     }
     
+    func isExpandable(item: AnyObject?) -> Bool {
+        return false
+    }
+    
     func childrenForItem(item: AnyObject?) ->  [AnyObject]? {
         if nil != item {
             return nil
