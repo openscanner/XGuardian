@@ -26,8 +26,8 @@ class XGURLSchemeManager: NSObject {
 
     static let sharedInstance = XGURLSchemeManager()
     
-    var urlSchemeApplications = [String:[String]]()
-    var urlSchemeMultiDict = XGURLSchemeDict()
+    var urlSchemeApplications = XGURLSchemeDict()
+    var urlSchemeThreatsDict = XGURLSchemeDict()
     
     private static let commonSchemeList = ["http",
         "https",
@@ -44,20 +44,20 @@ class XGURLSchemeManager: NSObject {
     ]
     
     private static let privateSchemeList = ["qq",
-        "tencent"
+        "tencent" //...and so on
     ]
     
     private func addSchemeApplication(scheme : String, app : String) {
-        if urlSchemeApplications[scheme] ==  nil {
-            urlSchemeApplications[scheme] = [app]
+        if urlSchemeApplications.dataDict[scheme] ==  nil {
+            urlSchemeApplications.dataDict[scheme] = [app]
         } else {
-            urlSchemeApplications[scheme]?.append(app);
+            urlSchemeApplications.dataDict[scheme]?.append(app);
         }
     }
     
     func scan() {
         
-        self.urlSchemeApplications.removeAll(keepCapacity: true)
+        self.urlSchemeApplications.dataDict.removeAll(keepCapacity: true)
         
         //get all applications
         let allApplications = XGUtilize.getApplications(NSSearchPathDomainMask.SystemDomainMask |
@@ -71,11 +71,9 @@ class XGURLSchemeManager: NSObject {
                 }
             }
         }
-        
-        //print(self.urlSchemeApplications)
-        
+                
         //scan same URL scheme hijack
-        for (scheme, apps) in urlSchemeApplications {
+        for (scheme, apps) in urlSchemeApplications.dataDict {
             
             //check application number
             if apps.count <= 1 {
@@ -86,10 +84,11 @@ class XGURLSchemeManager: NSObject {
             if contains(XGURLSchemeManager.commonSchemeList, scheme) {
                 continue
             }
-            self.urlSchemeMultiDict.dataDict[scheme] = apps
+            self.urlSchemeThreatsDict.dataDict[scheme] = apps
         }
 
     }
+    
     
     func getDefaultApplication(scheme : String ) -> String? {
         if let url = NSURL(scheme: scheme, host: nil, path: "/a") {

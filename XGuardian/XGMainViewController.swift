@@ -94,7 +94,14 @@ private let staticChildrenDictionary = [
                                         firstNib:   "KeychainView",
                                         secondNib:  "",
                                         threatsDelegate: nil,
-                                        desc:       "")]
+                                        desc:       ""),
+                        XGSideBarItem(  title:      "URL Scheme List",
+                                        imageName:  "UrlschemlIcon",
+                                        type:       XGThreatsType.None ,
+                                        firstNib:   "ThreatsView",
+                                        secondNib:  "",
+                                        threatsDelegate: XGURLSchemeListDelegate.getListInstance(),
+                                        desc: "")]
 ];
 
 

@@ -16,7 +16,7 @@ class XGURLSchemeThreatsDelegate: XGThreatsViewDelegate {
         return sharedInstance
     }
     
-    private weak var URLSchemeDict : XGURLSchemeDict?
+    weak var URLSchemeDict : XGURLSchemeDict?
     
     //MARK: threats view delegate
     var title : String { get {
@@ -27,7 +27,7 @@ class XGURLSchemeThreatsDelegate: XGThreatsViewDelegate {
     // optional func removeNotificationObserver()
     
     func refreshThreatsData() -> Int {
-        self.URLSchemeDict = XGURLSchemeManager.sharedInstance.urlSchemeMultiDict
+        self.URLSchemeDict = XGURLSchemeManager.sharedInstance.urlSchemeThreatsDict
         
         if let count = self.URLSchemeDict?.dataDict.count {
             return count
@@ -43,12 +43,8 @@ class XGURLSchemeThreatsDelegate: XGThreatsViewDelegate {
         if nil != item {
             return nil
         }
-        if let schemeStringArray = self.URLSchemeDict?.dataDict.keys.array {
-            var schemeNSStringArray = [NSString]()
-            for schemeString in schemeStringArray {
-                schemeNSStringArray.append(schemeString as NSString)
-            }
-            return schemeNSStringArray
+        if let schemeStringArray = self.URLSchemeDict?.dataDict.keys.array.sorted({$0.localizedCaseInsensitiveCompare($1) == NSComparisonResult.OrderedAscending}) {
+            return schemeStringArray as [NSString]
         }
         return nil
     }

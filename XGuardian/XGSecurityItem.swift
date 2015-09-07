@@ -240,10 +240,6 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         return true;
     }
     
-
-    
-
-    
     func isLikely() -> Bool {
         
         //check application numbers
@@ -266,9 +262,15 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         var OK_nubmer = 0
         for ( var i = 0; i <  appList.count ; i++ ){
             let type = XGUtilize.checkApple(appList[i])
+            //if(appList[i].hasSuffix("airportd")) {
+            //    print(appList[i])
+            //    println(type)
+            //}
             applicationTypeList[i] = type
-            if (XGSecurityAppType.Group == type || XGSecurityAppType.Apple == type || XGSecurityAppType.WhiteList == type ){
+            if (XGSecurityAppType.Group == type || XGSecurityAppType.Apple == type  ){
                 OK_nubmer = 1
+            }
+            if (XGSecurityAppType.Group == type || XGSecurityAppType.Apple == type || XGSecurityAppType.WhiteList == type ){
                 leftAppNum -= 1
                 if appList[i].lastPathComponent.hasPrefix("Keychain Access.app") {
                     leftAppNum -= 1
@@ -279,7 +281,7 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         }
         
         
-        if leftAppNum <= 0 {
+        if ( (OK_nubmer + leftAppNum) <= 1 ) {
             return false
         }
         
@@ -294,7 +296,7 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
             }
         }
         
-        if (leftAppNum + OK_nubmer) <= 1 {
+        if ( (OK_nubmer + leftAppNum) <= 1 ) {
             return false
         }
         

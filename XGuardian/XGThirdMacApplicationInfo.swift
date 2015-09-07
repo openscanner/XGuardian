@@ -9,8 +9,6 @@
 import Cocoa
 
 
-
-
 class XGThirdMacApplicationInfo: NSObject , Printable {
     var fullPath : String = ""
     var bundleID : String = ""

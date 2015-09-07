@@ -29,9 +29,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate{
     
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         
-//        XGFileSecurityHelper.printApplicationsList()
-//        XGFileSecurityHelper.getACLfromPath("/Users/wyd/Library/Containers/com.tencent.qq")
-        
         XGURLSchemeManager.sharedInstance.scan()
         
         //bundle ID hijack check

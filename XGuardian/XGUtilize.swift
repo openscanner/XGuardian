@@ -91,6 +91,7 @@ class XGUtilize: NSObject {
         
         var status = SecStaticCodeCreateWithPath(cfUrl , SecCSFlags(kSecCSDefaultFlags) /*0*/, &ref)
         if status != errSecSuccess || ref == nil {
+            NSLog("BundleID From URL:\(appURL) SecStaticCodeCreateWithPath error:\(status)")
             return nil
         }
         
@@ -99,6 +100,7 @@ class XGUtilize: NSObject {
         var dictRef : Unmanaged<CFDictionary>?
         status = SecCodeCopySigningInformation(secStaticCode, SecCSFlags(kSecCSSigningInformation), &dictRef )
         if status != errSecSuccess || dictRef == nil {
+            NSLog("BundleID From URL:\(appURL) SecCodeCopySigningInformation error:\(status)")
             return nil
         }
         let signingInfoDict = dictRef!.takeRetainedValue() as NSDictionary;

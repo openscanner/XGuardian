@@ -94,10 +94,9 @@ class XGKeychainHijackDetailsView: NSView, NSTableViewDelegate, NSTableViewDataS
                     switch appType {
                     case XGSecurityAppType.Apple:
                         result.backgroundColor = NSColor(calibratedRed:0.400, green:1.000, blue:0.400, alpha:1.000)
-                        result.removeBtn.hidden = true
+                        
                     case XGSecurityAppType.Group:
                         result.backgroundColor = NSColor(calibratedRed:0.400, green:1.000, blue:0.400, alpha:1.000)
-                        result.removeBtn.hidden = true
                         
                     case XGSecurityAppType.WhiteList:
                         result.backgroundColor = NSColor(calibratedRed:0.400, green:1.000, blue:0.400, alpha:1.000)
