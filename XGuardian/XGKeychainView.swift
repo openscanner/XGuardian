@@ -82,7 +82,7 @@ class XGKeychainView: NSView, NSTableViewDelegate, NSTableViewDataSource {
         if let appList = item.applicationList {
             for (var i = 0 ; i < appList.count ; i++) {
                 if(i > 1) {  appStr += " | " }
-                appStr += appList[i].lastPathComponent
+                appStr += (appList[i] as NSString).lastPathComponent
             }
         } else  if item.applicationNum == -1 {
             appStr = "ANY Application"
@@ -127,7 +127,7 @@ class XGKeychainView: NSView, NSTableViewDelegate, NSTableViewDataSource {
                 
                 if(item.applicationNum > 0) {
                     let applicationFullPath = item.applicationList![0];
-                    let appName = applicationFullPath.lastPathComponent
+                    let appName = (applicationFullPath as NSString).lastPathComponent
                     appCellView!.textField!.objectValue = appName
                     
                     let image = NSWorkspace.sharedWorkspace().iconForFile(applicationFullPath)

@@ -8,8 +8,8 @@
 
 import Cocoa
 
-@objc(XGKeychainThreatsDelegate)
-class XGKeychainThreatsDelegate: XGThreatsViewDelegate {
+
+class XGKeychainThreatsDelegate:NSObject, XGThreatsViewDelegate {
     
     static let sharedInstance = XGKeychainThreatsDelegate()
     static func getInstance() -> XGThreatsViewDelegate {

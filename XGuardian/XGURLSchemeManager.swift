@@ -60,8 +60,7 @@ class XGURLSchemeManager: NSObject {
         self.urlSchemeApplications.dataDict.removeAll(keepCapacity: true)
         
         //get all applications
-        let allApplications = XGUtilize.getApplications(NSSearchPathDomainMask.SystemDomainMask |
-            NSSearchPathDomainMask.UserDomainMask | NSSearchPathDomainMask.LocalDomainMask)
+        let allApplications = XGUtilize.getApplications([NSSearchPathDomainMask.SystemDomainMask, NSSearchPathDomainMask.UserDomainMask, NSSearchPathDomainMask.LocalDomainMask])
         
         //get all applications URL scheme, and put in dictionary
         for app in allApplications {
@@ -81,7 +80,7 @@ class XGURLSchemeManager: NSObject {
             }
             
             //check common shcheme
-            if contains(XGURLSchemeManager.commonSchemeList, scheme) {
+            if XGURLSchemeManager.commonSchemeList.contains(scheme) {
                 continue
             }
             self.urlSchemeThreatsDict.dataDict[scheme] = apps

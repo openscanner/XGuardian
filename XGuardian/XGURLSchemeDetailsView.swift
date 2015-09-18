@@ -75,7 +75,7 @@ class XGURLSchemeDetailsView: NSView , NSMatrixDelegate {
             for (var i = 0; i < appFullPaths.count; i++) {
                 let cell = cellArray[i] as!  NSButtonCell
 //                cell.image? = NSWorkspace.sharedWorkspace().iconForFile(appFullPaths[i])
-                cell.title = appFullPaths[i].lastPathComponent
+                cell.title = (appFullPaths[i] as NSString).lastPathComponent
                 if defaultApp == appFullPaths[i] {
                     self.setRow(i)
                 }

@@ -8,8 +8,8 @@
 
 import Cocoa
 
-@objc(XGAllThreatsDelegate)
-class XGAllThreatsDelegate: XGThreatsViewDelegate {
+
+class XGAllThreatsDelegate:NSObject, XGThreatsViewDelegate {
     
     static let sharedInstance = XGAllThreatsDelegate()
     static func getInstance() -> XGThreatsViewDelegate {
@@ -22,7 +22,9 @@ class XGAllThreatsDelegate: XGThreatsViewDelegate {
         XGURLSchemeThreatsDelegate.getInstance() ]
     
     var topArray = [NSString]()
-    init() {
+    override init() {
+        super.init()
+        
         for delegate in self.delegateArray {
             self.topArray.append(delegate.title as NSString)
         }
@@ -55,7 +57,7 @@ class XGAllThreatsDelegate: XGThreatsViewDelegate {
     
     func isExpandable(item: AnyObject?) -> Bool {
         if let title = item as? NSString {
-            if contains(self.topArray, title) {
+            if self.topArray.contains(title) {
                 return true
             }
         }
@@ -64,7 +66,7 @@ class XGAllThreatsDelegate: XGThreatsViewDelegate {
     
     func isSelectable(item: AnyObject?) -> Bool {
         if let title = item as? NSString {
-            if contains(self.topArray, title) {
+            if self.topArray.contains(title) {
                 return false
             }
         }

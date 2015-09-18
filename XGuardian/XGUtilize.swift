@@ -9,7 +9,7 @@
 import Cocoa
 
 
-enum XGSecurityAppType: Int ,Printable{
+enum XGSecurityAppType: Int ,CustomStringConvertible{
     case Unknown = 0
     case WhiteList = 1
     case Sining = 2
@@ -39,16 +39,15 @@ class XGUtilize: NSObject {
         while ( filesURL.count > 0) {
             let url = filesURL.removeLast()
             
-            var subFiles = NSFileManager.defaultManager().contentsOfDirectoryAtURL(url,
+            let subFiles = try? NSFileManager.defaultManager().contentsOfDirectoryAtURL(url,
                 includingPropertiesForKeys: [NSURLIsDirectoryKey],
-                options: NSDirectoryEnumerationOptions.SkipsHiddenFiles,
-                error: nil)
+                options: NSDirectoryEnumerationOptions.SkipsHiddenFiles)
             
             if(nil == subFiles || subFiles?.count == 0) {
                 continue
             }
-            var subFilesURL =  subFiles as! [NSURL]
-            for subFile in subFilesURL {
+            
+            for subFile in subFiles! {
                 if let pathExtension = subFile.pathExtension {
                     if (pathExtension == "app" || pathExtension == "xpc"){
                         subAppURL.append(subFile)
@@ -63,7 +62,7 @@ class XGUtilize: NSObject {
     
     class func getSystemApplicationsURL() -> NSURL {
         let urls = NSFileManager.defaultManager().URLsForDirectory(NSSearchPathDirectory.ApplicationDirectory,
-            inDomains:NSSearchPathDomainMask.SystemDomainMask) as! [NSURL]
+            inDomains:NSSearchPathDomainMask.SystemDomainMask) 
         let url = urls[0]
         return url
     }
@@ -72,7 +71,7 @@ class XGUtilize: NSObject {
 
         var applicationsURLAarry = [NSURL]()
         let urls = NSFileManager.defaultManager().URLsForDirectory(NSSearchPathDirectory.ApplicationDirectory,
-            inDomains:domainMask) as! [NSURL]
+            inDomains:domainMask) 
         
         for  url in urls {
             let applicationArray = self.getSubApplications(url)
@@ -85,25 +84,24 @@ class XGUtilize: NSObject {
     
     /// get application's bundle ID from applicaion's URL
     class func getBundleIDFromURL(appURL : NSURL) -> String? {
-        var ref : Unmanaged<SecStaticCode>?
-        let cfUrl = appURL as CFURL;
+        var secStaticCode : SecStaticCode?
+        let cfUrl = appURL as CFURL
         
         
-        var status = SecStaticCodeCreateWithPath(cfUrl , SecCSFlags(kSecCSDefaultFlags) /*0*/, &ref)
-        if status != errSecSuccess || ref == nil {
+        var status = SecStaticCodeCreateWithPath(cfUrl , SecCSFlags.DefaultFlags /*0*/, &secStaticCode)
+        if status != errSecSuccess || secStaticCode == nil {
             NSLog("BundleID From URL:\(appURL) SecStaticCodeCreateWithPath error:\(status)")
             return nil
         }
         
-        let secStaticCode = ref!.takeRetainedValue() as SecStaticCode;
         
-        var dictRef : Unmanaged<CFDictionary>?
-        status = SecCodeCopySigningInformation(secStaticCode, SecCSFlags(kSecCSSigningInformation), &dictRef )
+        var dictRef : CFDictionary?
+        status = SecCodeCopySigningInformation(secStaticCode!, SecCSFlags(rawValue: kSecCSSigningInformation), &dictRef )
         if status != errSecSuccess || dictRef == nil {
             NSLog("BundleID From URL:\(appURL) SecCodeCopySigningInformation error:\(status)")
             return nil
         }
-        let signingInfoDict = dictRef!.takeRetainedValue() as NSDictionary;
+        let signingInfoDict = dictRef as! NSDictionary;
         
         if let identifier = signingInfoDict[kSecCodeInfoIdentifier as NSString] as? String {
             return identifier
@@ -114,28 +112,28 @@ class XGUtilize: NSObject {
     
     /// get application's bundle ID from applicaion's full path
     class func getBundleIDFromPath(appFullPath : String) -> String? {
-        let url = NSURL(fileURLWithPath: appFullPath)!
+        let url = NSURL(fileURLWithPath: appFullPath)
         return self.getBundleIDFromURL(url)
     }
     
     //
     class func getURLSchemeFromURL(appURL : NSURL) -> [String]? {
-        var ref : Unmanaged<SecStaticCode>?
+        var secStaticCode : SecStaticCode?
         let cfUrl = appURL as CFURL;
         
-        var status = SecStaticCodeCreateWithPath(cfUrl , SecCSFlags(kSecCSDefaultFlags) /*0*/, &ref)
-        if status != errSecSuccess || ref == nil {
+        var status = SecStaticCodeCreateWithPath(cfUrl , SecCSFlags.DefaultFlags /*0*/, &secStaticCode)
+        if status != errSecSuccess || secStaticCode == nil {
             return nil
         }
         
-        let secStaticCode = ref!.takeRetainedValue() as SecStaticCode;
         
-        var dictRef : Unmanaged<CFDictionary>?
-        status = SecCodeCopySigningInformation(secStaticCode, SecCSFlags(kSecCSSigningInformation), &dictRef )
+        var dictRef : CFDictionary?
+        status = SecCodeCopySigningInformation(secStaticCode!, SecCSFlags(rawValue: kSecCSSigningInformation), &dictRef )
         if status != errSecSuccess || dictRef == nil {
             return nil
         }
-        let signingInfoDict = dictRef!.takeRetainedValue() as NSDictionary;
+        
+        let signingInfoDict = dictRef! as NSDictionary;
         
         var urlSchemes = [String]()
         if let infoPList = signingInfoDict[kSecCodeInfoPList as NSString] as? NSDictionary {
@@ -156,7 +154,7 @@ class XGUtilize: NSObject {
     }
     
     class func getURLSchemeFromPath(appFullPath : String) -> [String]? {
-        let url = NSURL(fileURLWithPath: appFullPath)!
+        let url = NSURL(fileURLWithPath: appFullPath)
         return self.getURLSchemeFromURL(url)
     }
     
@@ -166,7 +164,7 @@ class XGUtilize: NSObject {
         "com.dashlane.Dashlane"]  //"com.agilebits.onepassword4"
     
     class func checkWhiteList(bundleID : String) -> Bool {
-        return contains(appWhiteList, bundleID)
+        return appWhiteList.contains(bundleID)
         /*for appBundle in appWhiteList {
             if appBundle == bundleID {
                 return true

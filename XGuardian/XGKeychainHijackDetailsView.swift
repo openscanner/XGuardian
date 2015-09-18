@@ -86,7 +86,7 @@ class XGKeychainHijackDetailsView: NSView, NSTableViewDelegate, NSTableViewDataS
         if let identifier = tableColumn?.identifier {
             if let result =  tableView.makeViewWithIdentifier(identifier, owner: self) as? XGKeychainHijackDetailsCell {
                 result.appFullPath = appPath
-                result.textField?.objectValue = appPath.lastPathComponent
+                result.textField?.objectValue = (appPath as NSString).lastPathComponent
                 result.imageView?.objectValue = NSWorkspace.sharedWorkspace().iconForFile(appPath)
                 
                 if let appType = self.secItem?.applicationTypeList?[row] {
@@ -107,8 +107,6 @@ class XGKeychainHijackDetailsView: NSView, NSTableViewDelegate, NSTableViewDataS
                     case XGSecurityAppType.Unknown:
                         result.backgroundColor = NSColor(calibratedRed: 1.000, green:0.4, blue:1.0, alpha:1.000)
 
-                    default:
-                        break
                     }
                     
                     

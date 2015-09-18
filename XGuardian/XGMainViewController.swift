@@ -237,8 +237,8 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
                             result.indicatorButton.hidden = false
                             result.indicatorButton.title = threatsViewController.getThreatsNum().description
                             result.indicatorButton.sizeToFit()
-                            let cell = result.indicatorButton.cell()  as! NSButtonCell
-                            cell.highlightsBy = NSCellStyleMask.allZeros
+                            let cell = result.indicatorButton.cell  as! NSButtonCell
+                            cell.highlightsBy = NSCellStyleMask()
                         }
                         
                     }else {
@@ -343,13 +343,13 @@ class XGMainViewController: NSViewController,NSOutlineViewDelegate, NSOutlineVie
     
     func shouldRefresh(notification: NSNotification) {
         //println("shouldRefresh notification: \(notification)")
-        if let bar = notification.object as? XGSideBarItem {
+        if let _ = notification.object as? XGSideBarItem {
             self.nagivationView.reloadData()
         }
     }
     
     func shouldRescan(notification: NSNotification) {
-        println("shouldRescan notification: \(notification)")
+        print("shouldRescan notification: \(notification)")
         if let bar = notification.object as? XGSideBarItem {
             if(bar.type == XGThreatsType.ALL) {
                 for sub_bar in staticChildrenDictionary[staticFlaws]! {

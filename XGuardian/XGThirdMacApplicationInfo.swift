@@ -9,7 +9,7 @@
 import Cocoa
 
 
-class XGThirdMacApplicationInfo: NSObject , Printable {
+class XGThirdMacApplicationInfo: NSObject  {
     var fullPath : String = ""
     var bundleID : String = ""
     var subApplications: [XGThirdMacApplicationInfo]?

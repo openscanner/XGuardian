@@ -110,7 +110,7 @@ class XGContainerApplicationManager: NSObject {
         appHijackedItem.hijackApplications.append(self.applications[3])
         self.hijackedApplicationArray.append(appHijackedItem)
         self.hijackedApplicationArray.append(appHijackedItem2)
-        println("\(self.hijackedApplicationArray)")
+        print("\(self.hijackedApplicationArray)")
     }
     
     private func backendScan() {

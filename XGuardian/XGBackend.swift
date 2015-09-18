@@ -13,36 +13,45 @@ import Alamofire
 private let lastedVersionURL = "http://xara.openscanner.cc/version/getLastversion"
 
 
-@objc public protocol ResponseObjectSerializable {
+public protocol ResponseObjectSerializable {
     init?(response: NSHTTPURLResponse, representation: AnyObject)
 }
 
-extension Alamofire.Request {
-    public func responseObject<T: ResponseObjectSerializable>(completionHandler: (NSURLRequest, NSHTTPURLResponse?, T?, NSError?) -> Void) -> Self {
-        let serializer: Serializer = { (request, response, data) in
-            let JSONSerializer = Request.JSONResponseSerializer(options: .AllowFragments)
-            let (JSON: AnyObject?, serializationError) = JSONSerializer(request, response, data)
+extension Request {
+    public func responseObject<T: ResponseObjectSerializable>(completionHandler: (NSURLRequest?, NSHTTPURLResponse?, Result<T>) -> Void) -> Self {
+        let responseSerializer = GenericResponseSerializer<T> { request, response, data in
+            let JSONResponseSerializer = Request.JSONResponseSerializer(options: .AllowFragments)
+            let result = JSONResponseSerializer.serializeResponse(request, response, data)
             
-            if let response = response, JSON: AnyObject = JSON {
-                return (T(response: response, representation: JSON), nil)
-            } else {
-                return (nil, serializationError)
+            switch result {
+            case .Success(let value):
+                if let
+                    response = response,
+                    responseObject = T(response: response, representation: value)
+                {
+                    return .Success(responseObject)
+                } else {
+                    let failureReason = "JSON could not be serialized into response object: \(value)"
+                    let error = Error.errorWithCode(.JSONSerializationFailed, failureReason: failureReason)
+                    return .Failure(data, error)
+                }
+            case .Failure(let data, let error):
+                return .Failure(data, error)
             }
         }
         
-        return response(serializer: serializer, completionHandler: { (request, response, object, error) in
-            completionHandler(request, response, object as? T, error)
-        })
+        return response(responseSerializer: responseSerializer, completionHandler: completionHandler)
     }
 }
 
-final class XGVersionInfo: NSObject, ResponseObjectSerializable, Printable {
+
+final class XGVersionInfo: NSObject, ResponseObjectSerializable {
     let version: String?
     let url: String?
     let changeLog : String?
     let md5: String?
     
-    @objc required init?(response: NSHTTPURLResponse, representation: AnyObject) {
+    @objc required init?(response: NSHTTPURLResponse,representation: AnyObject) {
         self.version = representation.valueForKeyPath("version") as? String
         self.changeLog = representation.valueForKeyPath("changeLog") as? String
         self.md5 = representation.valueForKeyPath("md5") as? String
@@ -79,9 +88,9 @@ class XGBackend: NSObject {
     }
     
     class func updateLastedverion() {
-        let response = Alamofire.request(.GET, lastedVersionURL)
-            .responseObject { (_, _, versionInfo: XGVersionInfo?, _) in
-                XGBackend.update(versionInfo)
+        _ = Alamofire.request(.GET, lastedVersionURL)
+            .responseObject { (_, _, versionInfo: Result<XGVersionInfo>) in
+                XGBackend.update(versionInfo.value)
         }
        return
     }
@@ -101,7 +110,7 @@ class XGBackend: NSObject {
                 return
             }
             lastedVersion = version
-            println(versionInfo)
+            print(versionInfo)
 
             //updatePanel.loadWindow()
             XGUpdatePanel.panelShow()

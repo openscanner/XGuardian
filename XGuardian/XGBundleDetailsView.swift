@@ -34,7 +34,7 @@ class XGBundleDetailsView: NSView, NSTableViewDelegate, NSTableViewDataSource{
         
         if let hijiackedApp = self.bundleHijackItem?.application {
             self.appImage.objectValue =   NSWorkspace.sharedWorkspace().iconForFile(hijiackedApp.fullPath)
-            self.appName.objectValue =   hijiackedApp.fullPath.lastPathComponent
+            self.appName.objectValue =   (hijiackedApp.fullPath as NSString).lastPathComponent
             self.appFullPath.objectValue =   hijiackedApp.fullPath
             self.appBundleID.objectValue =   hijiackedApp.bundleID
         }
@@ -67,7 +67,7 @@ class XGBundleDetailsView: NSView, NSTableViewDelegate, NSTableViewDataSource{
         
         if let identifier = tableColumn?.identifier {
             if let result =  tableView.makeViewWithIdentifier(identifier, owner: self) as? NSTableCellView {
-                result.textField?.objectValue = appPath.lastPathComponent
+                result.textField?.objectValue = (appPath as NSString).lastPathComponent
                 result.imageView?.objectValue = NSWorkspace.sharedWorkspace().iconForFile(appPath)
                 result.imageView?.sizeToFit()
 

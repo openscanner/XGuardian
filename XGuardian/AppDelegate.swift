@@ -20,7 +20,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate{
     /**
     menu for update check
     
-    :param: sender update menu
+    - parameter sender: update menu
     */
     @IBAction func Update(sender: AnyObject) {
         XGBackend.cleanLastedverion() // manual check

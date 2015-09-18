@@ -19,13 +19,13 @@ public func != (left:Keychain.ResultCode, right:Keychain.ResultCode) -> Bool {
 }
 
 @objc(Keychain)
-public class Keychain
+public class Keychain: NSObject
 {
     /**
     A Swift style wrapper of OSStatus result codes that can be returned from KeyChain functions.
     */
 
-    public enum ResultCode : Printable {
+    public enum ResultCode : CustomStringConvertible {
         case errSecSuccess                //  = 0        // No error.
         case errSecUnimplemented          //  = -4       // Function or operation not implemented.
         case errSecParam                  //  = -50      // One or more parameters passed to the function were not valid.
@@ -1006,14 +1006,14 @@ public class Keychain
     /**
     A Swift wrapper of OSStatus SecItemAdd(CFDictionaryRef attributes,CFTypeRef *result) C function.
     
-    :param: query An object wrapping a CFDictionaryRef with attributes
-    :returns: A pair containing the result code and an NSObject that was returned in the result parameter of SecItemAdd call.
+    - parameter query: An object wrapping a CFDictionaryRef with attributes
+    - returns: A pair containing the result code and an NSObject that was returned in the result parameter of SecItemAdd call.
     
     */
     
-    public class func secItemAdd(#query : Query) -> (status: ResultCode, result: NSObject?)
+    public class func secItemAdd(query query : Query) -> (status: ResultCode, result: NSObject?)
     {
-        let dic = query.toNSDictionary()
+        //let dic = query.toNSDictionary()
         let resultAndStatus = CXKeychainHelper.secItemAddCaller(query.toNSDictionary() as [NSObject : AnyObject])
         let status = ResultCode.fromRaw(resultAndStatus.status)
         return (status: status, result: resultAndStatus.result)
@@ -1022,11 +1022,11 @@ public class Keychain
     /**
     A Swift wrapper of OSStatus SecItemCopyMatching(CFDictionaryRef query, CFTypeRef *result) C function.
     
-    :param: query An object wrapping a CFDictionaryRef with query
-    :returns: A pair containing the result code and an NSObject that was returned in the result parameter of SecItemCopyMatching call.
+    - parameter query: An object wrapping a CFDictionaryRef with query
+    - returns: A pair containing the result code and an NSObject that was returned in the result parameter of SecItemCopyMatching call.
     
     */
-    public class func secItemCopyMatching(#query : Query) -> (status: ResultCode, result: NSObject?)
+    public class func secItemCopyMatching(query query : Query) -> (status: ResultCode, result: NSObject?)
     {
         let dic : NSDictionary = query.toNSDictionary()
         let resultAndStatus = CXKeychainHelper.secItemCopyMatchingCaller(dic as [NSObject : AnyObject])
@@ -1036,12 +1036,12 @@ public class Keychain
     /**
     A Swift wrapper of OSStatus SecItemDelete(CFDictionaryRef query) C function.
     
-    :param: query An object wrapping a CFDictionaryRef with query
-    :returns: A result code.
+    - parameter query: An object wrapping a CFDictionaryRef with query
+    - returns: A result code.
     
     */
     
-    public class func secItemDelete(#query : Query) -> ResultCode
+    public class func secItemDelete(query query : Query) -> ResultCode
     {
         let statusRaw = SecItemDelete(query.toNSDictionary())
         let status = ResultCode.fromRaw(statusRaw)
@@ -1051,12 +1051,12 @@ public class Keychain
     /**
     A Swift wrapper of OSStatus SecItemUpdate(CFDictionaryRef query, CFDictionaryRef attributesToUpdate) C function.
     
-    :param: query An object wrapping a CFDictionaryRef with query
-    :param: attributesToUpdate An object wrapping a CFDictionaryRef with attributesToUpdate
-    :returns: A result code.
+    - parameter query: An object wrapping a CFDictionaryRef with query
+    - parameter attributesToUpdate: An object wrapping a CFDictionaryRef with attributesToUpdate
+    - returns: A result code.
     
     */
-    public class func secItemUpdate(#query : Query, attributesToUpdate : Query) -> ResultCode
+    public class func secItemUpdate(query query : Query, attributesToUpdate : Query) -> ResultCode
     {
         let statusRaw = SecItemUpdate(query.toNSDictionary(),attributesToUpdate.toNSDictionary())
         let status = ResultCode.fromRaw(statusRaw)
@@ -1066,29 +1066,25 @@ public class Keychain
     //TODO:
     //*Mark: -
 
-    public class func secKeychainItemCopyAccess(#itemRef :SecKeychainItemRef ) -> (status: ResultCode, access: SecAccess?)
+    public class func secKeychainItemCopyAccess(itemRef itemRef :SecKeychainItemRef ) -> (status: ResultCode, access: SecAccess?)
     {
-        var accessRaw : Unmanaged<SecAccess>?
+        var accessRaw : SecAccess?
         
         let statusRaw = SecKeychainItemCopyAccess(itemRef, &accessRaw);
-        
         let status = ResultCode.fromRaw(statusRaw)
-        if  nil != accessRaw {
-            let access = accessRaw!.takeRetainedValue() as SecAccess
-            return (status:status,access: access)
-        }
-        return (status:status,access: nil)
+ 
+        return (status:status,access: accessRaw)
     }
     
     // not warpper
-    public class func secAccessCopyMatchingACLList(#access :SecAccessRef!) -> SecACLRef?
+    public class func secAccessCopyMatchingACLList(access access :SecAccessRef!) -> SecACLRef?
     {
-        let authorizationTag:CFTypeRef = kSecACLAuthorizationDecrypt.takeRetainedValue();
+        let authorizationTag:CFTypeRef = kSecACLAuthorizationDecrypt;
         let alcListRaw = SecAccessCopyMatchingACLList( access , authorizationTag)
         if( alcListRaw == nil) {
             return nil
         }
-        let alcList = alcListRaw!.takeRetainedValue() as! [SecACLRef]
+        let alcList = alcListRaw as! [SecACLRef]
         
         //let alcRaw = CFArrayGetValueAtIndex(alcList, 0);
         //let alc = alcRaw as! SecACLRef
@@ -1097,7 +1093,7 @@ public class Keychain
     }
 
     
-    public class func secACLCopyContents(#alc: SecACLRef) -> (status:ResultCode, applicationList:NSArray?, description: String?, promptSelector: SecKeychainPromptSelector)
+    public class func secACLCopyContents(alc alc: SecACLRef) -> (status:ResultCode, applicationList:NSArray?, description: String?, promptSelector: SecKeychainPromptSelector)
     {
         let alcContent = CXKeychainHelper.secACLCopyContents(alc)
         let s = ResultCode.fromRaw(alcContent.status)
@@ -1108,9 +1104,9 @@ public class Keychain
 
     }
     
-    public class func secACLSetContents(#alc: SecACLRef, applicationList:NSArray?, description: String?, promptSelector: SecKeychainPromptSelector) -> ResultCode {
+    public class func secACLSetContents(alc alc: SecACLRef, applicationList:NSArray?, description: String?, promptSelector: SecKeychainPromptSelector) -> ResultCode {
        
-        let status = SecACLSetContents( alc, applicationList, description, promptSelector)
+        let status = SecACLSetContents( alc, applicationList, description!, promptSelector)
         
         return ResultCode.fromRaw(status)
     }
@@ -1121,18 +1117,18 @@ public class Keychain
     _ data: UnsafeMutablePointer<Unmanaged<CFData>?>) -> OSStatus
     */
     
-    public class func secTrustedApplicationCopyData(#appRef: SecTrustedApplication) -> (status:ResultCode, data:NSData)
+    public class func secTrustedApplicationCopyData(appRef appRef: SecTrustedApplication) -> (status:ResultCode, data:NSData)
     {
-        var dataRaw : Unmanaged<CFData>?
+        var dataRaw : CFData?
         let statusRaw = SecTrustedApplicationCopyData(appRef, &dataRaw)
         
         let status = ResultCode.fromRaw(statusRaw)
-        let data = dataRaw?.takeRetainedValue() as! NSData
+        let data = dataRaw as! NSData
         
         return (status: status, data:data)
     }
     
-    public class func secTrustedApplicationSetData(#appRef: SecTrustedApplication, data : NSData) -> ResultCode
+    public class func secTrustedApplicationSetData(appRef appRef: SecTrustedApplication, data : NSData) -> ResultCode
     {
         let dataRaw  = data as CFData
         let statusRaw = SecTrustedApplicationSetData(appRef, dataRaw)
@@ -1142,7 +1138,7 @@ public class Keychain
     }
     
     public static let secAuthorizeAllApp = "Any Application"
-    public class func secGetAppList(#itemRef :SecKeychainItemRef ) -> (status:ResultCode, appList:[String]?)
+    public class func secGetAppList(itemRef itemRef :SecKeychainItemRef ) -> (status:ResultCode, appList:[String]?)
     {
         let accessRes = secKeychainItemCopyAccess(itemRef: itemRef)
         if accessRes.status != ResultCode.errSecSuccess {
@@ -1181,7 +1177,7 @@ public class Keychain
         return (status:ResultCode.errSecSuccess, appList:appList)
     }
     
-   public class func secRemoveApp(#itemRef :SecKeychainItemRef, applicationFullPath : String) -> ResultCode {
+   public class func secRemoveApp(itemRef itemRef :SecKeychainItemRef, applicationFullPath : String) -> ResultCode {
         
         let accessRes = secKeychainItemCopyAccess(itemRef: itemRef)
         if accessRes.status != ResultCode.errSecSuccess {
@@ -1198,7 +1194,7 @@ public class Keychain
         
         var resultCode = ResultCode.errSecSuccess
         
-        var appMutableArray = NSMutableArray()
+        let appMutableArray = NSMutableArray()
         if let appArray = alcContent.applicationList {
             
             appMutableArray.setArray(appArray as [AnyObject])
@@ -1219,7 +1215,7 @@ public class Keychain
                     if(appPath == applicationFullPath){
                         appMutableArray.removeObject(appRefData)
                         resultCode = secACLSetContents(alc: alc!, applicationList: appMutableArray, description: alcContent.description, promptSelector: alcContent.promptSelector);
-                        var statusRaw = SecKeychainItemSetAccess (itemRef, accessRes.access);
+                        let statusRaw = SecKeychainItemSetAccess (itemRef, accessRes.access!);
                         resultCode = ResultCode.fromRaw(statusRaw)
                         
                         break;

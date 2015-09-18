@@ -9,8 +9,7 @@
 import Cocoa
 
 
-@objc
-protocol XGThreatsViewDelegate: class { //class only
+@objc protocol XGThreatsViewDelegate { //class only
     
     static func getInstance() -> XGThreatsViewDelegate
     var title : String { get }

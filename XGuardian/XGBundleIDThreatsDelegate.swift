@@ -8,8 +8,8 @@
 
 import Cocoa
 
-@objc(XGBundleIDThreatsDelegate)
-class XGBundleIDThreatsDelegate: XGThreatsViewDelegate {
+
+class XGBundleIDThreatsDelegate:NSObject,  XGThreatsViewDelegate {
 
     static let sharedInstance = XGBundleIDThreatsDelegate()
     static func getInstance() -> XGThreatsViewDelegate {

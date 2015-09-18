@@ -8,8 +8,8 @@
 
 import Cocoa
 
-@objc(XGURLSchemeThreatsDelegate)
-class XGURLSchemeThreatsDelegate: XGThreatsViewDelegate {
+
+class XGURLSchemeThreatsDelegate:NSObject, XGThreatsViewDelegate {
     
     static let sharedInstance = XGURLSchemeThreatsDelegate()
     static func getInstance() -> XGThreatsViewDelegate {
@@ -43,7 +43,8 @@ class XGURLSchemeThreatsDelegate: XGThreatsViewDelegate {
         if nil != item {
             return nil
         }
-        if let schemeStringArray = self.URLSchemeDict?.dataDict.keys.array.sorted({$0.localizedCaseInsensitiveCompare($1) == NSComparisonResult.OrderedAscending}) {
+
+        if let schemeStringArray = self.URLSchemeDict?.dataDict.keys.sort({$0.localizedCaseInsensitiveCompare($1) == NSComparisonResult.OrderedAscending}) {
             return schemeStringArray as [NSString]
         }
         return nil

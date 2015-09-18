@@ -8,7 +8,6 @@
 
 import Cocoa
 
-@objc(XGURLSchemeListDelegate)
 class XGURLSchemeListDelegate: XGURLSchemeThreatsDelegate {
     
     static let sharedListInstance = XGURLSchemeListDelegate()

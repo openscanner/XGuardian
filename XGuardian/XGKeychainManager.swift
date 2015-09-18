@@ -12,8 +12,8 @@ import Security
 
 let XGKeychainInstance = XGKeychainManager.sharedInstance
 
-@objc(XGKeychainManager)
-class XGKeychainManager  {
+@objc (XGKeychainManager)
+class XGKeychainManager : NSObject {
     
     static let sharedInstance : XGKeychainManager = XGKeychainManager()
     
@@ -62,7 +62,7 @@ class XGKeychainManager  {
     func scanAllItem() {
         
         globalItemSet.removeAll()
-        var itemSet = globalItemSet
+        let itemSet = globalItemSet
         
         //scan internet password
         let internetPassword = getClassAllKey(Keychain.Query.KSecClassValue.kSecClassInternetPassword)
@@ -114,9 +114,9 @@ class XGKeychainTest {
         //println("Keychain secItemAdd returned: \(res1.status)")
         
         if let resUw = res1.result {
-            println("res1 TypeID = \(CFGetTypeID(resUw)), Description = \(resUw)")
+            print("res1 TypeID = \(CFGetTypeID(resUw)), Description = \(resUw)")
         } else {
-            println("res1 is nil")
+            print("res1 is nil")
         }
         
         let q2 = Keychain.Query()
@@ -130,14 +130,14 @@ class XGKeychainTest {
         let res2 = Keychain.secItemCopyMatching(query:q2)
 
         
-        println("Status of secItemCopyMatching: \(res2.status.toRaw())")
+        print("Status of secItemCopyMatching: \(res2.status.toRaw())")
         if let r = res2.result
         {
-            println("res2 TypeID: \(CFGetTypeID(r)) Description: \(r)")
+            print("res2 TypeID: \(CFGetTypeID(r)) Description: \(r)")
             let skey = XGSecurityItem(attrDict: (r as? NSDictionary)!)
-            println("res2 \(skey)")
+            print("res2 \(skey)")
         } else {
-            println("res2 is nil")
+            print("res2 is nil")
         }
         
         

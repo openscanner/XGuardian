@@ -38,10 +38,10 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
             break;
         
         case kSecTrustSettingsChangedEvent:
-            break;
-        default:
-            NSLog(@"Unknown keychain event");
             break;*/
+        default:
+            //NSLog(@"Unknown keychain event");
+            break;
     }
     
     if ( keychainEvent > kSecTrustSettingsChangedEvent ){

@@ -10,14 +10,15 @@ import Cocoa
 import Security
 
 
+
 /*
 Just for GenericPassword and InternetPassword
 */
 @objc(XGSecurityItem)
-class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
+class XGSecurityItem: NSObject,  CustomDebugStringConvertible {
 
     //*MARK: ClassType
-    internal enum ClassType : Printable {
+    internal enum ClassType : CustomStringConvertible {
         case InternetPassword
         case GenericPassword
         case Certificate
@@ -74,37 +75,37 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
     
     class func protocolFullName(shortName : String ) -> String {
         switch shortName {
-        case kSecAttrProtocolFTP as! String        :  return "ftp"
-        case kSecAttrProtocolFTPAccount as! String :  return "ftpa"
-        case kSecAttrProtocolHTTP as! String      :  return "http"
-        case kSecAttrProtocolIRC  as! String      :  return "irc"
-        case kSecAttrProtocolNNTP as! String      :  return "nntp"
-        case kSecAttrProtocolPOP3 as! String      :  return "pop3"
-        case kSecAttrProtocolSMTP as! String      :  return "smtp"
-        case kSecAttrProtocolSOCKS as! String     :  return "socks"
-        case kSecAttrProtocolIMAP  as! String     :  return "imap"
-        case kSecAttrProtocolLDAP  as! String     :  return "ldap"
-        case kSecAttrProtocolAppleTalk as! String :  return "atlk" //what's this?
-        case kSecAttrProtocolAFP   as! String     :  return "afp"
-        case kSecAttrProtocolTelnet  as! String   :  return "telnet"
-        case kSecAttrProtocolSSH     as! String   :  return "ssh"
-        case kSecAttrProtocolFTPS    as! String   :  return "ftps"
-        case kSecAttrProtocolHTTPS    as! String  :  return "https"
-        case kSecAttrProtocolHTTPProxy as! String :  return "httpProxy"
-        case kSecAttrProtocolHTTPSProxy as! String:  return "httpsProxy"
-        case kSecAttrProtocolFTPProxy   as! String:  return "ftpProxy"
-        case kSecAttrProtocolSMB        as! String:  return "smb"
-        case kSecAttrProtocolRTSP       as! String:  return "rtsp"
-        case kSecAttrProtocolRTSPProxy as! String :  return "rtspProxy"
-        case kSecAttrProtocolDAAP    as! String   :  return "daap"
-        case kSecAttrProtocolEPPC  as! String     :  return "eppc"
-        case kSecAttrProtocolIPP    as! String    :  return "ipp"
-        case kSecAttrProtocolNNTPS  as! String    :  return "nntps"
-        case kSecAttrProtocolLDAPS   as! String   :  return "ldaps"
-        case kSecAttrProtocolTelnetS as! String   :  return "telnets"
-        case kSecAttrProtocolIMAPS    as! String  :  return "imaps"
-        case kSecAttrProtocolIRCS     as! String  :  return "ircs"
-        case kSecAttrProtocolPOP3S  as! String    :  return "pop3s"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolFTP.rawValue          :  return "FTP"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolFTPAccount.rawValue   :  return "ftpa"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolHTTP.rawValue         :  return "http"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolIRC.rawValue          :  return "irc"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolNNTP.rawValue         :  return "nntp"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolPOP3.rawValue         :  return "pop3"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolSMTP.rawValue         :  return "SMTP"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolSOCKS.rawValue        :  return "socks"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolIMAP.rawValue         :  return "imap"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolLDAP.rawValue         :  return "ldap"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolAppleTalk.rawValue    :  return "AppleTalk"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolAFP .rawValue         :  return "afp"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolTelnet.rawValue       :  return "Telnet"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolSSH.rawValue          :  return "SSH"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolFTPS.rawValue         :  return "ftps"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolHTTPS.rawValue        :  return "https"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolHTTPProxy.rawValue    :  return "httpProxy"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolHTTPSProxy.rawValue   :  return "httpsProxy"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolFTPProxy.rawValue     :  return "ftpProxy"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolSMB.rawValue          :  return "SMB"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolRTSP.rawValue         :  return "rtsp"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolRTSPProxy.rawValue    :  return "rtspProxy"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolDAAP.rawValue         :  return "daap"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolEPPC.rawValue         :  return "eppc"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolIPP.rawValue          :  return "ipp"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolNNTPS.rawValue        :  return "nntps"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolLDAPS.rawValue        :  return "ldaps"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolTelnetS.rawValue      :  return "Telnets"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolIMAPS.rawValue        :  return "imaps"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolIRCS.rawValue         :  return "ircs"
+        case Keychain.Query.KSecAttrProtocolValue.kSecAttrProtocolPOP3S.rawValue        :  return "pop3s"
         default: return shortName
         }
     }
@@ -272,7 +273,7 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
             }
             if (XGSecurityAppType.Group == type || XGSecurityAppType.Apple == type || XGSecurityAppType.WhiteList == type ){
                 leftAppNum -= 1
-                if appList[i].lastPathComponent.hasPrefix("Keychain Access.app") {
+                if (appList[i]as NSString).lastPathComponent.hasPrefix("Keychain Access.app") {
                     leftAppNum -= 1
                 }
             } else {
@@ -310,9 +311,9 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
     /**
     Check the key is the same
     
-    :param: key another key for check
+    - parameter key: another key for check
     
-    :returns: ture for same, otherwise is false
+    - returns: ture for same, otherwise is false
     */
     func isSameKey (key: XGSecurityItem?) -> Bool {
         if (nil == key) {
@@ -332,7 +333,7 @@ class XGSecurityItem: NSObject, Printable, DebugPrintable, Equatable, Hashable {
         return false
     }
     
-    override func key() -> String {
+    func key() -> String {
         var key = "key-"
         if(nil != self.name) { key += self.name! }
         if(nil != self.account) { key += self.account! }
