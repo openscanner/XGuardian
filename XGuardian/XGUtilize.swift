@@ -84,16 +84,14 @@ class XGUtilize: NSObject {
     
     /// get application's bundle ID from applicaion's URL
     class func getBundleIDFromURL(appURL : NSURL) -> String? {
+        
         var secStaticCode : SecStaticCode?
         let cfUrl = appURL as CFURL
-        
-        
         var status = SecStaticCodeCreateWithPath(cfUrl , SecCSFlags.DefaultFlags /*0*/, &secStaticCode)
         if status != errSecSuccess || secStaticCode == nil {
             NSLog("BundleID From URL:\(appURL) SecStaticCodeCreateWithPath error:\(status)")
             return nil
         }
-        
         
         var dictRef : CFDictionary?
         status = SecCodeCopySigningInformation(secStaticCode!, SecCSFlags(rawValue: kSecCSSigningInformation), &dictRef )
@@ -101,8 +99,9 @@ class XGUtilize: NSObject {
             NSLog("BundleID From URL:\(appURL) SecCodeCopySigningInformation error:\(status)")
             return nil
         }
-        let signingInfoDict = dictRef as! NSDictionary;
         
+        let signingInfoDict = dictRef! as NSDictionary
+    
         if let identifier = signingInfoDict[kSecCodeInfoIdentifier as NSString] as? String {
             return identifier
         }

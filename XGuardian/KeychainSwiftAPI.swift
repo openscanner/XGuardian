@@ -1079,8 +1079,8 @@ public class Keychain: NSObject
     // not warpper
     public class func secAccessCopyMatchingACLList(access access :SecAccessRef!) -> SecACLRef?
     {
-        let authorizationTag:CFTypeRef = kSecACLAuthorizationDecrypt;
-        let alcListRaw = SecAccessCopyMatchingACLList( access , authorizationTag)
+
+        let alcListRaw = SecAccessCopyMatchingACLList( access , CSSM_ACL_AUTHORIZATION_DECRYPT)
         if( alcListRaw == nil) {
             return nil
         }
@@ -1147,6 +1147,10 @@ public class Keychain: NSObject
         }
         
         let alc = secAccessCopyMatchingACLList(access: accessRes.access)
+        if(nil == alc) {
+            return (status: ResultCode.errSecItemNotFound , appList:nil)
+        }
+        
         let alcContent = secACLCopyContents(alc: alc!)
         if alcContent.status != ResultCode.errSecSuccess {
             NSLog("secACLCopyContents error")
