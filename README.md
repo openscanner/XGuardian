@@ -12,7 +12,7 @@ You can download release from:
 
 OR
 
-[openscanner](http://xara.openscanner.cc/download)
+[openscanner](http://xara.openscanner.cc/)
 
 ## Issue Report
 You can create issue at [github](https://github.com/openscanner/XGuardian/issues), or send email to wuyd@openscanner.cc
