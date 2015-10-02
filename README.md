@@ -17,6 +17,9 @@ OR
 ## Issue Report
 You can create issue at [github](https://github.com/openscanner/XGuardian/issues), or send email to wuyd@openscanner.cc
 
+## Interpreting Results
+When a potential vulnerability is found, it will appear highlighted in the scan results. You can use the magnifying glass icon to open the file in Finder and the delete button to remove it's authority.
+
 ## About US
 We are an newly company focus on mobile secrutiy. This software is my first app at apple's platform, so if have any issue, please let me known.
 
