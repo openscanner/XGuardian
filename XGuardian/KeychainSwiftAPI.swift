@@ -1079,17 +1079,17 @@ public class Keychain: NSObject
     // not warpper
     public class func secAccessCopyMatchingACLList(access access :SecAccessRef!) -> SecACLRef?
     {
-
-        let alcListRaw = SecAccessCopyMatchingACLList( access , CSSM_ACL_AUTHORIZATION_DECRYPT)
-        if( alcListRaw == nil) {
-            return nil
-        }
-        let alcList = alcListRaw as! [SecACLRef]
         
-        //let alcRaw = CFArrayGetValueAtIndex(alcList, 0);
-        //let alc = alcRaw as! SecACLRef
-        let alc = alcList.first
-        return alc
+        let authorizationTag:CFTypeRef = kSecACLAuthorizationDecrypt;
+        if let alcListRaw = SecAccessCopyMatchingACLList( access , authorizationTag){
+            let alcList = alcListRaw as NSArray
+            
+            if let alc = alcList.firstObject {
+                return alc as! SecACLRef
+            }
+        }
+
+        return nil
     }
 
     
@@ -1122,10 +1122,9 @@ public class Keychain: NSObject
         var dataRaw : CFData?
         let statusRaw = SecTrustedApplicationCopyData(appRef, &dataRaw)
         
-        let status = ResultCode.fromRaw(statusRaw)
-        let data = dataRaw as! NSData
+        let data = dataRaw! as NSData
         
-        return (status: status, data:data)
+        return (status: ResultCode.fromRaw(statusRaw), data:data)
     }
     
     public class func secTrustedApplicationSetData(appRef appRef: SecTrustedApplication, data : NSData) -> ResultCode
@@ -1133,8 +1132,7 @@ public class Keychain: NSObject
         let dataRaw  = data as CFData
         let statusRaw = SecTrustedApplicationSetData(appRef, dataRaw)
         
-        let status = ResultCode.fromRaw(statusRaw)
-        return status
+        return  ResultCode.fromRaw(statusRaw)
     }
     
     public static let secAuthorizeAllApp = "Any Application"

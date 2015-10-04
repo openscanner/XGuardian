@@ -233,12 +233,7 @@ class XGSecurityItem: NSObject,  CustomDebugStringConvertible {
                 return false
         }
         
-        let samekey = self.isSameKey(otherItem)
-        if !samekey {
-            return false
-        }
-        
-        return true;
+        return self.isSameKey(otherItem)
     }
     
     func isLikely() -> Bool {
