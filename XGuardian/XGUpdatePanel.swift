@@ -47,8 +47,7 @@ class XGUpdatePanel: NSWindowController , NSWindowDelegate {
         }
         
         self.versionText.objectValue = versionStr
-        //NSApplication.sharedApplication().beginModalSessionForWindow(self.window!)
-        //NSApplication.sharedApplication().runModalForWindow(self.window!)
+
     }
     
     class func panelShow() {
@@ -62,8 +61,6 @@ class XGUpdatePanel: NSWindowController , NSWindowDelegate {
     }
     
     func windowShouldClose(sender: AnyObject) -> Bool {
-        //NSApplication.sharedApplication().hide(sender)
-        //NSApplication.sharedApplication().stopModal()
         return true
     }
     

@@ -102,16 +102,6 @@ class XGContainerApplicationManager: NSObject {
         }
     }
     
-    private func testAddHijack() {
-        //TODO : Just for test, please delete
-        let appHijackedItem = XGBundleHijackItem(application: self.applications[0])
-        appHijackedItem.hijackApplications.append(self.applications[1])
-        let appHijackedItem2 = XGBundleHijackItem(application: self.applications[2])
-        appHijackedItem.hijackApplications.append(self.applications[3])
-        self.hijackedApplicationArray.append(appHijackedItem)
-        self.hijackedApplicationArray.append(appHijackedItem2)
-        print("\(self.hijackedApplicationArray)")
-    }
     
     private func backendScan() {
         //clean
@@ -127,18 +117,18 @@ class XGContainerApplicationManager: NSObject {
         //check bundle ID hijack
         self.checkBundleIDHijcak()
         
-        //self.testAddHijack()
         self.scanProcess = 100.0
     }
     
     func scan() {
         self.scanProcess = 0.0
         let queue = dispatch_get_global_queue(QOS_CLASS_BACKGROUND , 0)
+        
         dispatch_async(queue, {
-            
             // DO SOMETHING ON THE MAINTHREAD
             self.backendScan()
         })
+        
     }
     
     func getScanProcess() -> Double {

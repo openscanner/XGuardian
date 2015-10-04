@@ -65,9 +65,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate{
 
     func loadViews() {
         
-        //window.delegate = self
-        //window.autodisplay = true
-        //window.restorable = true
         self.window.titlebarAppearsTransparent = true
         self.window.movableByWindowBackground = true
         self.window.titleVisibility = NSWindowTitleVisibility.Hidden

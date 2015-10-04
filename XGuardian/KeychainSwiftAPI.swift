@@ -1111,12 +1111,7 @@ public class Keychain: NSObject
         return ResultCode.fromRaw(status)
     }
     
-    
-    /*
-    func SecTrustedApplicationCopyData(_ appRef: SecTrustedApplication!,
-    _ data: UnsafeMutablePointer<Unmanaged<CFData>?>) -> OSStatus
-    */
-    
+        
     public class func secTrustedApplicationCopyData(appRef appRef: SecTrustedApplication) -> (status:ResultCode, data:NSData)
     {
         var dataRaw : CFData?

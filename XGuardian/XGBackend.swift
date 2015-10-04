@@ -112,7 +112,6 @@ class XGBackend: NSObject {
             lastedVersion = version
             print(versionInfo)
 
-            //updatePanel.loadWindow()
             XGUpdatePanel.panelShow()
             
         }
@@ -124,22 +123,15 @@ class XGBackend: NSObject {
         let cfUrl = url as CFURL;
 
         LSOpenCFURLRef(cfUrl,nil);
-        //CFRelease(url);
         return
     }
 
     
     class func downloadLastedVersion() {
-      /*  let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DownloadsDirectory, domain: .UserDomainMask)*/
+
         if lastedVersion != nil && lastedVersion?.url != nil {
             openURL(lastedVersion!.url)
-/* Alamofire.download(.GET, lastedVersion!.url!, destination)
-                .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
-                    println(totalBytesRead)
-                }
-                .response { (request, response, _, error) in
-                    println(response)
-            }*/
+
         }
     }
     

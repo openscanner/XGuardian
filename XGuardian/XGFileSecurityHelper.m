@@ -177,18 +177,6 @@ static void printacl(acl_t acl, int isdir)
 @implementation XGFileSecurityHelper
 
 
-+ (void) printApplicationsList {
-    //LSGetApplicationForItem
-
-//     NSArray *apps = nil;
-    
-     //LSInit(1);
-//    _LSCopyAllApplicationURLs(&apps);
-//    NSLog(@"_LSCopyAllApplicationURLs : %@", apps);
-
-    
-}
-
 + (void) getACLfromPath:(NSString*) fullPath {
     
     NSURL* url = [NSURL fileURLWithPath:fullPath];

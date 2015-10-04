@@ -235,7 +235,7 @@ class XGThreatsViewController: NSViewController, NSOutlineViewDelegate, NSOutlin
     
     
     func threatsDidChanged(notification: NSNotification) {
-        //println("threatsDidChanged")
+        
         let rescan =  (notification.object != nil)
 
         // DO SOMETHING ON THE MAINTHREAD

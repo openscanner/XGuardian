@@ -275,10 +275,7 @@ static OSStatus XGSecKeychainCBFun ( SecKeychainEvent keychainEvent, SecKeychain
         if (info.securityItem.applicationNum <= 1 ){
             return;
         }
-        
-        // notification rescan?
-        
-        
+            
         //notify
         [self keychainChangeUserNotify:[[NSString  alloc] initWithFormat:@"%@(%@) may have been hijack! Please check it.", info.securityItem.name, info.securityItem.account] :nil];
         

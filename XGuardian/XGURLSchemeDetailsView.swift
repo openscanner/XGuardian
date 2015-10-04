@@ -20,7 +20,7 @@ class XGURLSchemeDetailsView: NSView , NSMatrixDelegate {
     @IBAction func matrixAction(sender: AnyObject) {
         if self.isChangedRow() {
             if let app = appFullPaths?[self.preSelectedRow] {
-                //println("set default app: \(app)")
+                
                 XGURLSchemeManager.sharedInstance.setDefaultApplication(scheme!, appFullPath: app)
             }
         }
@@ -74,7 +74,7 @@ class XGURLSchemeDetailsView: NSView , NSMatrixDelegate {
             let cellArray = self.SchemeApplicationsMatrix.cells
             for (var i = 0; i < appFullPaths.count; i++) {
                 let cell = cellArray[i] as!  NSButtonCell
-//                cell.image? = NSWorkspace.sharedWorkspace().iconForFile(appFullPaths[i])
+
                 cell.title = (appFullPaths[i] as NSString).lastPathComponent
                 if defaultApp == appFullPaths[i] {
                     self.setRow(i)

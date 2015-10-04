@@ -164,12 +164,7 @@ class XGUtilize: NSObject {
     
     class func checkWhiteList(bundleID : String) -> Bool {
         return appWhiteList.contains(bundleID)
-        /*for appBundle in appWhiteList {
-            if appBundle == bundleID {
-                return true
-            }
-        }
-        return false*/
+
     }
     
     class func checkApple(appFullPath: String) -> XGSecurityAppType {

@@ -11,6 +11,6 @@
 @interface XGFileSecurityHelper : NSObject
 
 + (void) getACLfromPath:(NSString*) fullPath;
-+ (void) printApplicationsList;
+
 
 @end

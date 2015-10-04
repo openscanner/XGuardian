@@ -81,8 +81,7 @@ class XGKeychainManager : NSObject {
             for outDict in gp {
                 let item = XGSecurityItem(attrDict: (outDict as? NSDictionary)!)
                 itemSet.addItem(item)
-                //println("\(outDict)")
-                //println("\(item)")
+
             }
         }
         

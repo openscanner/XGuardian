@@ -215,9 +215,6 @@ class XGSecurityItem: NSObject,  CustomDebugStringConvertible {
             self.applicationList = appRet.appList;
         }        
         
-        /*if let access = attrDict[kSecAttrAccess as NSString] as? SecAccessRef {
-            self.access = access
-        }*/
 
         super.init()
         return

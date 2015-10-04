@@ -39,8 +39,7 @@ class XGSecurityItemSet: NSObject {
     }
     
     func toArray() -> [XGSecurityItem] {
-        /*var valueDict =  self.itemDict as NSDictionary
-        return valueDict.allValues  as? [XGSecurityItem] */
+
         var valueArray = [XGSecurityItem]()
         
         for item in self.itemDict.values {
@@ -48,12 +47,9 @@ class XGSecurityItemSet: NSObject {
         }
         return  valueArray;
     }
-    
-
-
+ 
     func getPotentialArray() -> [XGSecurityItem] {
-        /*var valueDict =  self.itemDict as NSDictionary
-        return valueDict.allValues  as? [XGSecurityItem] */
+
         var valueArray = [XGSecurityItem]()
         
         for item in self.itemDict.values {
@@ -66,7 +62,4 @@ class XGSecurityItemSet: NSObject {
         return  valueArray;
     }
     
-//    func removeItemAtIndex() {
-//      self.itemDict.removeAtIndex(index: );
-//    }
 }
